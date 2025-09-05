@@ -14,3 +14,57 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Project Structure
+
+```text
+edutech_app/
+  assets/
+    fonts/
+      CascadiaCode-Bold.ttf
+      Fredoka-Bold.ttf
+      Fredoka-Light.ttf
+      Fredoka-Medium.ttf
+      Fredoka-Regular.ttf
+      Fredoka-SemiBold.ttf
+  lib/
+    core/
+      common/
+        widgets/
+      constants/
+      theme/
+        app_colors.dart
+        app_spacing.dart
+        app_theme.dart
+        app_typography.dart
+    features/
+      auth/
+        controller/
+        model/
+        view/
+      parent/
+        controller/
+        model/
+        view/
+      splash/
+        view/
+      teacher/
+        controller/
+        model/
+        view/
+    main.dart
+  android/
+  ios/
+  linux/
+  macos/
+  web/
+  windows/
+  pubspec.yaml
+```
+
+Guidelines:
+
+- Keep shared UI and utilities inside `lib/core/`.
+- Group feature code by domain inside `lib/features/<feature>/{controller,model,view}`.
+- Add new themes or design tokens under `lib/core/theme/`.
+- Place assets under `assets/` and register them in `pubspec.yaml`.
