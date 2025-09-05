@@ -1,4 +1,4 @@
-import 'package:edutech_app/core/common/custom_iconbox.dart';
+import 'package:edutech_app/core/common/widgets/custom_iconbox.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
