@@ -19,14 +19,6 @@ samples, guidance on mobile development, and a full API reference.
 
 ```text
 edutech_app/
-  assets/
-    fonts/
-      CascadiaCode-Bold.ttf
-      Fredoka-Bold.ttf
-      Fredoka-Light.ttf
-      Fredoka-Medium.ttf
-      Fredoka-Regular.ttf
-      Fredoka-SemiBold.ttf
   lib/
     core/
       common/
@@ -53,13 +45,6 @@ edutech_app/
         model/
         view/
     main.dart
-  android/
-  ios/
-  linux/
-  macos/
-  web/
-  windows/
-  pubspec.yaml
 ```
 
 Guidelines:
