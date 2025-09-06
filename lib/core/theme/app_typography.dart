@@ -44,7 +44,7 @@ class AppTypography {
     fontFamily: 'Fredoka',
     fontSize: 16,
     fontWeight: FontWeight.w400,
-    height: 2.4,
+    height: 1.4,
   );
 
   // Blockquote
