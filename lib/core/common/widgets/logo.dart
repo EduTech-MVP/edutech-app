@@ -15,7 +15,7 @@ class Logo extends StatelessWidget {
       children: [
         Image(
           height: AppSpacing.iconXXXL * 2,
-          image: AssetImage('assets/images/logo.png'),
+          image: AssetImage('assets/images/logo.svg'),
         ),
         Text(firstText, style: AppTypography.heading2.copyWith(fontSize: 38)),
         Text(
