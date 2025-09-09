@@ -56,7 +56,7 @@ class AppSpacing {
   static const double buttonPadding = 8.0;
   static const double buttonPaddingLarge = 12.0;
   static const double inputPadding = 8.0;
-  static const double inputPaddingLarge = 12.0;
+  static const double inputPaddingLarge = 24.0;
   static const double cardPadding = 24.0;
   static const double containerPadding = 24.0;
   static const double sectionPadding = 32.0;

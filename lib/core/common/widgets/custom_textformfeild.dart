@@ -1,3 +1,4 @@
+import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
@@ -46,7 +47,7 @@ class CustomTextFormField extends StatelessWidget {
           vertical: AppSpacing.spacing12,
         ),
         hintText: hintText,
-        hintStyle: TextStyle(color: AppColors.neutral500),
+        hintStyle: AppTypography.subtle.copyWith(color: AppColors.neutral500),
         filled: true,
         fillColor: fillColor,
         prefixIcon: prefixIcon,

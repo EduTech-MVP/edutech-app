@@ -10,9 +10,9 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppSpacing.xl),
+        borderRadius: BorderRadius.circular(AppSpacing.xxl),
       ),
-      elevation: AppSpacing.xs,
+      elevation: AppSpacing.xxxl,
       color: AppColors.sky50,
       child: child,
     );

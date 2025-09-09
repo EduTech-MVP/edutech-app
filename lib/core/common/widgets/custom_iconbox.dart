@@ -1,4 +1,4 @@
-import 'package:edutech_app/core/theme/app_colors.dart';
+import 'package:edutech_app/core/theme/app_gradient.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 
@@ -6,14 +6,14 @@ class CustomIconBox extends StatelessWidget {
   final Widget icon;
   final double size;
   final double radius;
-  final Color backgroundColor;
+  final Gradient gradient;
 
   const CustomIconBox({
     super.key,
     required this.icon,
     this.size = 56,
     this.radius = AppSpacing.radiusXXL,
-    this.backgroundColor = AppColors.sky700,
+    this.gradient = AppGradients.iconBlue,
   });
 
   @override
@@ -22,10 +22,12 @@ class CustomIconBox extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: backgroundColor,
+        gradient: gradient,
         borderRadius: BorderRadius.circular(radius),
       ),
-      child: IconTheme(data: Theme.of(context).primaryIconTheme, child: icon),
+      child: Center(
+        child: IconTheme(data: Theme.of(context).primaryIconTheme, child: icon),
+      ),
     );
   }
 }

@@ -17,10 +17,13 @@ class Logo extends StatelessWidget {
           height: AppSpacing.iconXXXL * 2,
           image: AssetImage('assets/images/logo.png'),
         ),
-        Text(firstText, style: AppTypography.heading2),
+        Text(firstText, style: AppTypography.heading2.copyWith(fontSize: 38)),
         Text(
           secondText,
-          style: AppTypography.paragrah.copyWith(color: AppColors.sky700),
+          style: AppTypography.lead.copyWith(
+            color: AppColors.sky700,
+            height: 1.4,
+          ),
         ),
       ],
     );

@@ -13,6 +13,10 @@ class AppColors {
   static const Color sky800 = Color(0xFF075985);
   static const Color sky900 = Color(0xFF0C4A6E);
 
+  // gradient color
+  static const Color gradientStart = sky200;
+  static const Color gradientEnd = Color(0xFFF0F9FF);
+
   // Primary Colors (using Sky palette)
   static const Color primary50 = sky50;
   static const Color primary100 = sky100;

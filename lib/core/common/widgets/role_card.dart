@@ -23,6 +23,8 @@ class Rolecard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        width: 392,
+        height: 104,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -49,6 +51,7 @@ class Rolecard extends StatelessWidget {
                     subtitleText,
                     style: AppTypography.paragrah.copyWith(
                       color: AppColors.sky700,
+                      fontSize: 13,
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
