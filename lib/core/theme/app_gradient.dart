@@ -14,4 +14,9 @@ class AppGradients {
     end: Alignment.bottomRight,
     colors: [AppColors.sky700, AppColors.sky900],
   );
+  static const LinearGradient card = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [AppColors.sky200, AppColors.sky100],
+  );
 }
