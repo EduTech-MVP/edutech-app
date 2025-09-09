@@ -78,7 +78,13 @@ class AppColors {
     end: Alignment.bottomCenter,
     colors: [sky200, sky50],
   );
-
+  //defultshadow
+  static const DefaultShadow = BoxShadow(
+    color: Colors.black12,
+    blurRadius: 10,
+    spreadRadius: 2,
+    offset: Offset(0, 5),
+  );
   // Shadow Colors
   static const Color shadowLight = Color(0x0F080E0F);
   static const Color shadowMedium = Color(0x26080E0F);

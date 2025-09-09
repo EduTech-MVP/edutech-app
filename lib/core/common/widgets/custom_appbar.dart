@@ -12,13 +12,7 @@ class CustomAppbar extends StatelessWidget {
       height: MediaQuery.of(context).size.height * .09,
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 2,
-          ),
-        ],
+        boxShadow: [AppColors.DefaultShadow.copyWith(offset: Offset(0, 0))],
       ),
       child: ListTile(
         leading: CircleAvatar(
