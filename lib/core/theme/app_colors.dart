@@ -79,7 +79,7 @@ class AppColors {
     colors: [sky200, sky50],
   );
   //defultshadow
-  static const DefaultShadow = BoxShadow(
+  static const defaultShadow = BoxShadow(
     color: Colors.black12,
     blurRadius: 10,
     spreadRadius: 2,

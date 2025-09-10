@@ -1,9 +1,20 @@
+import 'package:edutech_app/features/child/controllers/navigation_controller.dart';
+import 'package:edutech_app/features/child/controllers/task_list_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/routes/app_routes.dart';
 
 void main() {
-  runApp(const EduTechApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NavigationController()),
+        ChangeNotifierProvider(create: (_) => TaskListController()),
+      ],
+      child: const EduTechApp(),
+    ),
+  );
 }
 
 class EduTechApp extends StatelessWidget {
@@ -15,7 +26,7 @@ class EduTechApp extends StatelessWidget {
       title: 'EduTech',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      initialRoute: AppRoutes.signUp,
+      initialRoute: AppRoutes.mainscreen,
       routes: AppRoutes.routes,
     );
   }

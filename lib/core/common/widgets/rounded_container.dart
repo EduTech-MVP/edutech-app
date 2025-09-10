@@ -7,12 +7,16 @@ class RoundedContainer extends StatelessWidget {
   final Widget? child;
   final EdgeInsetsGeometry? padding;
   final Color? color;
+  final List<BoxShadow>? boxShadow;
+  final Color bordercolor;
   const RoundedContainer({
     super.key,
     this.gradient,
     required this.child,
     this.padding,
     this.color = AppColors.sky50,
+    this.boxShadow = const [AppColors.defaultShadow],
+    this.bordercolor = Colors.transparent,
   });
 
   @override
@@ -20,10 +24,11 @@ class RoundedContainer extends StatelessWidget {
     return Container(
       padding: padding,
       decoration: BoxDecoration(
+        border: Border.all(width: 0, color: bordercolor),
         color: color,
         gradient: gradient,
         borderRadius: BorderRadius.circular(AppSpacing.radiusXXL),
-        boxShadow: [AppColors.DefaultShadow],
+        boxShadow: boxShadow,
       ),
       child: child,
     );

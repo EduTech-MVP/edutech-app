@@ -47,7 +47,7 @@ class AiTutorCard extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * .4,
                   leadingIcon: Image(
                     height: AppSpacing.iconMD,
-                    image: AssetImage('assets/icons/video.png'),
+                    image: AssetImage('assets/icons/video.svg'),
                   ),
                   text: 'Start Learning',
                   onTap: () {},

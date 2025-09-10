@@ -1,6 +1,7 @@
 import 'package:edutech_app/core/common/widgets/rounded_container.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
+import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 
 class TaskTile extends StatelessWidget {
@@ -19,44 +20,45 @@ class TaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine colors based on completion status
-    Color tileColor = isCompleted ? Color(0xffBBF7D0) : AppColors.sky50;
-    Color iconColor = isCompleted ? Color(0xff4ADE80) : Colors.black;
-
+    Color tileColor = isCompleted ? const Color(0xffBBF7D0) : AppColors.sky50;
+    Color iconColor = isCompleted ? const Color(0xff4ADE80) : Colors.black;
+    Color bordercolor = isCompleted ? Colors.white : AppColors.neutral400;
+    ;
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(AppSpacing.paddingSM),
         child: RoundedContainer(
+          boxShadow: [AppColors.defaultShadow.copyWith(spreadRadius: 0)],
+          bordercolor: bordercolor,
           color: tileColor,
-
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppSpacing.paddingLG),
           child: Row(
             children: [
-              // Completion circle/icon
               Icon(
                 isCompleted ? Icons.check_circle : Icons.circle_outlined,
                 color: iconColor,
                 size: AppSpacing.iconLG,
               ),
-              const SizedBox(width: 16),
-              // Task title
-              Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: isCompleted ? Colors.black54 : Colors.black87,
-                  ),
-                ),
-              ),
+              const SizedBox(width: AppSpacing.lg),
+              Expanded(child: Text(title, style: AppTypography.heading4)),
               if (buttonLabel != null)
                 GestureDetector(
                   onTap: () {},
                   child: Container(
-                    padding: EdgeInsets.all(8),
-                    child: Text(buttonLabel!),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        width: .2,
+                        color: AppColors.neutral900,
+                      ),
+                    ),
+                    padding: const EdgeInsets.all(AppSpacing.paddingMD),
+                    child: Text(
+                      buttonLabel!,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
             ],
