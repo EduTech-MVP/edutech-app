@@ -23,7 +23,7 @@ class TaskTile extends StatelessWidget {
     Color tileColor = isCompleted ? const Color(0xffBBF7D0) : AppColors.sky50;
     Color iconColor = isCompleted ? const Color(0xff4ADE80) : Colors.black;
     Color bordercolor = isCompleted ? Colors.white : AppColors.neutral400;
-    ;
+
     return GestureDetector(
       onTap: onTap,
       child: Padding(

@@ -1,9 +1,9 @@
 import 'package:edutech_app/core/common/widgets/custom_nav_bottombar.dart';
-import 'package:edutech_app/features/child/controllers/navigation_controller.dart';
-import 'package:edutech_app/features/child/views/awards_screen.dart';
-import 'package:edutech_app/features/child/views/child_home.dart';
-import 'package:edutech_app/features/child/views/lessons_screen.dart';
-import 'package:edutech_app/features/child/views/profile_screen.dart';
+import 'package:edutech_app/features/student/controllers/navigation_controller.dart';
+import 'package:edutech_app/features/student/views/awards_screen.dart';
+import 'package:edutech_app/features/student/views/student_home.dart';
+import 'package:edutech_app/features/student/views/lessons_screen.dart';
+import 'package:edutech_app/features/student/views/student_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,10 +11,10 @@ class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
   static final List<Widget> _pages = [
-    const ChildHome(),
+    const StudentHome(),
     const LessonsScreen(),
     const AwardsScreen(),
-    const ProfileScreen(),
+    const StudentProfileScreen(),
   ];
 
   @override

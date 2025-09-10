@@ -1,13 +1,13 @@
 import 'package:edutech_app/core/common/widgets/ai_tutor.dart';
-import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
 import 'package:edutech_app/core/common/widgets/great_job_card.dart';
 import 'package:edutech_app/core/common/widgets/progress.dart';
 import 'package:edutech_app/core/common/widgets/task_list.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
+import 'package:edutech_app/features/student/views/widgets/student_appbar.dart';
 import 'package:flutter/material.dart';
 
-class ChildHome extends StatelessWidget {
-  const ChildHome({super.key});
+class StudentHome extends StatelessWidget {
+  const StudentHome({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class ChildHome extends StatelessWidget {
         backgroundColor: Colors.white,
         body: Column(
           children: [
-            CustomAppbar(),
+            StudentAppbar(),
             Expanded(
               child: SingleChildScrollView(
                 physics: ClampingScrollPhysics(),

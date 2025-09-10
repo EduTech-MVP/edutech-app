@@ -1,4 +1,4 @@
-import 'package:edutech_app/features/child/models/task_model.dart';
+import 'package:edutech_app/features/student/models/task_model.dart';
 import 'package:flutter/material.dart';
 
 class TaskListController extends ChangeNotifier {

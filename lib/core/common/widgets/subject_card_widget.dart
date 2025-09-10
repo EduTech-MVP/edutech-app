@@ -2,17 +2,19 @@ import 'package:edutech_app/core/common/widgets/rounded_container.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
-import 'package:edutech_app/features/child/models/subjec_model.dart';
+import 'package:edutech_app/features/student/models/subjec_model.dart';
 import 'package:flutter/material.dart';
 
 class SubjectCard extends StatelessWidget {
   final Subject subject;
+  final EdgeInsetsGeometry? padding;
 
-  const SubjectCard({super.key, required this.subject});
+  const SubjectCard({super.key, required this.subject, this.padding});
 
   @override
   Widget build(BuildContext context) {
     return RoundedContainer(
+      padding: padding,
       bordercolor: AppColors.neutral400,
       boxShadow: [
         AppColors.defaultShadow.copyWith(

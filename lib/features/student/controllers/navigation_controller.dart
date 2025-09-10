@@ -1,4 +1,4 @@
-import 'package:edutech_app/features/child/models/navigation_model.dart';
+import 'package:edutech_app/features/student/models/navigation_model.dart';
 import 'package:flutter/foundation.dart';
 
 class NavigationController extends ChangeNotifier {

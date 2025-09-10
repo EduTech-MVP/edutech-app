@@ -2,7 +2,7 @@ import 'package:edutech_app/core/common/widgets/subject_card_widget.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
-import 'package:edutech_app/features/child/models/subjec_model.dart';
+import 'package:edutech_app/features/student/models/subjec_model.dart';
 import 'package:flutter/material.dart';
 
 class Progress extends StatelessWidget {

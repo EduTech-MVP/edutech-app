@@ -1,9 +1,22 @@
 import 'package:edutech_app/core/theme/app_colors.dart';
-import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppbar extends StatelessWidget {
-  const CustomAppbar({super.key});
+  final Widget? leading;
+  final Widget? title;
+  final Widget? subtitle;
+  final Widget? trailing;
+  final TextStyle? titleTextStyle;
+  final TextStyle? subtitleTextStyle;
+  const CustomAppbar({
+    super.key,
+    this.leading,
+    this.title,
+    this.subtitle,
+    this.trailing,
+    this.titleTextStyle,
+    this.subtitleTextStyle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,44 +27,12 @@ class CustomAppbar extends StatelessWidget {
         boxShadow: [AppColors.defaultShadow.copyWith(offset: Offset(0, 0))],
       ),
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Colors.grey,
-          // backgroundImage: ,
-          maxRadius: MediaQuery.of(context).size.width * .06,
-        ),
-        title: Text('Good morning!'),
-        titleTextStyle: TextStyle(color: AppColors.neutral700),
-        subtitle: Text("Maryam Abdallah"),
-        subtitleTextStyle: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
-        ),
-        trailing: Container(
-          width: AppSpacing.xxxxl,
-          height: AppSpacing.xxxxl,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white,
-          ),
-          child: Stack(
-            children: [
-              Center(child: Icon(Icons.notifications_none)),
-              Positioned(
-                top: AppSpacing.md,
-                right: 10,
-                child: Container(
-                  width: AppSpacing.md,
-                  height: AppSpacing.md,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.error,
-                    border: Border.all(color: Colors.white, width: 2),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+        leading: leading,
+        title: title,
+        titleTextStyle: titleTextStyle,
+        subtitle: subtitle,
+        subtitleTextStyle: subtitleTextStyle,
+        trailing: trailing,
       ),
     );
   }

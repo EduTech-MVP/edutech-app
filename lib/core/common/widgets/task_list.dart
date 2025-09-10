@@ -1,6 +1,6 @@
 import 'package:edutech_app/core/theme/app_typography.dart';
-import 'package:edutech_app/features/child/controllers/task_list_controller.dart';
-import 'package:edutech_app/features/child/models/task_model.dart';
+import 'package:edutech_app/features/student/controllers/task_list_controller.dart';
+import 'package:edutech_app/features/student/models/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'task_tile.dart';
