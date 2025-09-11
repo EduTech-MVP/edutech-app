@@ -4,6 +4,7 @@ import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/student/models/subjec_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Progress extends StatelessWidget {
   const Progress({super.key});
@@ -43,10 +44,10 @@ class Progress extends StatelessWidget {
         SizedBox(height: AppSpacing.lg),
         Row(
           children: [
-            Image(
+            SvgPicture.asset(
+              'assets/icons/star.svg',
               height: AppSpacing.iconLG,
-              color: AppColors.sky500,
-              image: AssetImage('assets/icons/star.svg'),
+              colorFilter: ColorFilter.mode(AppColors.sky500, BlendMode.srcIn),
             ),
             SizedBox(width: AppSpacing.sm),
             Text('Your progress', style: AppTypography.heading3),

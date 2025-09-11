@@ -3,6 +3,7 @@ import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileAchievementsCard extends StatelessWidget {
   final String? image;
@@ -30,11 +31,11 @@ class ProfileAchievementsCard extends StatelessWidget {
         padding: EdgeInsets.all(AppSpacing.cardPadding),
         child: Column(
           children: [
-            Image(
+            SvgPicture.asset(
+              '$image',
               width: 64,
               height: 64,
-              color: AppColors.sky500,
-              image: AssetImage('$image'),
+              colorFilter: ColorFilter.mode(AppColors.sky500, BlendMode.srcIn),
             ),
             const SizedBox(height: AppSpacing.xs),
             Text('$num', style: AppTypography.heading4),

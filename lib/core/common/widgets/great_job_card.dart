@@ -16,7 +16,7 @@ class GreatJobCard extends StatelessWidget {
       gradient: AppGradients.card,
       child: Column(
         children: [
-          SvgPicture.asset('assets/icons/award.svg', height: AppSpacing.xxxxl),
+          SvgPicture.asset('assets/images/award.svg', height: AppSpacing.xxxxl),
           SizedBox(height: AppSpacing.xl),
 
           Text(

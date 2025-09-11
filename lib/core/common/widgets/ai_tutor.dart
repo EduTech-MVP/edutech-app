@@ -19,7 +19,7 @@ class AiTutorCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SvgPicture.asset(
-            'assets/icons/image.svg',
+            'assets/icons/bot.svg',
             height: AppSpacing.iconXXXL,
             colorFilter: ColorFilter.mode(AppColors.sky500, BlendMode.srcIn),
           ),
@@ -46,9 +46,9 @@ class AiTutorCard extends StatelessWidget {
                 SizedBox(height: MediaQuery.of(context).size.height * .01),
                 CustomElevatedButton(
                   width: MediaQuery.of(context).size.width * .4,
-                  leadingIcon: SvgPicture.asset(
-                    'assets/icons/video.svg',
-                    height: AppSpacing.iconMD,
+                  leadingIcon: Icon(
+                    Icons.play_arrow_outlined,
+                    color: Colors.white,
                   ),
                   text: 'Start Learning',
                   onTap: () {},

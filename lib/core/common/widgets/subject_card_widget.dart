@@ -4,6 +4,7 @@ import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/student/models/subjec_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SubjectCard extends StatelessWidget {
   final Subject subject;
@@ -27,7 +28,11 @@ class SubjectCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image(color: AppColors.sky500, image: AssetImage(subject.image)),
+          SvgPicture.asset(
+            subject.image,
+            height: AppSpacing.iconXXXL,
+            colorFilter: ColorFilter.mode(AppColors.sky500, BlendMode.srcIn),
+          ),
           const SizedBox(height: AppSpacing.lg),
           Text(subject.title, style: AppTypography.heading4),
           Text(
