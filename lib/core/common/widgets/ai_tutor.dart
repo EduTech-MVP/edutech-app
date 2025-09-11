@@ -20,7 +20,7 @@ class AiTutorCard extends StatelessWidget {
           Image(
             height: AppSpacing.iconXXXL,
             color: AppColors.sky500,
-            image: AssetImage('assets/icons/image.png'),
+            image: AssetImage('assets/icons/image.svg'),
           ),
           SizedBox(width: 10),
           Expanded(
