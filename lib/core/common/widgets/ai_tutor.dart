@@ -5,6 +5,7 @@ import 'package:edutech_app/core/theme/app_gradient.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AiTutorCard extends StatelessWidget {
   const AiTutorCard({super.key});
@@ -17,10 +18,10 @@ class AiTutorCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image(
+          SvgPicture.asset(
+            'assets/icons/image.svg',
             height: AppSpacing.iconXXXL,
-            color: AppColors.sky500,
-            image: AssetImage('assets/icons/image.svg'),
+            colorFilter: ColorFilter.mode(AppColors.sky500, BlendMode.srcIn),
           ),
           SizedBox(width: 10),
           Expanded(
@@ -45,9 +46,9 @@ class AiTutorCard extends StatelessWidget {
                 SizedBox(height: MediaQuery.of(context).size.height * .01),
                 CustomElevatedButton(
                   width: MediaQuery.of(context).size.width * .4,
-                  leadingIcon: Image(
+                  leadingIcon: SvgPicture.asset(
+                    'assets/icons/video.svg',
                     height: AppSpacing.iconMD,
-                    image: AssetImage('assets/icons/video.svg'),
                   ),
                   text: 'Start Learning',
                   onTap: () {},

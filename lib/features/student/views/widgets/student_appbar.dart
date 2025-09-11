@@ -8,23 +8,23 @@ class StudentAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomAppbar(
-      leading: CircleAvatar(
-        backgroundColor: Colors.grey,
-        // backgroundImage: ,
-        maxRadius: MediaQuery.of(context).size.width * .06,
-      ),
-      title: Text('Good morning!'),
-      titleTextStyle: TextStyle(color: AppColors.neutral700),
-      subtitle: Text('Maryam Abdallah'),
-      subtitleTextStyle: TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-      ),
-      trailing: AppbarTrallingIcon(
-        onTap: () {},
-        image: AssetImage('assets/icons/notifications.svg'),
-      ),
+    return CustomAppbar.home(
+      // leading: CircleAvatar(
+      //   backgroundColor: Colors.grey,
+      //   // backgroundImage: ,
+      //   maxRadius: MediaQuery.of(context).size.width * .06,
+      // ),
+      // title: Text('Good morning!'),
+      // titleTextStyle: TextStyle(color: AppColors.neutral700),
+      // subtitle: Text('Maryam Abdallah'),
+      // subtitleTextStyle: TextStyle(
+      //   color: Colors.black,
+      //   fontWeight: FontWeight.bold,
+      // ),
+      // trailing: AppbarTrallingIcon(
+      //   onTap: () {},
+      //   image: AssetImage('assets/icons/notifications.svg'),
+      // ),
 
       //  Container(
       //   width: AppSpacing.xxxxl,

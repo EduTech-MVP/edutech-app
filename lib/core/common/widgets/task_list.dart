@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'task_tile.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TaskList extends StatelessWidget {
   const TaskList({super.key});
@@ -21,10 +22,10 @@ class TaskList extends StatelessWidget {
 
         Row(
           children: [
-            Image(
+            SvgPicture.asset(
+              'assets/icons/done.svg',
               height: AppSpacing.iconXL,
-              color: AppColors.sky500,
-              image: AssetImage('assets/icons/done.svg'),
+              colorFilter: ColorFilter.mode(AppColors.sky500, BlendMode.srcIn),
             ),
             SizedBox(width: AppSpacing.sm),
 

@@ -4,6 +4,7 @@ import 'package:edutech_app/core/theme/app_gradient.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class GreatJobCard extends StatelessWidget {
   const GreatJobCard({super.key});
@@ -15,10 +16,7 @@ class GreatJobCard extends StatelessWidget {
       gradient: AppGradients.card,
       child: Column(
         children: [
-          Image(
-            height: AppSpacing.xxxxl,
-            image: AssetImage('assets/icons/award.svg'),
-          ),
+          SvgPicture.asset('assets/icons/award.svg', height: AppSpacing.xxxxl),
           SizedBox(height: AppSpacing.xl),
 
           Text(

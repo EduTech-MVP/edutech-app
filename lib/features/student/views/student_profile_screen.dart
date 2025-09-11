@@ -1,10 +1,8 @@
-import 'package:edutech_app/core/common/widgets/appbar_tralling_icon.dart';
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
 import 'package:edutech_app/core/common/widgets/profile_achievements_card.dart';
 import 'package:edutech_app/core/common/widgets/profile_card.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
-import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 
 class StudentProfileScreen extends StatelessWidget {
@@ -18,15 +16,7 @@ class StudentProfileScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              CustomAppbar(
-                title: Text('Profile'),
-                titleTextStyle: AppTypography.heading4,
-                trailing: AppbarTrallingIcon(
-                  onTap: () {},
-                  image: AssetImage('assets/icons/settings.svg'),
-                ),
-              ),
-
+              CustomAppbar(),
               Padding(
                 padding: EdgeInsetsGeometry.all(AppSpacing.pagePadding),
                 child: Column(

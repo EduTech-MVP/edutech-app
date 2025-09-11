@@ -12,9 +12,7 @@ class CustomNavBottombar extends StatelessWidget {
       height: AppSpacing.bottomNavHeight,
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [
-          AppColors.defaultShadow.copyWith(offset: const Offset(0, 0)),
-        ],
+        boxShadow: [AppColors.defaultShadow],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -22,16 +20,11 @@ class CustomNavBottombar extends StatelessWidget {
           NavItem(index: 0, iconPath: 'assets/images/house.svg', label: 'Home'),
           NavItem(
             index: 1,
-            iconPath: 'assets/images/book.svg',
+            iconPath: 'assets/icons/book.svg',
             label: 'Lessons',
           ),
           NavItem(
             index: 2,
-            iconPath: 'assets/images/award.svg',
-            label: 'Awards',
-          ),
-          NavItem(
-            index: 3,
             iconPath: 'assets/images/people.svg',
             label: 'Profile',
           ),

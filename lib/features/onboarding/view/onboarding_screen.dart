@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/common/widgets/gradient_background.dart';
 import '../../../core/common/widgets/elevated_bottom.dart';
 import '../../../core/common/widgets/custom_textformfeild.dart';
+import '../../../core/common/widgets/linear_progress.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
@@ -88,7 +89,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GradientScaffold(
+    return GradientScaffold.auth(
       body: SafeArea(
         child: Column(
           children: [
@@ -144,14 +145,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   const SizedBox(height: AppSpacing.spacing16),
 
                   // Progress Bar
-                  LinearProgressIndicator(
-                    borderRadius: BorderRadius.circular(10),
+                  LinearProgress(
                     value: (currentPage + 1) / onboardingData.length,
-                    backgroundColor: AppColors.primary50,
-                    valueColor: const AlwaysStoppedAnimation<Color>(
-                      AppColors.sky700,
-                    ),
-                    minHeight: 8,
                   ),
                 ],
               ),

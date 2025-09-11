@@ -31,7 +31,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GradientScaffold(
+    return GradientScaffold.auth(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.spacing24),
