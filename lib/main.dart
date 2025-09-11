@@ -1,5 +1,6 @@
 import 'package:edutech_app/features/student/controllers/navigation_controller.dart';
 import 'package:edutech_app/features/student/controllers/task_list_controller.dart';
+import 'package:edutech_app/features/student/controllers/student_classes_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
@@ -11,6 +12,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => NavigationController()),
         ChangeNotifierProvider(create: (_) => TaskListController()),
+        ChangeNotifierProvider(create: (_) => StudentClassesController()),
       ],
       child: const EduTechApp(),
     ),
