@@ -1,5 +1,8 @@
+import 'package:edutech_app/features/parent/view/children_screen.dart';
 import 'package:edutech_app/features/student/views/student_home.dart';
 import 'package:edutech_app/features/student/views/main_screen.dart';
+import 'package:edutech_app/features/parent/view/parent_home.dart';
+import 'package:edutech_app/features/parent/view/parent_main_screen.dart';
 import 'package:flutter/material.dart';
 import '../../features/onboarding/view/onboarding_screen.dart';
 import '../../features/auth/view/sign_up_screen.dart';
@@ -11,6 +14,9 @@ class AppRoutes {
   static const String signIn = '/signin';
   static const String studenthome = '/home';
   static const String mainscreen = '/mainscreen';
+  static const String parenthome = '/homeparent';
+  static const String childrescreen = '/children';
+  static const String parentMainScreen = '/parent-main';
 
   static Map<String, WidgetBuilder> get routes {
     return {
@@ -19,6 +25,9 @@ class AppRoutes {
       signIn: (context) => const SignInScreen(),
       studenthome: (context) => const StudentHome(),
       mainscreen: (context) => const MainScreen(),
+      parenthome: (context) => const ParentHome(),
+      childrescreen: (context) => const ChildrenScreen(),
+      parentMainScreen: (context) => const ParentMainScreen(),
     };
   }
 }
