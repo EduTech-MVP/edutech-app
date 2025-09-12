@@ -14,6 +14,14 @@ dependencies:
     ##provider for statemangement
   provider: 
   font_awesome_flutter: 
+  ## http for apis
+  http: 
+  ##file picker to upload images 
+  file_picker: 
+  mime: ^1.0.0
+  http_parser: 
+   # For persisting login state
+  shared_preferences: ^2.3.2 
  
   cupertino_icons: ^1.0.8
   flutter_dotenv: ^5.1.0
