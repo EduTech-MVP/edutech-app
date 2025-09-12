@@ -1,9 +1,16 @@
+import 'package:edutech_app/core/providers/app_providers.dart';
+import 'package:edutech_app/features/auth/controllers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/routes/app_routes.dart';
 
-void main() {
-  runApp(const EduTechApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final authProvider = AuthProvider();
+  await authProvider.loadToken();
+  runApp(MultiProvider(providers: appProviders, child: const EduTechApp()));
 }
 
 class EduTechApp extends StatelessWidget {
@@ -15,7 +22,7 @@ class EduTechApp extends StatelessWidget {
       title: 'EduTech',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      initialRoute: AppRoutes.signUp,
+      initialRoute: AppRoutes.splashScreen,
       routes: AppRoutes.routes,
     );
   }
