@@ -28,7 +28,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
     return GradientScaffold.main(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80 + MediaQuery.of(context).padding.top),
-        child: const CustomAppbar.home(),
+        child: const CustomAppbar.page(pageTitle: "Profile"),
       ),
       body: SingleChildScrollView(
         child: Column(
