@@ -23,6 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return GradientScaffold(
+      gradientColors: [AppColors.sky300, AppColors.sky100],
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.spacing24),

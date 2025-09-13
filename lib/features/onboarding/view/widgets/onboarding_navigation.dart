@@ -1,6 +1,6 @@
+import 'package:edutech_app/core/common/widgets/elevated_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../core/common/widgets/elevated_bottom.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../controller/onboarding_provider.dart';
@@ -23,12 +23,17 @@ class OnboardingNavigation extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.spacing24),
       child: CustomElevatedButton(
         text: isLastStep ? "Get Started" : "Continue",
-        onTap: () {
-          final bool success = isLastStep
-              ? provider.completeOnboarding(parentContext)
-              : provider.nextStep();
-          if (!success) {
-            _showValidationError();
+        onTap: () async {
+          if (isLastStep) {
+            final success = await provider.completeOnboarding(parentContext);
+            if (!success && provider.errorMessage != null) {
+              _showError(provider.errorMessage!);
+            }
+          } else {
+            final success = provider.nextStep();
+            if (!success) {
+              _showValidationError();
+            }
           }
         },
         width: double.infinity,
@@ -47,6 +52,12 @@ class OnboardingNavigation extends StatelessWidget {
         content: Text('Please fill in all required fields correctly'),
         backgroundColor: AppColors.error,
       ),
+    );
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(parentContext).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: AppColors.error),
     );
   }
 }

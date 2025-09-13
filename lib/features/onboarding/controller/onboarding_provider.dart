@@ -1,3 +1,5 @@
+import 'package:edutech_app/core/services/api_services.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import '../model/onboarding_data_model.dart';
 import '../model/onboarding_model.dart' as ui_model;
@@ -19,12 +21,14 @@ class OnboardingProvider extends ChangeNotifier {
   String? _profilePictureError;
   String? _bioError;
   String? _dateOfBirthError;
+  String? _errorMessage;
 
   // Getters
   OnboardingData get data => _data;
   int get currentStep => _currentStep;
   ui_model.OnboardingModel get uiModel => _uiModel;
   int get totalSteps => _uiModel.onboardingData.length;
+  String? get errorMessage => _errorMessage;
 
   // Validation error getters
   String? get fullNameError => _fullNameError;
@@ -257,12 +261,48 @@ class OnboardingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool completeOnboarding(BuildContext context) {
+  Future<bool> completeOnboarding(BuildContext context) async {
     if (!validateCurrentStep()) {
       return false;
     }
-    Navigator.pushReplacementNamed(context, '/mainscreen');
-    return true;
+
+    try {
+      // Prepare optional profile image
+      PlatformFile? profileImage;
+      if (_data.profilePicturePath != null &&
+          _data.profilePicturePath!.isNotEmpty) {
+        profileImage = PlatformFile(
+          name: 'profile.jpg',
+          path: _data.profilePicturePath,
+          size: 0, // Size not used
+        );
+      }
+
+      // Call register API
+      await ApiService().register(
+        fullName: _data.fullName!,
+        username: _data.username!,
+        email: _data.email!,
+        password: _data.password!,
+        confirmPassword: _data.confirmPassword!,
+        dateOfBirth: _data.dateOfBirth!,
+        userType: 'Parent', // Hardcoded to avoid UI changes
+        profileImage: profileImage,
+        bio: _data.bio,
+        subject: null,
+      );
+
+      // Navigate to mainscreen (original)
+      Navigator.pushReplacementNamed(context, '/mainscreen');
+      return true;
+    } catch (e) {
+      _errorMessage = 'Registration failed: $e';
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_errorMessage!)));
+      notifyListeners();
+      return false;
+    }
   }
 
   @override

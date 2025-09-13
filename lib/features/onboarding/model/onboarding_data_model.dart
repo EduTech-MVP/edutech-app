@@ -7,6 +7,7 @@ class OnboardingData {
   String? profilePicturePath;
   String? bio;
   DateTime? dateOfBirth;
+  String? userType;
 
   OnboardingData({
     this.fullName,
@@ -17,35 +18,6 @@ class OnboardingData {
     this.profilePicturePath,
     this.bio,
     this.dateOfBirth,
+    this.userType,
   });
-
-  bool get isPersonalInfoComplete =>
-      fullName != null &&
-      fullName!.isNotEmpty &&
-      email != null &&
-      email!.isNotEmpty;
-
-  bool get isAccountSecurityComplete =>
-      username != null &&
-      username!.isNotEmpty &&
-      password != null &&
-      password!.isNotEmpty &&
-      confirmPassword != null &&
-      confirmPassword!.isNotEmpty &&
-      password == confirmPassword;
-
-  bool get isAdditionalDetailsComplete => dateOfBirth != null;
-
-  bool get isComplete =>
-      isPersonalInfoComplete &&
-      isAccountSecurityComplete &&
-      isAdditionalDetailsComplete;
-
-  @override
-  String toString() {
-    return 'OnboardingData(fullName: $fullName, email: $email, username: $username, '
-        'password: ${password != null ? "****" : null}, '
-        'confirmPassword: ${confirmPassword != null ? "****" : null}, '
-        'profilePicturePath: $profilePicturePath, bio: $bio, dateOfBirth: $dateOfBirth)';
-  }
 }

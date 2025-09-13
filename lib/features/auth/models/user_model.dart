@@ -1,67 +1,56 @@
 class User {
-  final String? fullName;
-  final String? username;
-  final String? email;
-  final String? password;
-  final String? confirmPassword;
-  final String? dateOfBirth;
-  final String? userType;
+  final String id;
+  final String fullName;
+  final String username;
+  final String email;
+  final String userType;
+  final String profileImage;
   final String? bio;
   final String? subject;
-  final String? profileImagePath;
+  final DateTime dateOfBirth;
 
   User({
-    this.fullName,
-    this.username,
-    this.email,
-    this.password,
-    this.confirmPassword,
-    this.dateOfBirth,
-    this.userType,
+    required this.id,
+    required this.fullName,
+    required this.username,
+    required this.email,
+    required this.userType,
+    required this.profileImage,
     this.bio,
     this.subject,
-    this.profileImagePath,
+    required this.dateOfBirth,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
+    // Normalize userType to handle variations (e.g., 'role', 'UserType', case differences)
+    String? rawUserType = json['UserType'] ?? json['userType'] ?? json['role'];
+    String normalizedUserType = 'Unknown';
+    if (rawUserType != null) {
+      // Convert to title case and match expected values
+      String lowerType = rawUserType.toLowerCase();
+      if (lowerType == 'teacher') {
+        normalizedUserType = 'Teacher';
+      } else if (lowerType == 'parent') {
+        normalizedUserType = 'Parent';
+      } else if (lowerType == 'student') {
+        normalizedUserType = 'Student';
+      } else {
+        print('Unexpected userType: $rawUserType');
+      }
+    }
+
     return User(
-      fullName: json['fullName'] ?? json['FullName'],
-      username: json['username'] ?? json['Username'],
-      email: json['email'] ?? json['Email'],
-      dateOfBirth: json['dateOfBirth'] ?? json['DateOfBirth'],
-      userType: json['userType'] ?? json['UserType'],
-      bio: json['bio'] ?? json['Bio'],
-      subject: json['subject'] ?? json['Subject'],
-      profileImagePath:
-          json['profileImageUrl'] ??
-          json['profileImagePath'] ??
-          json['ProfileImagePath'],
+      id: json['nameidentifier'] ?? '',
+      fullName: json['name'] ?? '',
+      username: json['username'] ?? '',
+      email: json['emailaddress'] ?? '',
+      userType: normalizedUserType,
+      profileImage: json['profileImage'] ?? '',
+      bio: json['bio'],
+      subject: json['subject'],
+      dateOfBirth: DateTime.parse(
+        json['dateOfBirth'] ?? DateTime.now().toIso8601String(),
+      ),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'fullName': fullName,
-      'username': username,
-      'email': email,
-      'dateOfBirth': dateOfBirth,
-      'userType': userType,
-      'bio': bio,
-      'subject': subject,
-      'profileImagePath': profileImagePath,
-    };
-  }
-
-  /// Validates required fields for registration.
-  bool validateForRegistration() {
-    return email != null &&
-        email!.isNotEmpty &&
-        password != null &&
-        password!.isNotEmpty &&
-        confirmPassword != null &&
-        confirmPassword!.isNotEmpty &&
-        password == confirmPassword &&
-        userType != null &&
-        ['Parent', 'Teacher'].contains(userType);
   }
 }

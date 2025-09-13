@@ -1,5 +1,4 @@
 import 'package:edutech_app/features/auth/view/sign_in_screen.dart';
-import 'package:edutech_app/features/auth/views/sign_in_screen.dart';
 import 'package:edutech_app/features/parent/view/children_screen.dart';
 import 'package:edutech_app/features/student/views/student_home.dart';
 import 'package:edutech_app/features/student/views/main_screen.dart';
