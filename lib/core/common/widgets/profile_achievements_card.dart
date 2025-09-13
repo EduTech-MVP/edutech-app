@@ -33,8 +33,8 @@ class ProfileAchievementsCard extends StatelessWidget {
           children: [
             SvgPicture.asset(
               '$image',
-              width: 64,
-              height: 64,
+              width: 48,
+              height: 48,
               colorFilter: ColorFilter.mode(AppColors.sky500, BlendMode.srcIn),
             ),
             const SizedBox(height: AppSpacing.xs),

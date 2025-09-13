@@ -47,10 +47,10 @@ class CustomAppbar extends StatelessWidget {
         child: Container(
           height: 150,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.5),
+            color: Colors.white.withValues(alpha: 0.5),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: .1),
                 blurRadius: 16,
                 offset: const Offset(0, 4),
               ),
