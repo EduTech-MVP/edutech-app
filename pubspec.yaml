@@ -18,7 +18,11 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_dotenv: ^5.1.0
   flutter_svg:
-
+  flutter_chat_bubble: ^2.0.2  # For chat bubbles
+  http: 
+  shared_preferences: 
+  connectivity_plus:
+ 
 dev_dependencies:
   flutter_test:
     sdk: flutter
