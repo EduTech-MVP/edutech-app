@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final String text;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Widget? leadingIcon;
   final Widget? trailingIcon;
   final double? width;
@@ -38,7 +38,7 @@ class CustomElevatedButton extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           gradient: gradient,
-          borderRadius: BorderRadius.circular(AppSpacing.radiusXL),
+          borderRadius: BorderRadius.circular(AppSpacing.radiusXXL),
           border: Border.all(color: borderColor),
         ),
         child: Row(

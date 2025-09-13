@@ -60,7 +60,7 @@ class AppSpacing {
   static const double cardPadding = 24.0;
   static const double containerPadding = 24.0;
   static const double sectionPadding = 32.0;
-  static const double pagePadding = 32.0;
+  static const double pagePadding = 24.0;
 
   // Border radius constants
   static const double radiusXS = 3.0;

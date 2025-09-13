@@ -13,7 +13,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color? fillColor;
   final double? height;
   final int maxlines;
-  final void Function(String?)? onsaved;
+  final void Function(String)? onChanged;
 
   const CustomTextFormField({
     super.key,
@@ -26,7 +26,7 @@ class CustomTextFormField extends StatelessWidget {
     this.fillColor = AppColors.sky50,
     this.height = AppSpacing.buttonHeight,
     this.maxlines = 1,
-    this.onsaved,
+    this.onChanged,
   });
 
   @override
@@ -34,7 +34,7 @@ class CustomTextFormField extends StatelessWidget {
     return TextFormField(
       cursorHeight: AppSpacing.lg,
       textAlign: TextAlign.justify,
-      onSaved: onsaved,
+      onChanged: onChanged,
       maxLines: maxlines,
       controller: controller,
       obscureText: obscureText,

@@ -4,6 +4,7 @@ import 'package:edutech_app/core/theme/app_gradient.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class GreatJobCard extends StatelessWidget {
   const GreatJobCard({super.key});
@@ -15,10 +16,7 @@ class GreatJobCard extends StatelessWidget {
       gradient: AppGradients.card,
       child: Column(
         children: [
-          Image(
-            height: AppSpacing.xxxxl,
-            image: AssetImage('assets/icons/award.png'),
-          ),
+          SvgPicture.asset('assets/images/award.svg', height: AppSpacing.xxxxl),
           SizedBox(height: AppSpacing.xl),
 
           Text(
@@ -27,7 +25,14 @@ class GreatJobCard extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.xl),
           Text(
-            style: AppTypography.small,
+            style: AppTypography.lead.copyWith(
+              fontSize: 13,
+              height: 1.5,
+              color: Colors.black,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.visible,
+            softWrap: false,
             'You’ve completed 8 lessons this week. Keep it up!',
           ),
         ],

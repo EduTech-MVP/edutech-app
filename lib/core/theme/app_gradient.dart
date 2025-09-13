@@ -19,4 +19,10 @@ class AppGradients {
     end: Alignment.bottomRight,
     colors: [AppColors.sky200, AppColors.sky100],
   );
+
+  static const LinearGradient grade = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [AppColors.sky100, AppColors.sky50],
+  );
 }

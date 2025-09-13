@@ -1,33 +1,42 @@
 name: edutech_app
 description: "A new Flutter project."
- 
-publish_to: "none"  
- 
+
+publish_to: "none"
+
 version: 1.0.0+1
 
 environment:
   sdk: ^3.8.1
- 
+
 dependencies:
   flutter:
     sdk: flutter
     ##provider for statemangement
+
   provider: 
   font_awesome_flutter: 
+  
+  ##file picker to upload images 
+  file_picker: 
+  mime: ^1.0.0
+  http_parser: 
+   # For persisting login state
+  shared_preferences: ^2.3.2 
  
   cupertino_icons: ^1.0.8
   flutter_dotenv: ^5.1.0
   flutter_svg:
-
+  flutter_chat_bubble: ^2.0.2  # For chat bubbles
+  http: 
+  connectivity_plus:
+ 
 dev_dependencies:
   flutter_test:
     sdk: flutter
- 
+
   flutter_lints: ^5.0.0
- 
 
 flutter:
-  
   uses-material-design: true
 
   assets:

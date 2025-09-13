@@ -1,9 +1,13 @@
+import 'package:edutech_app/core/providers/app_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/routes/app_routes.dart';
 
-void main() {
-  runApp(const EduTechApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(MultiProvider(providers: appProviders, child: const EduTechApp()));
 }
 
 class EduTechApp extends StatelessWidget {
