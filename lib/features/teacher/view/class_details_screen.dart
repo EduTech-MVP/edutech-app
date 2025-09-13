@@ -9,6 +9,7 @@ import 'package:edutech_app/features/teacher/model/class_model.dart';
 import 'package:edutech_app/features/teacher/view/widgets/add_student_dialog.dart';
 import 'package:edutech_app/features/teacher/view/widgets/student_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class ClassDetailsScreen extends StatelessWidget {
@@ -61,7 +62,12 @@ class ClassDetailsScreen extends StatelessWidget {
 
     return SectionHeader(
       title: 'Manage Students',
-      icon: Icon(Icons.people_outline, size: 36, color: AppColors.sky500),
+      icon: SvgPicture.asset(
+        'assets/icons/profile.svg',
+        width: 32,
+        height: 32,
+        colorFilter: ColorFilter.mode(AppColors.sky500, BlendMode.srcIn),
+      ),
       actionButtonText: 'Add Student',
       onActionPressed: () => _showAddStudentDialog(context),
       useElevatedButton: true,
