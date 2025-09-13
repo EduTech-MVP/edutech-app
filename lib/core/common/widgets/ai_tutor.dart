@@ -4,6 +4,7 @@ import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_gradient.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
+import 'package:edutech_app/features/chatbot/views/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -51,7 +52,11 @@ class AiTutorCard extends StatelessWidget {
                     color: Colors.white,
                   ),
                   text: 'Start Learning',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => ChatScreen()),
+                    );
+                  },
                 ),
               ],
             ),
