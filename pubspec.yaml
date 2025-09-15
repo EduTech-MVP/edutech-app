@@ -17,6 +17,7 @@ dependencies:
   font_awesome_flutter: 
   
   ##file picker to upload images 
+  image_picker: 
   file_picker: 
   mime: ^1.0.0
   http_parser: 
@@ -29,6 +30,8 @@ dependencies:
   flutter_chat_bubble: ^2.0.2  # For chat bubbles
   http: 
   connectivity_plus:
+  dio: 
+  jwt_decoder: ^2.0.1
  
 dev_dependencies:
   flutter_test:

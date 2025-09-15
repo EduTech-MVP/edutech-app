@@ -1,56 +1,30 @@
-class User {
-  final String id;
-  final String fullName;
-  final String username;
-  final String email;
-  final String userType;
-  final String profileImage;
-  final String? bio;
-  final String? subject;
-  final DateTime dateOfBirth;
+import 'package:edutech_app/core/api/endpoints.dart';
 
-  User({
+class UserModel {
+  final int? id;
+  final String? email;
+  final String? firstName;
+  final String? lastName;
+  final String? userType;
+  final String? profileImageUrl;
+
+  UserModel({
     required this.id,
-    required this.fullName,
-    required this.username,
-    required this.email,
+    this.email,
+    required this.firstName,
+    required this.lastName,
     required this.userType,
-    required this.profileImage,
-    this.bio,
-    this.subject,
-    required this.dateOfBirth,
+    required this.profileImageUrl,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    // Normalize userType to handle variations (e.g., 'role', 'UserType', case differences)
-    String? rawUserType = json['UserType'] ?? json['userType'] ?? json['role'];
-    String normalizedUserType = 'Unknown';
-    if (rawUserType != null) {
-      // Convert to title case and match expected values
-      String lowerType = rawUserType.toLowerCase();
-      if (lowerType == 'teacher') {
-        normalizedUserType = 'Teacher';
-      } else if (lowerType == 'parent') {
-        normalizedUserType = 'Parent';
-      } else if (lowerType == 'student') {
-        normalizedUserType = 'Student';
-      } else {
-        print('Unexpected userType: $rawUserType');
-      }
-    }
-
-    return User(
-      id: json['nameidentifier'] ?? '',
-      fullName: json['name'] ?? '',
-      username: json['username'] ?? '',
-      email: json['emailaddress'] ?? '',
-      userType: normalizedUserType,
-      profileImage: json['profileImage'] ?? '',
-      bio: json['bio'],
-      subject: json['subject'],
-      dateOfBirth: DateTime.parse(
-        json['dateOfBirth'] ?? DateTime.now().toIso8601String(),
-      ),
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json[ApiKey.id],
+      email: json[ApiKey.email],
+      firstName: json[ApiKey.firstName],
+      lastName: json[ApiKey.lastName],
+      userType: (json[ApiKey.userType]).toString().trim(),
+      profileImageUrl: json[ApiKey.profileImage],
     );
   }
 }
