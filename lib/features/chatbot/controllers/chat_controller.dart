@@ -1,51 +1,148 @@
+import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:edutech_app/core/api/dio_consumer.dart';
+import 'package:edutech_app/core/api/endpoints.dart';
+import 'package:edutech_app/core/errors/error_model.dart';
+import 'package:edutech_app/core/errors/exceptions.dart';
 import 'package:edutech_app/features/chatbot/models/messege.dart';
-import 'package:edutech_app/features/chatbot/services/chat_services.dart';
-import 'package:flutter/material.dart';
+import 'package:edutech_app/features/chatbot/models/send_messege_model.dart';
+import 'package:edutech_app/features/chatbot/models/session_response.dart';
+import 'package:flutter/foundation.dart';
 
 class ChatController with ChangeNotifier {
   final List<Message> _messages = [];
-  final ChatService _chatService;
   String? _sessionId;
   bool _isLoading = false;
+  final DioConsumer _api;
+  String? _error;
 
+  String? get sessionId => _sessionId;
+  String? get error => _error;
   List<Message> get messages => List.unmodifiable(_messages);
   bool get isLoading => _isLoading;
 
-  ChatController(String token) : _chatService = ChatService(token) {
+  ChatController({required DioConsumer api}) : _api = api {
     _initializeChat();
+  }
+  Future<SessionResponse> _createSession() async {
+    try {
+      final response = await _api.post(
+        Endpoints.createSession,
+        data: {'clusterId': 1},
+      );
+
+      if (kDebugMode) {
+        print("Create session response: $response");
+      }
+
+      return SessionResponse.fromJson(response);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error in _createSession: $e');
+      }
+      throw ServerException(
+        errorModel: ErrorModel(errorMessage: 'Unexpected error: $e'),
+      );
+    }
+  }
+
+  Future<SendMessageModel> _sendMessage(String sessionId, String text) async {
+    try {
+      final body = {
+        ApiKey.sessionid: sessionId,
+        ApiKey.message: text,
+        'mode': 'TutorAsks',
+      };
+
+      if (kDebugMode) {
+        print("Sending body: $body");
+      }
+
+      final response = await _api.post(Endpoints.sendMessage, data: body);
+
+      if (kDebugMode) {
+        print("Send message response: $response");
+      }
+
+      return SendMessageModel.fromJson(response);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error in _sendMessage: $e');
+      }
+      throw ServerException(
+        errorModel: ErrorModel(errorMessage: 'Unexpected error: $e'),
+      );
+    }
   }
 
   Future<void> _initializeChat() async {
     _setLoading(true);
     try {
-      // if (!await _checkInternet()) {
-      //   _showError('No internet connection');
-      //   return;
-      // }
-      _sessionId = await _chatService.createSession('Lesson 6');
+      if (!await _checkInternet()) {
+        _showError('No internet connection');
+        return;
+      }
+      final sessionResponse = await _createSession();
+      _sessionId = sessionResponse.sessionId;
       await _fetchInitialMessage();
     } catch (e) {
-      print('Init error: $e, Stack trace: ${StackTrace.current}');
-      _showError('Error initializing chat: $e');
-      _sessionId = 'fallback-session-id-123'; // fallback
-      await _fetchInitialMessage();
+      if (kDebugMode) {
+        print('Init error: $e, Stack trace: ${StackTrace.current}');
+      }
+      _showError(
+        e is ServerException
+            ? e.errorModel.errorMessage!
+            : 'Error initializing chat: $e',
+      );
+      _sessionId = null;
     } finally {
       _setLoading(false);
     }
   }
 
-  Future<void> _fetchInitialMessage() async {
+  Future<void> createSession() async {
+    _setLoading(true);
     try {
-      final response = await _chatService.sendMessage(_sessionId!, 'start');
+      final sessionResponse = await _createSession();
+      _sessionId = sessionResponse.sessionId;
+      _error = null;
+    } on ServerException catch (e) {
+      _error = e.errorModel.errorMessage;
+    } catch (e) {
+      _error = 'Unexpected error: $e';
+    } finally {
+      _setLoading(false);
+      notifyListeners();
+    }
+  }
+
+  Future<void> _fetchInitialMessage() async {
+    if (_sessionId == null) {
       _addMessage(
         Message(
-          text: response['response']['message'],
+          text:
+              "Hi I'm your AI tutor for Lesson 6: Slavery. How can I help you today?",
           isBot: true,
-          choices: response['response']['choices']?.cast<String>(),
+          choices: ['Choice 1', 'Choice 2', 'Choice 3', 'Choice 4'],
+        ),
+      );
+      return;
+    }
+    try {
+      final response = await _sendMessage(_sessionId!, "Hello, start the chat");
+      _addMessage(
+        Message(
+          text: response.response.message,
+          isBot: true,
+          choices: response.response.choices?.cast<String>(),
         ),
       );
     } catch (e) {
+      if (kDebugMode) {
+        print(
+          'Fetch initial message error: $e, Stack trace: ${StackTrace.current}',
+        );
+      }
       _addMessage(
         Message(
           text:
@@ -57,22 +154,23 @@ class ChatController with ChangeNotifier {
     }
   }
 
-  void sendMessage(String text) async {
-    if (text.isNotEmpty && _sessionId != null) {
-      _addMessage(Message(text: text, isBot: false));
-      try {
-        final response = await _chatService.sendMessage(_sessionId!, text);
-        _addMessage(
-          Message(
-            text: response['response']['message'],
-            isBot: true,
-            choices: response['response']['choices']?.cast<String>(),
-          ),
-        );
-      } catch (e) {
+  Future<void> sendMessage(String text) async {
+    if (text.isEmpty || _sessionId == null) return;
+    _addMessage(Message(text: text, isBot: false));
+    try {
+      final response = await _sendMessage(_sessionId!, text);
+      _addMessage(
+        Message(
+          text: response.response.message,
+          isBot: true,
+          choices: response.response.choices?.cast<String>(),
+        ),
+      );
+    } catch (e) {
+      if (kDebugMode) {
         print('Send error: $e, Stack trace: ${StackTrace.current}');
-        _addMessage(Message(text: 'Error: $e', isBot: true));
       }
+      _addMessage(Message(text: 'Error: $e', isBot: true));
     }
   }
 
@@ -81,13 +179,16 @@ class ChatController with ChangeNotifier {
       var connectivityResult = await Connectivity().checkConnectivity();
       return connectivityResult != ConnectivityResult.none;
     } catch (e) {
-      print('Connectivity check error: $e');
+      if (kDebugMode) {
+        print('Connectivity check error: $e');
+      }
       return false;
     }
   }
 
   void _showError(String message) {
     _addMessage(Message(text: message, isBot: true));
+    notifyListeners();
   }
 
   void _addMessage(Message message) {
