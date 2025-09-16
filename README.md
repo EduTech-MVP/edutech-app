@@ -47,7 +47,9 @@ lib/
 ├── features/                # Feature-based modules
 │   ├── auth/                # Authentication feature
 │   ├── onboarding/          # User onboarding
-│   └── welcome/             # Welcome screens
+│   ├── teacher/             # Teacher Screens
+│   ├── Parent/              # Parent Screens
+│   └── Student/             # Student Screens
 ├── providers/               # State management
 └── main.dart               # App entry point
 ```
