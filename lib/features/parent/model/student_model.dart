@@ -19,17 +19,16 @@ class Student {
     required this.profileImagePath,
   });
 
-  // factory constructor to parse JSON
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
-      id: (json['id'] as num?)?.toInt() ?? 0,
-      username: (json['username'] as String?) ?? '',
-      firstName: (json['firstName'] as String?) ?? '',
-      lastName: (json['lastName'] as String?) ?? '',
-      grade: (json['grade'] as num?)?.toInt() ?? 0,
-      learningLevel: (json['learningLevel'] as String?) ?? '',
-      clusterId: (json['clusterId'] as num?)?.toInt() ?? 0,
-      profileImagePath: (json['profileImagePath'] as String?) ?? '',
+      id: json['id'],
+      username: json['username'],
+      firstName: json['firstName'] ?? '',
+      lastName: json['lastName'] ?? '',
+      grade: json['grade'],
+      learningLevel: json['learningLevel'],
+      clusterId: json['clusterId'],
+      profileImagePath: json['profileImagePath'],
     );
   }
 }

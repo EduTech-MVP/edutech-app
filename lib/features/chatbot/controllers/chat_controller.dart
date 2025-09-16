@@ -24,6 +24,7 @@ class ChatController with ChangeNotifier {
   ChatController({required DioConsumer api}) : _api = api {
     _initializeChat();
   }
+
   Future<SessionResponse> _createSession() async {
     try {
       final response = await _api.post(
@@ -35,7 +36,12 @@ class ChatController with ChangeNotifier {
         print("Create session response: $response");
       }
 
-      return SessionResponse.fromJson(response);
+      final sessionResponse = SessionResponse.fromJson(response);
+      if (kDebugMode) {
+        print("Created session ID: ${sessionResponse.sessionId}");
+      }
+
+      return sessionResponse;
     } catch (e) {
       if (kDebugMode) {
         print('Error in _createSession: $e');
@@ -46,15 +52,20 @@ class ChatController with ChangeNotifier {
     }
   }
 
-  Future<SendMessageModel> _sendMessage(String sessionId, String text) async {
+  Future<SendMessageModel> _sendMessage(
+    String sessionId,
+    String? text, {
+    String mode = 'TutorAsks',
+  }) async {
     try {
-      final body = {
-        ApiKey.sessionid: sessionId,
-        ApiKey.message: text,
-        'mode': 'TutorAsks',
-      };
+      final body = {ApiKey.sessionid: sessionId, 'mode': mode};
+      if (mode == 'StudentAsks' && text != null && text.isNotEmpty) {
+        body[ApiKey.message] = text;
+      }
 
       if (kDebugMode) {
+        print("ApiKey.sessionid: ${ApiKey.sessionid}");
+        print("Sending to send-message with sessionId: $sessionId");
         print("Sending body: $body");
       }
 
@@ -129,7 +140,9 @@ class ChatController with ChangeNotifier {
       return;
     }
     try {
-      final response = await _sendMessage(_sessionId!, "Hello, start the chat");
+      // Refresh session to ensure validity
+      await createSession();
+      final response = await _sendMessage(_sessionId!, null, mode: 'TutorAsks');
       _addMessage(
         Message(
           text: response.response.message,
@@ -158,7 +171,11 @@ class ChatController with ChangeNotifier {
     if (text.isEmpty || _sessionId == null) return;
     _addMessage(Message(text: text, isBot: false));
     try {
-      final response = await _sendMessage(_sessionId!, text);
+      final response = await _sendMessage(
+        _sessionId!,
+        text,
+        mode: 'StudentAsks',
+      );
       _addMessage(
         Message(
           text: response.response.message,

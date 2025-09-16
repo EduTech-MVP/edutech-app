@@ -2,9 +2,11 @@ import 'dart:ui';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
+import 'package:edutech_app/features/auth/controllers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CustomAppbar extends StatelessWidget {
   final String? pageTitle;
@@ -12,6 +14,7 @@ class CustomAppbar extends StatelessWidget {
   final VoidCallback? onTrailingPressed;
   final VoidCallback? onBackPressed;
   final bool isHomePage;
+  final Widget? navigationPage;
 
   const CustomAppbar({
     super.key,
@@ -19,6 +22,7 @@ class CustomAppbar extends StatelessWidget {
     this.trailingWidget,
     this.onTrailingPressed,
     this.onBackPressed,
+    this.navigationPage,
   }) : isHomePage = pageTitle == null;
 
   // Home AppBar - shows profile and greeting
@@ -26,6 +30,7 @@ class CustomAppbar extends StatelessWidget {
     super.key,
     this.trailingWidget,
     this.onTrailingPressed,
+    this.navigationPage,
   }) : pageTitle = null,
        onBackPressed = null,
        isHomePage = true;
@@ -37,6 +42,7 @@ class CustomAppbar extends StatelessWidget {
     this.trailingWidget,
     this.onTrailingPressed,
     this.onBackPressed,
+    this.navigationPage,
   }) : isHomePage = false;
 
   @override
@@ -47,14 +53,8 @@ class CustomAppbar extends StatelessWidget {
         child: Container(
           height: 150,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.5),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: .1),
-                blurRadius: 16,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            color: AppColors.sky50,
+            //  boxShadow: [AppColors.defaultShadow],
           ),
           child: SafeArea(
             child: Padding(
@@ -70,17 +70,15 @@ class CustomAppbar extends StatelessWidget {
   }
 
   Widget _buildHomeContent(BuildContext context) {
+    final userProvider = context.watch<UserProvider>();
+    final user = userProvider.usersigned?.user ?? userProvider.profile;
     return Row(
       children: [
         // Profile avatar
         CircleAvatar(
+          backgroundImage: NetworkImage('${user!.profileImageUrl}'),
           radius: MediaQuery.of(context).size.width * 0.06,
           backgroundColor: AppColors.sky100,
-          child: Icon(
-            Icons.person,
-            color: AppColors.sky600,
-            size: MediaQuery.of(context).size.width * 0.08,
-          ),
         ),
         const SizedBox(width: 16),
         // Greeting section
@@ -96,7 +94,7 @@ class CustomAppbar extends StatelessWidget {
                 ),
               ),
               Text(
-                'Maryam Abdallah',
+                '${user!.firstName}',
                 style: AppTypography.heading4.copyWith(
                   color: AppColors.textPrimary,
                   fontWeight: FontWeight.bold,
@@ -124,9 +122,14 @@ class CustomAppbar extends StatelessWidget {
   Widget _buildPageContent(BuildContext context) {
     return Row(
       children: [
-        // Back arrow
+        //back arrow
         GestureDetector(
-          onTap: onBackPressed ?? () => Navigator.pop(context),
+          onTap:
+              onBackPressed ??
+              () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => navigationPage!),
+              ),
           child: Container(
             width: 24,
             height: 24,
@@ -143,7 +146,7 @@ class CustomAppbar extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 16),
-        // Page title
+        //page title
         Expanded(
           child: Text(
             pageTitle ?? 'Page',

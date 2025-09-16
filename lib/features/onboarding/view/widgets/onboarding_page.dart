@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -326,11 +327,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
         CustomElevatedButton(
           text: "Upload Photo",
-          onTap: () {
-            // For demo purposes
-            provider.updateProfilePicture(
-              'assets/images/profile_placeholder.png',
+          onTap: () async {
+            final result = await FilePicker.platform.pickFiles(
+              type: FileType.image,
             );
+            if (result != null && result.files.single.path != null) {
+              provider.updateProfilePicture(result.files.single.path!);
+            }
           },
           gradient: LinearGradient(
             colors: [AppColors.background, AppColors.background],

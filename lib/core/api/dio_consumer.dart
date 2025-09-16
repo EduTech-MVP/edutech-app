@@ -8,7 +8,7 @@ class DioConsumer extends ApiConsumer {
   final Dio dio;
   final String baseurl;
 
-  DioConsumer({required this.dio, this.baseurl = UserEndpoints.baseUrl}) {
+  DioConsumer({required this.dio, this.baseurl = Endpoints.baseUrl}) {
     dio.options.baseUrl = baseurl;
     dio.interceptors.add(ApiInterceptors());
     dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
@@ -18,7 +18,7 @@ class DioConsumer extends ApiConsumer {
   Future get(String path, {Map<String, dynamic>? queryParameters}) async {
     try {
       final response = await dio.get(path, queryParameters: queryParameters);
-      return response.data;
+      return response;
     } on DioException catch (e) {
       handleDioExceptions(e);
     }

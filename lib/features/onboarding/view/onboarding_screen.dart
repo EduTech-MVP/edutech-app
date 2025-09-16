@@ -15,8 +15,16 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Use the existing provider from the app level
-    final provider = Provider.of<OnboardingProvider>(context);
+    // Retrieve userType from route arguments
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final userType = args?['userType'] as String?;
+
+    // Set userType in provider
+    final provider = Provider.of<OnboardingProvider>(context, listen: false);
+    if (userType != null && provider.data.userType == null) {
+      provider.updateUserType(userType);
+    }
 
     return GradientScaffold.auth(
       body: SafeArea(
@@ -27,67 +35,70 @@ class OnboardingScreen extends StatelessWidget {
               padding: const EdgeInsets.all(AppSpacing.spacing24),
               child: Column(
                 children: [
-                  // Back Button and Progress Text
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (provider.currentStep > 0)
-                        GestureDetector(
-                          onTap: () {
-                            provider.previousStep();
-                          },
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.arrow_back,
-                                color: AppColors.sky800,
-                                size: 20,
+                  Consumer<OnboardingProvider>(
+                    builder: (context, provider, child) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (provider.currentStep > 0)
+                            GestureDetector(
+                              onTap: () {
+                                provider.previousStep();
+                              },
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.arrow_back,
+                                    color: AppColors.sky800,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: AppSpacing.spacing8),
+                                  Text(
+                                    "Back",
+                                    style: AppTypography.paragrah.copyWith(
+                                      color: AppColors.sky800,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(width: AppSpacing.spacing8),
-                              Text(
-                                "Back",
-                                style: AppTypography.paragrah.copyWith(
-                                  color: AppColors.sky800,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                ),
+                            )
+                          else
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.arrow_back,
+                                    color: AppColors.sky800,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: AppSpacing.spacing8),
+                                  Text(
+                                    "Back",
+                                    style: AppTypography.paragrah.copyWith(
+                                      color: AppColors.sky800,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        )
-                      else
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.arrow_back,
-                                color: AppColors.sky800,
-                                size: 20,
-                              ),
-                              const SizedBox(width: AppSpacing.spacing8),
-                              Text(
-                                "Back",
-                                style: AppTypography.paragrah.copyWith(
-                                  color: AppColors.sky800,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                            ),
 
-                      Text(
-                        "${provider.currentStep + 1} of ${provider.totalSteps}",
-                        style: AppTypography.subtle.copyWith(
-                          color: AppColors.sky900,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
+                          Text(
+                            "${provider.currentStep + 1} of ${provider.totalSteps}",
+                            style: AppTypography.subtle.copyWith(
+                              color: AppColors.sky900,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
 
                   const SizedBox(height: AppSpacing.spacing16),
@@ -106,7 +117,6 @@ class OnboardingScreen extends StatelessWidget {
             Expanded(
               child: PageView.builder(
                 controller: provider.pageController,
-                // Disable swiping to ensure validation
                 physics: const NeverScrollableScrollPhysics(),
                 onPageChanged: (index) {
                   provider.updateCurrentStep(index);

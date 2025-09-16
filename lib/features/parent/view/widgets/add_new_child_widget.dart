@@ -1,9 +1,14 @@
+import 'package:dio/dio.dart';
+import 'package:edutech_app/core/api/dio_consumer.dart';
 import 'package:edutech_app/core/common/widgets/custom_textformfeild.dart';
 import 'package:edutech_app/core/common/widgets/elevated_bottom.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
+import 'package:edutech_app/features/auth/controllers/user_provider.dart';
+import 'package:edutech_app/features/parent/model/add_student_request.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddNewChildWidget extends StatefulWidget {
   final VoidCallback? onClose;
@@ -287,10 +292,45 @@ class _AddNewChildWidgetState extends State<AddNewChildWidget> {
                 width: double.infinity,
                 child: CustomElevatedButton(
                   text: 'Create Account',
-                  onTap: () {
+                  onTap: () async {
                     if (_formKey.currentState!.validate() &&
                         _selectedGrade != null) {
-                      widget.onCreateAccount?.call();
+                      try {
+                        // Create request object
+                        final request = AddStudentRequest(
+                          fullName: _fullNameController.text,
+                          username: _usernameController.text,
+                          password: _passwordController.text,
+                          confirmPassword: _confirmPasswordController.text,
+                          dateOfBirth: _dateController.text,
+                          grade: _mapGradeToNumber(
+                            _selectedGrade!,
+                          ), // convert dropdown to number
+                        );
+
+                        final student = Provider.of<UserProvider>(
+                          context,
+                        ).addStudent(request);
+
+                        // Close dialog
+                        widget.onCreateAccount?.call();
+
+                        // Show success message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Child ${student} created successfully!',
+                            ),
+                          ),
+                        );
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Failed to create child: $e'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
                     } else if (_selectedGrade == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -307,6 +347,11 @@ class _AddNewChildWidgetState extends State<AddNewChildWidget> {
         ),
       ),
     );
+  }
+
+  int _mapGradeToNumber(String grade) {
+    if (grade == 'Kindergarten') return 0;
+    return int.tryParse(grade.replaceAll('Grade ', '')) ?? 0;
   }
 
   @override

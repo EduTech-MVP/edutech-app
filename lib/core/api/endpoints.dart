@@ -10,10 +10,11 @@ class Endpoints {
   static String createSession = '/ChatBot/create-session';
   static String sendMessage = '/ChatBot/send-message';
   static String getSessions = '/ChatBot/sessions';
-  static String sessionsHistory = '/ChatBot/history/{sessionId}';
+  static String sessionsHistory = '/ChatBot/history';
 }
 
 class ApiKey {
+  //signup apikeys
   static String fullName = "FullName";
   static String userName = "Username";
   static String signupEmail = "Email";
@@ -22,8 +23,8 @@ class ApiKey {
   static String dateofBirth = "DateOfBirth";
   static String signupUserType = "UserType";
   static String bio = 'Bio';
-  static String bio = 'Bio';
-
+  static String refreshToken = "refreshToken";
+  // signin apikeys
   static String email = "email";
   static String password = "password";
   static String userType = "userType";
@@ -37,4 +38,20 @@ class ApiKey {
   static String id = "id";
   static String firstName = "firstName";
   static String lastName = "lastName";
+  //chat bot apikeys
+  static String sessionid = "sessionId";
+  static String createdat = "createdAt";
+  static String clusterid = "clusterId";
+  static String response = "response";
+  static String message = "message";
+  static String choices = "choices";
+  static String timestamp = "timestamp";
+  static String userId = "userId";
+  static String lastActivityAt = "lastActivityAt";
+  static String items = "items";
+  static String isActive = "isActive";
+  static String messageId = "messageId";
+  static String content = "content";
+  static String isFromUser = "isFromUser";
+  static String sentAt = "sentAt";
 }

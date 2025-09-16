@@ -1,12 +1,15 @@
-import 'package:edutech_app/core/services/api_services.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:edutech_app/core/routes/app_routes.dart';
+import 'package:edutech_app/features/auth/controllers/user_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../model/onboarding_data_model.dart';
 import '../model/onboarding_model.dart' as ui_model;
 
 class OnboardingProvider extends ChangeNotifier {
   final OnboardingData _data = OnboardingData();
   int _currentStep = 0;
+  final UserProvider _userProvider;
 
   final PageController pageController = PageController();
 
@@ -21,6 +24,7 @@ class OnboardingProvider extends ChangeNotifier {
   String? _profilePictureError;
   String? _bioError;
   String? _dateOfBirthError;
+  String? _userTypeError;
   String? _errorMessage;
 
   // Getters
@@ -30,7 +34,6 @@ class OnboardingProvider extends ChangeNotifier {
   int get totalSteps => _uiModel.onboardingData.length;
   String? get errorMessage => _errorMessage;
 
-  // Validation error getters
   String? get fullNameError => _fullNameError;
   String? get emailError => _emailError;
   String? get usernameError => _usernameError;
@@ -39,6 +42,10 @@ class OnboardingProvider extends ChangeNotifier {
   String? get profilePictureError => _profilePictureError;
   String? get bioError => _bioError;
   String? get dateOfBirthError => _dateOfBirthError;
+  String? get userTypeError => _userTypeError;
+
+  OnboardingProvider({required UserProvider userProvider})
+    : _userProvider = userProvider;
 
   bool nextStep() {
     if (!validateCurrentStep()) {
@@ -58,7 +65,6 @@ class OnboardingProvider extends ChangeNotifier {
   void previousStep() {
     if (_currentStep > 0) {
       clearValidationErrors();
-
       pageController.previousPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -107,7 +113,6 @@ class OnboardingProvider extends ChangeNotifier {
 
   void updateProfilePicture(String path) {
     _data.profilePicturePath = path;
-    // Clear error when user uploads
     _profilePictureError = null;
     notifyListeners();
   }
@@ -124,7 +129,15 @@ class OnboardingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Validation methods
+  void updateUserType(String value) {
+    _data.userType = value;
+    _userTypeError = null;
+    if (kDebugMode) {
+      print('UserType updated: $value');
+    }
+    notifyListeners();
+  }
+
   bool validateCurrentStep() {
     switch (_currentStep) {
       case 0:
@@ -143,7 +156,6 @@ class OnboardingProvider extends ChangeNotifier {
   bool validatePersonalInfo() {
     bool isValid = true;
 
-    // Validate full name
     if (_data.fullName == null || _data.fullName!.isEmpty) {
       _fullNameError = "Full name is required";
       isValid = false;
@@ -154,7 +166,6 @@ class OnboardingProvider extends ChangeNotifier {
       _fullNameError = null;
     }
 
-    // Validate email
     if (_data.email == null || _data.email!.isEmpty) {
       _emailError = "Email is required";
       isValid = false;
@@ -174,7 +185,6 @@ class OnboardingProvider extends ChangeNotifier {
   bool validateAccountSecurity() {
     bool isValid = true;
 
-    // Validate username
     if (_data.username == null || _data.username!.isEmpty) {
       _usernameError = "Username is required";
       isValid = false;
@@ -185,7 +195,6 @@ class OnboardingProvider extends ChangeNotifier {
       _usernameError = null;
     }
 
-    // Validate password
     if (_data.password == null || _data.password!.isEmpty) {
       _passwordError = "Password is required";
       isValid = false;
@@ -196,7 +205,6 @@ class OnboardingProvider extends ChangeNotifier {
       _passwordError = null;
     }
 
-    // Validate confirm password
     if (_data.confirmPassword == null || _data.confirmPassword!.isEmpty) {
       _confirmPasswordError = "Please confirm your password";
       isValid = false;
@@ -227,7 +235,6 @@ class OnboardingProvider extends ChangeNotifier {
       _bioError = null;
     }
 
-    // Validate date of birth
     if (_data.dateOfBirth == null) {
       _dateOfBirthError = "Date of birth is required";
       isValid = false;
@@ -245,6 +252,17 @@ class OnboardingProvider extends ChangeNotifier {
         _dateOfBirthError = null;
       }
     }
+
+    if (_data.userType == null || _data.userType!.isEmpty) {
+      _userTypeError = "User type is required";
+      isValid = false;
+    } else if (!['Teacher', 'Parent'].contains(_data.userType)) {
+      _userTypeError = "User type must be Teacher or Parent";
+      isValid = false;
+    } else {
+      _userTypeError = null;
+    }
+
     notifyListeners();
     return isValid;
   }
@@ -258,6 +276,8 @@ class OnboardingProvider extends ChangeNotifier {
     _profilePictureError = null;
     _bioError = null;
     _dateOfBirthError = null;
+    _userTypeError = null;
+    _errorMessage = null;
     notifyListeners();
   }
 
@@ -267,34 +287,48 @@ class OnboardingProvider extends ChangeNotifier {
     }
 
     try {
-      // Prepare optional profile image
-      PlatformFile? profileImage;
-      if (_data.profilePicturePath != null &&
-          _data.profilePicturePath!.isNotEmpty) {
-        profileImage = PlatformFile(
-          name: 'profile.jpg',
-          path: _data.profilePicturePath,
-          size: 0, // Size not used
-        );
+      // Format dateOfBirth as MM/dd/yyyy
+      final formattedDateOfBirth = _data.dateOfBirth != null
+          ? DateFormat('MM/dd/yyyy').format(_data.dateOfBirth!)
+          : '';
+      if (kDebugMode) {
+        print('Formatted DateOfBirth: $formattedDateOfBirth');
+        print('UserType: ${_data.userType}');
       }
 
-      // Call register API
-      await ApiService().register(
-        fullName: _data.fullName!,
-        username: _data.username!,
-        email: _data.email!,
-        password: _data.password!,
-        confirmPassword: _data.confirmPassword!,
-        dateOfBirth: _data.dateOfBirth!,
-        userType: 'Parent', // Hardcoded to avoid UI changes
-        profileImage: profileImage,
-        bio: _data.bio,
-        subject: null,
+      // Populate UserProvider TextEditingControllers
+      _userProvider.signupFullName.text = _data.fullName ?? '';
+      _userProvider.signupEmail.text = _data.email ?? '';
+      _userProvider.signupUserName.text = _data.username ?? '';
+      _userProvider.signupPassword.text = _data.password ?? '';
+      _userProvider.signupConfirmPassword.text = _data.confirmPassword ?? '';
+      _userProvider.bio.text = _data.bio ?? '';
+      _userProvider.dateOfBirth.text = formattedDateOfBirth;
+
+      // Call UserProvider.signUp with profile picture path and userType
+      final success = await _userProvider.signUp(
+        profilePicturePath: _data.profilePicturePath,
+        userType: _data.userType,
       );
 
-      // Navigate to mainscreen (original)
-      Navigator.pushReplacementNamed(context, '/mainscreen');
-      return true;
+      if (success) {
+        switch (_data.userType) {
+          case 'Teacher':
+            Navigator.pushReplacementNamed(
+              context,
+              AppRoutes.teacherMainScreen,
+            );
+          case 'Parent':
+            Navigator.pushReplacementNamed(context, AppRoutes.parentMainScreen);
+        }
+        return true;
+      } else {
+        _errorMessage = _userProvider.error ?? 'Registration failed';
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(_errorMessage!)));
+        return false;
+      }
     } catch (e) {
       _errorMessage = 'Registration failed: $e';
       ScaffoldMessenger.of(

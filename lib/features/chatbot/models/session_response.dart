@@ -12,15 +12,15 @@ class SessionResponse {
   });
 
   factory SessionResponse.fromJson(Map<String, dynamic> json) {
-    if (json['sessionId'] == null ||
-        json['createdAt'] == null ||
-        json['clusterId'] == null) {
+    if (json[ApiKey.sessionid] == null ||
+        json[ApiKey.createdat] == null ||
+        json[ApiKey.clusterid] == null) {
       throw FormatException('Missing required fields in JSON: $json');
     }
     return SessionResponse(
-      sessionId: json['sessionId'] as String,
-      createdAt: json['createdAt'] as String,
-      clusterId: json['clusterId'] as int,
+      sessionId: json[ApiKey.sessionid] as String,
+      createdAt: json[ApiKey.createdat] as String,
+      clusterId: json[ApiKey.clusterid] as int,
     );
   }
 }

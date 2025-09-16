@@ -1,3 +1,4 @@
+import 'package:edutech_app/features/auth/controllers/user_provider.dart';
 import 'package:edutech_app/features/parent/view/widgets/add_new_child_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,6 @@ class AddChildDialog {
           child: AddNewChildWidget(
             onClose: () => Navigator.of(context).pop(),
             onCreateAccount: () {
-              // Handle account creation logic here
               Navigator.of(context).pop();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(

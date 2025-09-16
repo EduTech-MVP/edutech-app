@@ -1,8 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:edutech_app/core/api/dio_consumer.dart';
 import 'package:edutech_app/core/api/endpoints.dart';
 import 'package:edutech_app/core/cache/cache_helper.dart';
 import 'package:edutech_app/core/errors/exceptions.dart';
 import 'package:edutech_app/features/auth/models/signin_model.dart';
+import 'package:edutech_app/features/auth/models/signup_model.dart';
+import 'package:edutech_app/features/auth/models/student_model.dart';
+import 'package:edutech_app/features/auth/models/user_model.dart';
+import 'package:edutech_app/features/parent/model/add_student_request.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -23,12 +28,14 @@ class UserProvider extends ChangeNotifier {
 
   // State
   bool _loading = false;
+  UserModel? _profile;
   String? _error;
   SigninModel? _usersigned;
 
   bool get loading => _loading;
   String? get error => _error;
   SigninModel? get usersigned => _usersigned;
+  UserModel? get profile => _profile;
 
   Future<bool> signin() async {
     _loading = true;
@@ -37,7 +44,7 @@ class UserProvider extends ChangeNotifier {
 
     try {
       final response = await api.post(
-        UserEndpoints.signin,
+        Endpoints.signin,
         data: {
           ApiKey.email: signInEmail.text,
           ApiKey.password: signInPassword.text,
@@ -60,7 +67,78 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  // dispose controllers when provider is removed
+  Future<bool> signUp({String? profilePicturePath, String? userType}) async {
+    _loading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      // Prepare form data
+      final formData = FormData.fromMap({
+        ApiKey.fullName: signupFullName.text,
+        ApiKey.signupEmail: signupEmail.text,
+        ApiKey.userName: signupUserName.text,
+        ApiKey.signupPassword: signupPassword.text,
+        ApiKey.confirmPassword: signupConfirmPassword.text,
+        ApiKey.dateofBirth: dateOfBirth.text,
+        ApiKey.bio: bio.text,
+        ApiKey.signupUserType: userType,
+      });
+
+      final response = await api.post(
+        Endpoints.register,
+        data: formData,
+        isFormData: true,
+      );
+
+      final signupModel = SignupModel.fromJson(response);
+
+      // Save token
+      if (signupModel.token.isNotEmpty) {
+        CacheHelper().saveData(key: ApiKey.token, value: signupModel.token);
+        return true;
+      } else {
+        _error = "Signup failed: missing token";
+        return false;
+      }
+    } on ServerException catch (e) {
+      _error = e.errorModel.errorMessage;
+      return false;
+    } catch (e) {
+      _error = "Unexpected error: $e";
+      return false;
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getProfile() async {
+    _loading = true;
+    notifyListeners();
+
+    try {
+      final response = await api.get(Endpoints.profile);
+      _profile = UserModel.fromJson(response[ApiKey.user]);
+    } on ServerException catch (e) {
+      _error = e.errorModel.errorMessage;
+    } catch (e) {
+      _error = "Unexpected error: $e";
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<Student> addStudent(AddStudentRequest request) async {
+    final response = await api.post(
+      Endpoints.addStudent, // make sure you defined this
+      data: request.toJson(),
+    );
+
+    return Student.fromJson(response['student']);
+  }
+
   @override
   void dispose() {
     signInEmail.dispose();

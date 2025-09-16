@@ -48,7 +48,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   titleText: "Parent",
                   subtitleText: "Monitor your child's learning progress",
                   onTap: () {
-                    Navigator.pushNamed(context, '/onboarding');
+                    Navigator.pushNamed(
+                      context,
+                      '/onboarding',
+                      arguments: {'userType': 'Parent'},
+                    );
                   },
                 ),
 
@@ -61,7 +65,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   titleText: "Teacher",
                   subtitleText: "Create and manage learning plan",
                   onTap: () {
-                    Navigator.pushNamed(context, '/onboarding');
+                    Navigator.pushNamed(
+                      context,
+                      '/onboarding',
+                      arguments: {'userType': 'Teacher'},
+                    );
                   },
                 ),
 

@@ -4,6 +4,7 @@ import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
+import 'package:edutech_app/features/parent/view/parent_main_screen.dart';
 import 'package:edutech_app/features/parent/view/widgets/add_child_dialog.dart';
 import 'package:edutech_app/features/parent/view/widgets/child_card.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,10 @@ class _ChildrenScreenState extends State<ChildrenScreen> {
     return GradientScaffold.main(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80 + MediaQuery.of(context).padding.top),
-        child: const CustomAppbar.page(pageTitle: "Children"),
+        child: const CustomAppbar.page(
+          navigationPage: ParentMainScreen(),
+          pageTitle: "Children",
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
