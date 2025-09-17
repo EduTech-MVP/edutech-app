@@ -1,12 +1,9 @@
 import 'dart:ui';
-import 'package:edutech_app/core/routes/app_routes.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/auth/controllers/user_provider.dart';
-import 'package:edutech_app/features/student/views/main_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 

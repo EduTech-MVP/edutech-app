@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:edutech_app/core/common/widgets/custom_textformfeild.dart';
 import 'package:edutech_app/core/common/widgets/elevated_bottom.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
@@ -306,7 +308,6 @@ class _AddNewChildWidgetState extends State<AddNewChildWidget> {
                           ),
                         );
                       } catch (e) {
-                        print(e.toString());
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Failed to create child: $e'),

@@ -83,6 +83,7 @@ class YourChildrenCard extends StatelessWidget {
         const SizedBox(height: AppSpacing.lg),
 
         // Children List
+        // ignore: unnecessary_to_list_in_spreads
         ...children.map((child) => _buildChildSummaryCard(child)).toList(),
       ],
     );
@@ -97,6 +98,7 @@ class YourChildrenCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSpacing.radiusLG),
         boxShadow: [
           BoxShadow(
+            // ignore: deprecated_member_use
             color: Colors.black.withOpacity(0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),

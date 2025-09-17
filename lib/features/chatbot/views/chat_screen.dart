@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
@@ -11,6 +13,8 @@ import 'package:provider/provider.dart';
 
 class ChatScreen extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
+
+  ChatScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +92,6 @@ class ChatScreen extends StatelessWidget {
                       SizedBox(width: 8),
                       GestureDetector(
                         onTap: () {
-                          print('Send button pressed at ${DateTime.now()}');
                           controller.sendMessage(_controller.text);
                           _controller.clear();
                         },

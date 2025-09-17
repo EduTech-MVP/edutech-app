@@ -7,7 +7,8 @@ import 'core/routes/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await CacheHelper().init();
+  await CacheHelper.init();
+
   runApp(MultiProvider(providers: appProviders, child: const EduTechApp()));
 }
 
@@ -20,7 +21,7 @@ class EduTechApp extends StatelessWidget {
       title: 'EduTech',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      initialRoute: AppRoutes.signUp,
+      initialRoute: AppRoutes.splashScreen,
       routes: AppRoutes.routes,
     );
   }

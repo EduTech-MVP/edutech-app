@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:edutech_app/core/api/endpoints.dart';
 import 'package:edutech_app/core/common/widgets/custom_card.dart';
 import 'package:edutech_app/core/common/widgets/custom_textformfeild.dart';
@@ -113,7 +115,6 @@ class SignInScreen extends StatelessWidget {
                                             .usersigned!
                                             .user
                                             .userType;
-                                        print("User role: $role");
 
                                         if (role == ApiKey.student) {
                                           Navigator.pushReplacementNamed(
@@ -185,9 +186,7 @@ class SignInScreen extends StatelessWidget {
                           // Forgot Password Button
                           Center(
                             child: TextButton(
-                              onPressed: () {
-                                // TODO: Implement forgot password
-                              },
+                              onPressed: () {},
                               child: Text(
                                 "Forgot your password?",
                                 style: AppTypography.paragrah.copyWith(

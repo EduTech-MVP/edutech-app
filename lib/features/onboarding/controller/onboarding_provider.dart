@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:edutech_app/core/routes/app_routes.dart';
 import 'package:edutech_app/features/auth/controllers/user_provider.dart';
 import 'package:flutter/foundation.dart';

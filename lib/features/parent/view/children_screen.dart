@@ -4,7 +4,6 @@ import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
-import 'package:edutech_app/features/parent/view/parent_main_screen.dart';
 import 'package:edutech_app/features/parent/view/widgets/add_child_dialog.dart';
 import 'package:edutech_app/features/parent/view/widgets/child_card.dart';
 import 'package:flutter/material.dart';

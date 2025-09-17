@@ -1,14 +1,11 @@
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/common/widgets/section_header.dart';
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
-import 'package:edutech_app/core/routes/app_routes.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/teacher/controller/teacher_classes_controller.dart';
 import 'package:edutech_app/features/teacher/view/class_details_screen.dart';
-import 'package:edutech_app/features/teacher/view/teacher_home_screen.dart';
-import 'package:edutech_app/features/teacher/view/teacher_main_screen.dart';
 import 'package:edutech_app/features/teacher/view/widgets/add_class_dialog.dart';
 import 'package:edutech_app/features/teacher/view/widgets/class_card.dart';
 import 'package:flutter/material.dart';
@@ -51,10 +48,6 @@ class TeacherClassesScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget _buildAppBar(BuildContext context) {
-    return const CustomAppbar.page(pageTitle: 'Classes');
   }
 
   Widget _buildClassesSection(BuildContext context) {

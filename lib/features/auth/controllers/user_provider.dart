@@ -32,7 +32,7 @@ class UserProvider extends ChangeNotifier {
   String? error;
   SigninModel? _usersigned;
   Student? _student;
-  List<Student> _children = [];
+  final List<Student> _children = [];
   List<Student> get children => _children;
 
   Student? get student => _student;
@@ -58,7 +58,10 @@ class UserProvider extends ChangeNotifier {
 
       // Save token & userId
       CacheHelper().saveData(key: ApiKey.token, value: _usersigned!.token);
-      CacheHelper().saveData(key: ApiKey.id, value: _usersigned!.user.userType);
+      CacheHelper().saveData(
+        key: ApiKey.userType,
+        value: _usersigned!.user.userType,
+      );
 
       return true;
     } on ServerException catch (e) {
@@ -99,6 +102,11 @@ class UserProvider extends ChangeNotifier {
       // Save token
       if (signupModel.token.isNotEmpty) {
         CacheHelper().saveData(key: ApiKey.token, value: signupModel.token);
+        CacheHelper().saveData(
+          key: ApiKey.userType,
+          value: signupModel.user.userType,
+        );
+
         return true;
       } else {
         error = "Signup failed: missing token";

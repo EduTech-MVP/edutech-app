@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/chatbot/controllers/chat_controller.dart';

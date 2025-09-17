@@ -104,8 +104,12 @@ class OnboardingScreen extends StatelessWidget {
                   const SizedBox(height: AppSpacing.spacing16),
 
                   // Progress Bar
-                  LinearProgress(
-                    value: (provider.currentStep + 1) / provider.totalSteps,
+                  Consumer<OnboardingProvider>(
+                    builder: (context, provider, _) {
+                      return LinearProgress(
+                        value: (provider.currentStep + 1) / provider.totalSteps,
+                      );
+                    },
                   ),
                 ],
               ),

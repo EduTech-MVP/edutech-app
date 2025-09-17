@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
 import 'package:edutech_app/core/common/widgets/profile_achievements_card.dart';

@@ -2,7 +2,6 @@ import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/common/widgets/profile_card.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
-import 'package:edutech_app/features/parent/view/parent_main_screen.dart';
 import 'package:flutter/material.dart';
 
 class ParentProfileScreen extends StatelessWidget {

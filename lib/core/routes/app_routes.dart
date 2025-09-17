@@ -1,5 +1,6 @@
 import 'package:edutech_app/features/auth/view/sign_in_screen.dart';
 import 'package:edutech_app/features/auth/view/sign_up_screen.dart';
+import 'package:edutech_app/features/auth/view/splash_screen.dart';
 import 'package:edutech_app/features/parent/view/children_screen.dart';
 import 'package:edutech_app/features/student/views/student_home.dart';
 import 'package:edutech_app/features/student/views/main_screen.dart';
@@ -23,13 +24,14 @@ class AppRoutes {
   static const String teacherMainScreen = '/teacher-main';
   static const String teacherClassDetails = '/teacher-class-details';
   static const String teacherClasses = '/teacher-classes';
-
+  static const String splashScreen = '/splash_screen';
   static const String student = '/student-home';
 
   static Map<String, WidgetBuilder> get routes {
     return {
       onboarding: (context) => const OnboardingScreen(),
       student: (context) => const StudentHome(),
+      splashScreen: (context) => const SplashScreen(),
 
       signUp: (context) => const SignUpScreen(),
       signIn: (context) => SignInScreen(),

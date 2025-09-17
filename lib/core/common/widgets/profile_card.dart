@@ -44,7 +44,7 @@ class ProfileCard extends StatelessWidget {
           const SizedBox(height: 20),
 
           // Age or grade (if you have it in UserModel)
-          Text("${user.userType ?? 'Unknown'}", style: AppTypography.small),
+          Text(user.userType ?? 'Unknown', style: AppTypography.small),
         ],
       ),
     );
