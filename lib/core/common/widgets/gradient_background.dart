@@ -8,7 +8,6 @@ class GradientScaffold extends StatelessWidget {
   final List<Color> gradientColors;
   final AlignmentGeometry? begin;
   final AlignmentGeometry? end;
-  final Drawer? drawer;
 
   const GradientScaffold({
     super.key,
@@ -18,7 +17,6 @@ class GradientScaffold extends StatelessWidget {
     required this.gradientColors,
     this.begin,
     this.end,
-    this.drawer,
   });
 
   GradientScaffold.auth({
@@ -28,7 +26,6 @@ class GradientScaffold extends StatelessWidget {
     this.bottomNavigationBar,
     this.begin,
     this.end,
-    this.drawer,
   }) : gradientColors = [AppColors.gradientStart, AppColors.gradientEnd];
 
   // for all other app screens
@@ -39,7 +36,6 @@ class GradientScaffold extends StatelessWidget {
     this.bottomNavigationBar,
     this.begin,
     this.end,
-    this.drawer,
   }) : gradientColors = const [
          Color(0xFFE0F2FE),
          Color(0xFFE4F4FE),

@@ -1,8 +1,10 @@
 import 'dart:ui';
+import 'package:edutech_app/core/routes/app_routes.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/auth/controllers/user_provider.dart';
+import 'package:edutech_app/features/student/views/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,7 +16,7 @@ class CustomAppbar extends StatelessWidget {
   final VoidCallback? onTrailingPressed;
   final VoidCallback? onBackPressed;
   final bool isHomePage;
-  final Widget? navigationPage;
+  final String? navigationPage;
 
   const CustomAppbar({
     super.key,
@@ -76,10 +78,15 @@ class CustomAppbar extends StatelessWidget {
       children: [
         // Profile avatar
         CircleAvatar(
-          backgroundImage: NetworkImage('${user!.profileImageUrl}'),
           radius: MediaQuery.of(context).size.width * 0.06,
-          backgroundColor: AppColors.sky100,
+          backgroundImage:
+              user?.profileImageUrl != null && user!.profileImageUrl!.isNotEmpty
+              ? NetworkImage(user.profileImageUrl!)
+              : NetworkImage(
+                  'http://edutech.runasp.net/profile-images/default.jpg',
+                ), // fallback URL
         ),
+
         const SizedBox(width: 16),
         // Greeting section
         Expanded(
@@ -123,28 +130,23 @@ class CustomAppbar extends StatelessWidget {
     return Row(
       children: [
         //back arrow
-        GestureDetector(
-          onTap:
-              onBackPressed ??
-              () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => navigationPage!),
-              ),
-          child: Container(
-            width: 24,
-            height: 24,
-            alignment: Alignment.center,
-            child: SvgPicture.asset(
-              'assets/icons/backarrow.svg',
-              width: 24,
-              height: 24,
-              colorFilter: ColorFilter.mode(
-                AppColors.neutral800,
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
-        ),
+        // GestureDetector(
+        //   onTap: () => Navigator.pop(context),
+        //   child: Container(
+        //     width: 24,
+        //     height: 24,
+        //     alignment: Alignment.center,
+        //     child: SvgPicture.asset(
+        //       'assets/icons/backarrow.svg',
+        //       width: 24,
+        //       height: 24,
+        //       colorFilter: ColorFilter.mode(
+        //         AppColors.neutral800,
+        //         BlendMode.srcIn,
+        //       ),
+        //     ),
+        //   ),
+        // ),
         const SizedBox(width: 16),
         //page title
         Expanded(

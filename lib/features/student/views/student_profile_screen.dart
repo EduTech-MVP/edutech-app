@@ -12,7 +12,9 @@ class StudentProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GradientScaffold.main(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80 + MediaQuery.of(context).padding.top),
+        preferredSize: Size.fromHeight(
+          MediaQuery.of(context).padding.top * 2.5,
+        ),
         child: const CustomAppbar.page(pageTitle: "Profile"),
       ),
       body: SingleChildScrollView(
@@ -27,13 +29,13 @@ class StudentProfileScreen extends StatelessWidget {
                   Row(
                     children: [
                       const ProfileAchievementsCard(
-                        image: 'assets/images/book.svg',
+                        image: 'assets/icons/book.svg',
                         num: 37,
                         acheive: 'Lessons Completed',
                       ),
                       const SizedBox(width: 10),
                       const ProfileAchievementsCard(
-                        image: 'assets/icons/grad.svg',
+                        image: 'assets/icons/grad_cap.svg',
                         num: 4,
                         acheive: 'Classes Enrolled in',
                       ),

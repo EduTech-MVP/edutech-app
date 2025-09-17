@@ -1,6 +1,7 @@
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/common/widgets/section_header.dart';
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
+import 'package:edutech_app/core/routes/app_routes.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
@@ -16,7 +17,9 @@ class TeacherHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GradientScaffold.main(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(90 + MediaQuery.of(context).padding.top),
+        preferredSize: Size.fromHeight(
+          MediaQuery.of(context).padding.top * 2.5,
+        ),
         child: _buildAppBar(context),
       ),
       body: SafeArea(
@@ -123,7 +126,7 @@ class TeacherHomeScreen extends StatelessWidget {
       icon: Icon(Icons.school_outlined, size: 36, color: AppColors.sky500),
       actionButtonText: 'View All',
       onActionPressed: () {
-        Navigator.pushNamed(context, '');
+        Navigator.pushNamed(context, AppRoutes.teacherClasses);
       },
       child: Padding(
         padding: const EdgeInsets.only(top: AppSpacing.spacing16),
@@ -134,7 +137,7 @@ class TeacherHomeScreen extends StatelessWidget {
               child: HomeClassCard(
                 classData: classData,
                 onTap: () {
-                  // Navigate to class detail
+                  Navigator.pushNamed(context, AppRoutes.teacherClassDetails);
                 },
               ),
             );

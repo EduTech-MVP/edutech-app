@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:edutech_app/core/api/dio_consumer.dart';
 import 'package:edutech_app/core/common/widgets/custom_textformfeild.dart';
 import 'package:edutech_app/core/common/widgets/elevated_bottom.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
@@ -29,21 +27,7 @@ class _AddNewChildWidgetState extends State<AddNewChildWidget> {
   final _dateController = TextEditingController();
 
   String? _selectedGrade;
-  final List<String> _grades = [
-    'Kindergarten',
-    'Grade 1',
-    'Grade 2',
-    'Grade 3',
-    'Grade 4',
-    'Grade 5',
-    'Grade 6',
-    'Grade 7',
-    'Grade 8',
-    'Grade 9',
-    'Grade 10',
-    'Grade 11',
-    'Grade 12',
-  ];
+  final List<String> _grades = ['Grade 4', 'Grade 5', 'Grade 6'];
 
   @override
   Widget build(BuildContext context) {
@@ -296,21 +280,19 @@ class _AddNewChildWidgetState extends State<AddNewChildWidget> {
                     if (_formKey.currentState!.validate() &&
                         _selectedGrade != null) {
                       try {
-                        // Create request object
-                        final request = AddStudentRequest(
-                          fullName: _fullNameController.text,
-                          username: _usernameController.text,
-                          password: _passwordController.text,
-                          confirmPassword: _confirmPasswordController.text,
-                          dateOfBirth: _dateController.text,
-                          grade: _mapGradeToNumber(
-                            _selectedGrade!,
-                          ), // convert dropdown to number
-                        );
-
-                        final student = Provider.of<UserProvider>(
+                        await Provider.of<UserProvider>(
                           context,
-                        ).addStudent(request);
+                          listen: false,
+                        ).addStudent(
+                          AddStudentRequest(
+                            fullName: _fullNameController.text,
+                            username: _usernameController.text,
+                            password: _passwordController.text,
+                            confirmPassword: _confirmPasswordController.text,
+                            dateOfBirth: _dateController.text,
+                            grade: _mapGradeToNumber(_selectedGrade!),
+                          ),
+                        );
 
                         // Close dialog
                         widget.onCreateAccount?.call();
@@ -319,11 +301,12 @@ class _AddNewChildWidgetState extends State<AddNewChildWidget> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              'Child ${student} created successfully!',
+                              'Child ${Provider.of<UserProvider>(context, listen: false).student!.firstName} account created successfully!',
                             ),
                           ),
                         );
                       } catch (e) {
+                        print(e.toString());
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Failed to create child: $e'),

@@ -9,46 +9,23 @@ import 'package:edutech_app/features/parent/view/widgets/add_child_dialog.dart';
 import 'package:edutech_app/features/parent/view/widgets/child_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:edutech_app/features/auth/controllers/user_provider.dart';
 
-class ChildrenScreen extends StatefulWidget {
+class ChildrenScreen extends StatelessWidget {
   const ChildrenScreen({super.key});
 
   @override
-  State<ChildrenScreen> createState() => _ChildrenScreenState();
-}
-
-class _ChildrenScreenState extends State<ChildrenScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> children = [
-      {
-        'name': 'Aubrey Graham',
-        'username': '@certifiedloverboy',
-        'lessonsCompleted': 37,
-        'classes': 4,
-        'points': 67,
-        'profileImage': null,
-      },
-      {
-        'name': 'Aubrey Graham',
-        'username': '@certifiedloverboy',
-        'lessonsCompleted': 37,
-        'classes': 4,
-        'points': 67,
-        'profileImage': null,
-      },
-    ];
+    final userProvider = Provider.of<UserProvider>(context);
 
     return GradientScaffold.main(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80 + MediaQuery.of(context).padding.top),
+        preferredSize: Size.fromHeight(
+          MediaQuery.of(context).padding.top * 2.5,
+        ),
         child: const CustomAppbar.page(
-          navigationPage: ParentMainScreen(),
+          //  navigationPage: ParentMainScreen(),
           pageTitle: "Children",
         ),
       ),
@@ -57,6 +34,7 @@ class _ChildrenScreenState extends State<ChildrenScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Header
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -97,19 +75,21 @@ class _ChildrenScreenState extends State<ChildrenScreen> {
 
             // Children List
             Expanded(
-              child: children.isEmpty
+              child: userProvider.loading
+                  ? const Center(child: CircularProgressIndicator())
+                  : userProvider.children.isEmpty
                   ? _buildEmptyState()
                   : ListView.builder(
-                      itemCount: children.length,
+                      itemCount: userProvider.children.length,
                       itemBuilder: (context, index) {
-                        final child = children[index];
+                        final student = userProvider.children[index];
                         return ChildCard(
-                          name: child['name'],
-                          username: child['username'],
-                          lessonsCompleted: child['lessonsCompleted'],
-                          classes: child['classes'],
-                          points: child['points'],
-                          profileImage: child['profileImage'],
+                          name: '${student.firstName} ${student.lastName}',
+                          username: student.username,
+                          lessonsCompleted: 0,
+                          classes: 0,
+                          points: 0,
+                          profileImage: student.profileImagePath,
                         );
                       },
                     ),
@@ -133,7 +113,7 @@ class _ChildrenScreenState extends State<ChildrenScreen> {
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            'Tap the "Add Child" button to get started',
+            'Tap the "Add Child" button to add your child',
             style: AppTypography.subtle.copyWith(color: AppColors.neutral500),
             textAlign: TextAlign.center,
           ),

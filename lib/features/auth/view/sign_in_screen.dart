@@ -208,6 +208,9 @@ class SignInScreen extends StatelessWidget {
                 // Back to Sign Up Button
                 TextButton.icon(
                   onPressed: () {
+                    userProvider.signInEmail.clear();
+                    userProvider.signInPassword.clear();
+                    userProvider.error = null;
                     Navigator.pop(context);
                   },
                   icon: const Icon(

@@ -29,17 +29,20 @@ class UserProvider extends ChangeNotifier {
   // State
   bool _loading = false;
   UserModel? _profile;
-  String? _error;
+  String? error;
   SigninModel? _usersigned;
+  Student? _student;
+  List<Student> _children = [];
+  List<Student> get children => _children;
 
+  Student? get student => _student;
   bool get loading => _loading;
-  String? get error => _error;
   SigninModel? get usersigned => _usersigned;
   UserModel? get profile => _profile;
 
   Future<bool> signin() async {
     _loading = true;
-    _error = null;
+    error = null;
     notifyListeners();
 
     try {
@@ -59,7 +62,7 @@ class UserProvider extends ChangeNotifier {
 
       return true;
     } on ServerException catch (e) {
-      _error = e.errorModel.errorMessage;
+      error = e.errorModel.errorMessage;
       return false;
     } finally {
       _loading = false;
@@ -69,7 +72,7 @@ class UserProvider extends ChangeNotifier {
 
   Future<bool> signUp({String? profilePicturePath, String? userType}) async {
     _loading = true;
-    _error = null;
+    error = null;
     notifyListeners();
 
     try {
@@ -83,6 +86,8 @@ class UserProvider extends ChangeNotifier {
         ApiKey.dateofBirth: dateOfBirth.text,
         ApiKey.bio: bio.text,
         ApiKey.signupUserType: userType,
+        if (profilePicturePath != null)
+          ApiKey.profileImage: await MultipartFile.fromFile(profilePicturePath),
       });
 
       final response = await api.post(
@@ -90,22 +95,20 @@ class UserProvider extends ChangeNotifier {
         data: formData,
         isFormData: true,
       );
-
       final signupModel = SignupModel.fromJson(response);
-
       // Save token
       if (signupModel.token.isNotEmpty) {
         CacheHelper().saveData(key: ApiKey.token, value: signupModel.token);
         return true;
       } else {
-        _error = "Signup failed: missing token";
+        error = "Signup failed: missing token";
         return false;
       }
     } on ServerException catch (e) {
-      _error = e.errorModel.errorMessage;
+      error = e.errorModel.errorMessage;
       return false;
     } catch (e) {
-      _error = "Unexpected error: $e";
+      error = "Unexpected error: $e";
       return false;
     } finally {
       _loading = false;
@@ -121,22 +124,56 @@ class UserProvider extends ChangeNotifier {
       final response = await api.get(Endpoints.profile);
       _profile = UserModel.fromJson(response[ApiKey.user]);
     } on ServerException catch (e) {
-      _error = e.errorModel.errorMessage;
+      error = e.errorModel.errorMessage;
     } catch (e) {
-      _error = "Unexpected error: $e";
+      error = "Unexpected error: $e";
     } finally {
       _loading = false;
       notifyListeners();
     }
   }
 
-  Future<Student> addStudent(AddStudentRequest request) async {
-    final response = await api.post(
-      Endpoints.addStudent, // make sure you defined this
-      data: request.toJson(),
-    );
+  Future<void> addStudent(AddStudentRequest request) async {
+    _loading = true;
+    error = null;
+    notifyListeners();
+    try {
+      final response = await api.post(Endpoints.addStudent, data: request);
+      _student = Student.fromJson(response);
+      _children.add(_student!);
+      notifyListeners();
+      return;
+    } on ServerException catch (e) {
+      error = e.errorModel.errorMessage;
+      return;
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
 
-    return Student.fromJson(response['student']);
+  Future<void> logout() async {
+    _usersigned = null;
+    _profile = null;
+    _student = null;
+    _children.clear();
+
+    // Clear controllers
+    signInEmail.clear();
+    signInPassword.clear();
+    signupFullName.clear();
+    signupEmail.clear();
+    signupUserName.clear();
+    bio.clear();
+    dateOfBirth.clear();
+    signupPassword.clear();
+    signupConfirmPassword.clear();
+
+    // Clear cached data
+    await CacheHelper().removeData(key: ApiKey.token);
+    await CacheHelper().removeData(key: ApiKey.id);
+
+    notifyListeners();
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:edutech_app/features/parent/view/children_screen.dart';
 import 'package:edutech_app/features/student/views/student_home.dart';
 import 'package:edutech_app/features/student/views/main_screen.dart';
 import 'package:edutech_app/features/parent/view/parent_main_screen.dart';
+import 'package:edutech_app/features/teacher/view/teacher_classes_screen.dart';
 import 'package:edutech_app/features/teacher/view/teacher_home_screen.dart';
 import 'package:edutech_app/features/teacher/view/teacher_main_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,8 @@ class AppRoutes {
   static const String teacherHome = '/teacher-home';
   static const String teacherMainScreen = '/teacher-main';
   static const String teacherClassDetails = '/teacher-class-details';
+  static const String teacherClasses = '/teacher-classes';
+
   static const String student = '/student-home';
 
   static Map<String, WidgetBuilder> get routes {
@@ -36,6 +39,7 @@ class AppRoutes {
       parentMainScreen: (context) => const ParentMainScreen(),
       teacherHome: (context) => const TeacherHomeScreen(),
       teacherMainScreen: (context) => const TeacherMainScreen(),
+      teacherClasses: (context) => const TeacherClassesScreen(),
     };
   }
 }

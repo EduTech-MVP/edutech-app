@@ -22,36 +22,29 @@ class ProfileCard extends StatelessWidget {
           CircleAvatar(
             radius: 50,
             backgroundImage:
-                user != null &&
-                    user.profileImageUrl != null &&
-                    user.profileImageUrl!.isNotEmpty
+                user?.profileImageUrl != null &&
+                    user!.profileImageUrl!.isNotEmpty
                 ? NetworkImage(user.profileImageUrl!)
-                : null,
-            child:
-                user == null ||
-                    user.profileImageUrl == null ||
-                    user.profileImageUrl!.isEmpty
-                ? const Icon(Icons.person, size: 60, color: Colors.grey)
-                : null,
+                : NetworkImage(
+                    'http://edutech.runasp.net/profile-images/default.jpg',
+                  ),
           ),
+
           const SizedBox(height: 12),
 
           // Name
           Text(
-            "${user?.firstName ?? ''} ${user?.lastName ?? ''}",
+            "${user!.firstName ?? ''} ${user.lastName ?? ''}",
             style: AppTypography.heading4,
           ),
 
           // Email
-          Text(user?.email ?? '@no-email'),
+          Text(user.email ?? '@no-email'),
 
           const SizedBox(height: 20),
 
           // Age or grade (if you have it in UserModel)
-          Text(
-            "Role: ${user?.userType ?? 'Unknown'}",
-            style: AppTypography.small,
-          ),
+          Text("${user.userType ?? 'Unknown'}", style: AppTypography.small),
         ],
       ),
     );

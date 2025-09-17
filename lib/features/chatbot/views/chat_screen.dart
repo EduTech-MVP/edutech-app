@@ -18,7 +18,9 @@ class ChatScreen extends StatelessWidget {
 
     return GradientScaffold.main(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(50 + MediaQuery.of(context).padding.top),
+        preferredSize: Size.fromHeight(
+          MediaQuery.of(context).padding.top * 2.5,
+        ),
         child: CustomAppbar.page(
           pageTitle: 'Ai tutor',
           trailingWidget: Container(

@@ -5,6 +5,10 @@ class NavigationController extends ChangeNotifier {
   NavigationModel _model = NavigationModel(selectedIndex: 0);
 
   int get selectedIndex => _model.selectedIndex;
+  void goToPage(int index) {
+    _model = _model.copyWith(selectedIndex: index);
+    notifyListeners();
+  }
 
   void onItemTapped(int index) {
     _model = _model.copyWith(selectedIndex: index);

@@ -12,9 +12,11 @@ class ParentProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GradientScaffold.main(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80 + MediaQuery.of(context).padding.top),
+        preferredSize: Size.fromHeight(
+          MediaQuery.of(context).padding.top * 2.5,
+        ),
         child: const CustomAppbar.page(
-          navigationPage: ParentMainScreen(),
+          //   navigationPage: ParentMainScreen(),
           pageTitle: "Profile",
         ),
       ),
