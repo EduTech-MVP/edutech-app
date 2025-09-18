@@ -1,5 +1,6 @@
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
+import 'package:edutech_app/core/common/widgets/logout_bottom.dart';
 import 'package:edutech_app/core/common/widgets/profile_card.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,8 @@ class ParentProfileScreen extends StatelessWidget {
           MediaQuery.of(context).padding.top * 2.5,
         ),
         child: const CustomAppbar.page(
-          //   navigationPage: ParentMainScreen(),
           pageTitle: "Profile",
+          trailingWidget: LogoutButton(),
         ),
       ),
       body: SingleChildScrollView(

@@ -24,6 +24,8 @@ class ApiKey {
   static String signupUserType = "UserType";
   static String bio = 'Bio';
   static String refreshToken = "refreshToken";
+  static String profileImage = "ProfileImage";
+
   // signin apikeys
   static String email = "email";
   static String password = "password";
@@ -32,7 +34,7 @@ class ApiKey {
   static const String teacher = "Teacher";
   static const String parent = "Parent";
 
-  static String profileImage = "ProfileImage";
+  static String profileImageurl = "profileImageUrl";
   static String token = "token";
   static String user = "user";
   static String id = "id";

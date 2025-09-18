@@ -127,14 +127,28 @@ class UserProvider extends ChangeNotifier {
   Future<void> getProfile() async {
     _loading = true;
     notifyListeners();
-
     try {
       final response = await api.get(Endpoints.profile);
-      _profile = UserModel.fromJson(response[ApiKey.user]);
+      print('respoonseee $response');
+
+      _profile = UserModel.fromJson(response);
+
+      print('profilee: ${_profile!.firstName}');
     } on ServerException catch (e) {
       error = e.errorModel.errorMessage;
+      print("Server Exception: $error");
+    } on TypeError catch (e) {
+      // This will catch the error if it's a type mismatch
+      error = "Type error during parsing: $e";
+      print("Type Error: $error");
+    } on NoSuchMethodError catch (e) {
+      // This will catch the error if a method is called on a null value
+      error = "Method not found during parsing: $e";
+      print("No Such Method Error: $error");
     } catch (e) {
+      // Fallback for other unexpected errors
       error = "Unexpected error: $e";
+      print("Unexpected Error: $error");
     } finally {
       _loading = false;
       notifyListeners();
@@ -146,13 +160,25 @@ class UserProvider extends ChangeNotifier {
     error = null;
     notifyListeners();
     try {
+      // The response variable already contains the JSON data (Map<String, dynamic>)
       final response = await api.post(Endpoints.addStudent, data: request);
-      _student = Student.fromJson(response);
+
+      _student = Student.fromJson(response['student']);
+
+      print('ssssssssssssssssss${_student}');
       _children.add(_student!);
+      print('ccccccccc${_children}');
+
       notifyListeners();
       return;
     } on ServerException catch (e) {
       error = e.errorModel.errorMessage;
+      print("Server Exception: $error");
+      return;
+    } catch (e) {
+      // This will now catch any other unexpected errors
+      print("Parsing or other Unexpected error: $e");
+      error = "Unexpected error: $e";
       return;
     } finally {
       _loading = false;
@@ -176,10 +202,12 @@ class UserProvider extends ChangeNotifier {
     dateOfBirth.clear();
     signupPassword.clear();
     signupConfirmPassword.clear();
+    await CacheHelper.removeData(key: ApiKey.token);
 
     // Clear cached data
-    await CacheHelper().removeData(key: ApiKey.token);
-    await CacheHelper().removeData(key: ApiKey.id);
+    await CacheHelper.removeData(key: ApiKey.token);
+    await CacheHelper.removeData(key: ApiKey.id);
+    await CacheHelper.removeData(key: ApiKey.user);
 
     notifyListeners();
   }

@@ -83,12 +83,14 @@ class ChildrenScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final student = userProvider.children[index];
                         return ChildCard(
-                          name: '${student.firstName} ${student.lastName}',
+                          name:
+                              '${Provider.of<UserProvider>(context).student!.firstName} ${student.lastName}',
                           username: student.username,
                           lessonsCompleted: 0,
                           classes: 0,
                           points: 0,
-                          profileImage: student.profileImagePath,
+                          profileImage:
+                              'http://edutech.runasp.net/profile-images/default.jpg',
                         );
                       },
                     ),

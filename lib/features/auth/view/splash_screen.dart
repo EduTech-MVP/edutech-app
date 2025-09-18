@@ -1,9 +1,11 @@
 import 'package:edutech_app/core/api/endpoints.dart';
-import 'package:edutech_app/core/theme/app_spacing.dart';
-import 'package:flutter/material.dart';
 import 'package:edutech_app/core/cache/cache_helper.dart';
 import 'package:edutech_app/core/routes/app_routes.dart';
+import 'package:edutech_app/core/theme/app_spacing.dart';
+import 'package:edutech_app/features/auth/controllers/user_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,12 +24,14 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _navigate() async {
     await Future.delayed(const Duration(seconds: 2));
 
-    final token = CacheHelper().getData(key: ApiKey.token);
-    final role = CacheHelper().getData(key: ApiKey.userType);
+    final token = CacheHelper.getData(key: ApiKey.token);
+    final role = CacheHelper.getData(key: ApiKey.userType);
 
     if (token == null) {
       Navigator.pushReplacementNamed(context, AppRoutes.signUp);
     } else {
+      await Provider.of<UserProvider>(context, listen: false).getProfile();
+
       switch (role) {
         case ApiKey.student:
           Navigator.pushReplacementNamed(context, AppRoutes.studentmainscreen);

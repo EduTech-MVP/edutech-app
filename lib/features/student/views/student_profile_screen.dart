@@ -1,5 +1,6 @@
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
+import 'package:edutech_app/core/common/widgets/logout_bottom.dart';
 import 'package:edutech_app/core/common/widgets/profile_achievements_card.dart';
 import 'package:edutech_app/core/common/widgets/profile_card.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
@@ -15,7 +16,10 @@ class StudentProfileScreen extends StatelessWidget {
         preferredSize: Size.fromHeight(
           MediaQuery.of(context).padding.top * 2.5,
         ),
-        child: const CustomAppbar.page(pageTitle: "Profile"),
+        child: const CustomAppbar.page(
+          pageTitle: "Profile",
+          trailingWidget: LogoutButton(),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(

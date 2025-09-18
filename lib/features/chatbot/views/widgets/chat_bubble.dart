@@ -2,6 +2,7 @@
 
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
+import 'package:edutech_app/features/auth/controllers/user_provider.dart';
 import 'package:edutech_app/features/chatbot/controllers/chat_controller.dart';
 import 'package:edutech_app/features/chatbot/models/messege.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,8 @@ class ChatBubbleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.read<ChatController>();
-
+    final userProvider = context.watch<UserProvider>();
+    final user = userProvider.usersigned?.user ?? userProvider.profile;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: message.isBot
@@ -119,8 +121,13 @@ class ChatBubbleWidget extends StatelessWidget {
                   right: -2,
                   child: CircleAvatar(
                     radius: 18,
-                    backgroundColor: Colors.grey,
-                    child: SvgPicture.asset(''),
+                    backgroundImage:
+                        user?.profileImageUrl != null &&
+                            user!.profileImageUrl!.isNotEmpty
+                        ? NetworkImage(user.profileImageUrl!)
+                        : NetworkImage(
+                            'http://edutech.runasp.net/profile-images/default.jpg',
+                          ),
                   ),
                 ),
               ],

@@ -81,7 +81,7 @@ class CustomAppbar extends StatelessWidget {
               ? NetworkImage(user.profileImageUrl!)
               : NetworkImage(
                   'http://edutech.runasp.net/profile-images/default.jpg',
-                ), // fallback URL
+                ),
         ),
 
         const SizedBox(width: 16),

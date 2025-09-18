@@ -109,7 +109,7 @@ class ChatScreen extends StatelessWidget {
                             ),
                           ),
                           child: SvgPicture.asset(
-                            'assets/icons/star.svg',
+                            'assets/icons/send.svg',
                             height: 10,
                             width: 10,
                             color: Colors.white,

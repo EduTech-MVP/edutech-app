@@ -24,7 +24,7 @@ class UserModel {
       firstName: json[ApiKey.firstName],
       lastName: json[ApiKey.lastName],
       userType: (json[ApiKey.userType]).toString().trim(),
-      profileImageUrl: json[ApiKey.profileImage],
+      profileImageUrl: json[ApiKey.profileImageurl],
     );
   }
 }

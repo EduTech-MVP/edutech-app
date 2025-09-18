@@ -1,13 +1,15 @@
+import 'dart:convert';
+
+import 'package:edutech_app/core/api/endpoints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper {
   static late SharedPreferences sharedPreferences;
-  //intialize of chache
+
   static Future<void> init() async {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  //put data in local database using key
   String? getdataString({required String key}) {
     return sharedPreferences.getString(key);
   }
@@ -26,23 +28,19 @@ class CacheHelper {
     }
   }
 
-  // get data already saved in local database
-  dynamic getData({required String key}) {
+  static dynamic getData({required String key}) {
     return sharedPreferences.get(key);
   }
 
-  // remove data using specific key
-  dynamic removeData({required String key}) {
-    return sharedPreferences.remove(key);
+  static Future<bool> removeData({required String key}) async {
+    return await sharedPreferences.remove(key);
   }
 
-  // check if local database contains key
-  dynamic containsKey({required String key}) {
+  static Future<bool> clearData() async {
+    return await sharedPreferences.clear();
+  }
+
+  bool containsKey({required String key}) {
     return sharedPreferences.containsKey(key);
-  }
-
-  // clear all  data in the local database
-  dynamic clearData() {
-    return sharedPreferences.clear();
   }
 }

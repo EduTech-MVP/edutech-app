@@ -48,9 +48,8 @@ class ChildCard extends StatelessWidget {
               // Profile Image
               CircleAvatar(
                 radius: 25,
-                backgroundImage: profileImage != null
-                    ? AssetImage(profileImage!)
-                    : null,
+                backgroundImage: NetworkImage(profileImage!),
+
                 backgroundColor: AppColors.sky100,
                 child: profileImage == null
                     ? Icon(Icons.person, color: AppColors.sky600, size: 30)
