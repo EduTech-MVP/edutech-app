@@ -6,14 +6,19 @@ import 'package:flutter/material.dart';
 class ApiInterceptors extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final token = CacheHelper().getData(key: ApiKey.token);
-    if (token == null) {
-      handler.reject(
-        DioException(requestOptions: options, error: 'No token found'),
-      );
+    // Skip token for signin/signup
+    if (options.path.contains(Endpoints.signin) ||
+        options.path.contains(Endpoints.register)) {
+      options.headers['Content-Type'] = 'application/json';
+      handler.next(options);
       return;
     }
-    options.headers['Authorization'] = 'Bearer $token';
+
+    final token = CacheHelper().getData(key: ApiKey.token);
+    if (token != null) {
+      options.headers['Authorization'] = 'Bearer $token';
+    }
+
     options.headers['Content-Type'] = 'application/json';
     handler.next(options);
   }
@@ -21,7 +26,7 @@ class ApiInterceptors extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     debugPrint(
-      " RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.uri}",
+      "✅ RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.uri}",
     );
     debugPrint("Data: ${response.data}");
     super.onResponse(response, handler);

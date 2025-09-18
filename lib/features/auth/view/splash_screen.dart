@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final role = CacheHelper().getData(key: ApiKey.userType);
 
     if (token == null) {
-      Navigator.pushReplacementNamed(context, AppRoutes.signIn);
+      Navigator.pushReplacementNamed(context, AppRoutes.signUp);
     } else {
       switch (role) {
         case ApiKey.student:

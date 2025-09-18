@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:edutech_app/core/api/dio_consumer.dart';
 import 'package:edutech_app/core/api/endpoints.dart';
 import 'package:edutech_app/core/errors/error_model.dart';
@@ -87,10 +88,10 @@ class ChatController with ChangeNotifier {
   Future<void> _initializeChat() async {
     _setLoading(true);
     try {
-      // if (!await _checkInternet()) {
-      //   _showError('No internet connection');
-      //   return;
-      // }
+      if (!await _checkInternet()) {
+        _showError('No internet connection');
+        return;
+      }
       final sessionResponse = await _createSession();
       _sessionId = sessionResponse.sessionId;
       await _fetchInitialMessage();
@@ -189,18 +190,18 @@ class ChatController with ChangeNotifier {
     }
   }
 
-  // Future<bool> _checkInternet() async {
-  //   try {
-  //     var connectivityResult = await Connectivity().checkConnectivity();
-  //     // ignore: unrelated_type_equality_checks
-  //     return connectivityResult != ConnectivityResult.none;
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       print('Connectivity check error: $e');
-  //     }
-  //     return false;
-  //   }
-  // }
+  Future<bool> _checkInternet() async {
+    try {
+      var connectivityResult = await Connectivity().checkConnectivity();
+      // ignore: unrelated_type_equality_checks
+      return connectivityResult != ConnectivityResult.none;
+    } catch (e) {
+      if (kDebugMode) {
+        print('Connectivity check error: $e');
+      }
+      return false;
+    }
+  }
 
   void _showError(String message) {
     _addMessage(Message(text: message, isBot: true));
