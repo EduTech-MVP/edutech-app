@@ -27,4 +27,14 @@ class UserModel {
       profileImageUrl: json[ApiKey.profileImageurl],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      ApiKey.id: id,
+      ApiKey.email: email,
+      ApiKey.firstName: firstName,
+      ApiKey.lastName: lastName,
+      ApiKey.userType: userType,
+      ApiKey.profileImageurl: profileImageUrl,
+    };
+  }
 }
