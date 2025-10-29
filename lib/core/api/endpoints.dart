@@ -40,6 +40,9 @@ class ApiKey {
   static String id = "id";
   static String firstName = "firstName";
   static String lastName = "lastName";
+  //image
+  static String imageurl = "imageUrl";
+
   //chat bot apikeys
   static String sessionid = "sessionId";
   static String createdat = "createdAt";

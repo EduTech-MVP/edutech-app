@@ -9,6 +9,6 @@ class LoginModel {
     return LoginModel(token: json[ApiKey.token]);
   }
   Map<String, dynamic> toJson() {
-    return {'token': token};
+    return {ApiKey.token: token};
   }
 }

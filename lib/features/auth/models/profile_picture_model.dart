@@ -1,14 +1,14 @@
 import 'package:edutech_app/core/api/endpoints.dart';
 
-///delete profile image
-class DeleteProfileImage {
+///delete or upload profile image
+class ProfilePictureModel {
   final String message;
   final String imageUrl;
 
-  DeleteProfileImage({required this.message, required this.imageUrl});
+  ProfilePictureModel({required this.message, required this.imageUrl});
 
-  factory DeleteProfileImage.fromJson(Map<String, dynamic> json) {
-    return DeleteProfileImage(
+  factory ProfilePictureModel.fromJson(Map<String, dynamic> json) {
+    return ProfilePictureModel(
       message: json[ApiKey.message],
       imageUrl: json[ApiKey.imageurl],
     );
