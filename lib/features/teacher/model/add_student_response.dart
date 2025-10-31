@@ -16,7 +16,7 @@ class AddStudentResponse {
   Map<String, dynamic> toJson() {
     return {
       ApiKey.addStudentMessage: message,
-      'enrollment': enrollment.toJson(),
+      ApiKey.enrollment: enrollment.toJson(),
     };
   }
 }
@@ -38,21 +38,21 @@ class Enrollment {
 
   factory Enrollment.fromJson(Map<String, dynamic> json) {
     return Enrollment(
-      studentId: json['studentId'],
-      username: json['username'],
-      studentName: json['studentName'],
-      classId: json['classId'],
-      className: json['className'],
+      studentId: json[ApiKey.studentId],
+      username: json[ApiKey.userName],
+      studentName: json[ApiKey.studentName],
+      classId: json[ApiKey.classId],
+      className: json[ApiKey.className],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'studentId': studentId,
-      'username': username,
-      'studentName': studentName,
-      'classId': classId,
-      'className': className,
+      ApiKey.studentId: studentId,
+      ApiKey.userName: username,
+      ApiKey.studentName: studentName,
+      ApiKey.classId: classId,
+      ApiKey.className: className,
     };
   }
 }

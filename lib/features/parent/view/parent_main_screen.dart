@@ -6,27 +6,14 @@ import 'package:edutech_app/features/parent/view/widgets/parent_bottom_nav.dart'
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ParentMainScreen extends StatefulWidget {
+class ParentMainScreen extends StatelessWidget {
   const ParentMainScreen({super.key});
 
-  @override
-  State<ParentMainScreen> createState() => _ParentMainScreenState();
-}
-
-class _ParentMainScreenState extends State<ParentMainScreen> {
   static final List<Widget> _pages = [
     const ParentHome(),
     const ChildrenScreen(),
     const ParentProfileScreen(),
   ];
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ParentNavigationController>().onItemTapped(0);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -65,6 +65,7 @@ class SignInScreen extends StatelessWidget {
                           CustomTextFormField(
                             controller: userProvider.signInEmail,
                             hintText: "Enter your email or username",
+                            enabled: !userProvider.loading,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your email';
@@ -88,6 +89,7 @@ class SignInScreen extends StatelessWidget {
                             controller: userProvider.signInPassword,
                             hintText: "Enter your password",
                             obscureText: true,
+                            enabled: !userProvider.loading,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your password';
@@ -108,32 +110,50 @@ class SignInScreen extends StatelessWidget {
                                 ? null
                                 : () async {
                                     if (_formKey.currentState!.validate()) {
-                                      await userProvider.signin();
+                                      final success = await userProvider
+                                          .signin();
 
-                                      if (userProvider.usersigned != null) {
-                                        final role = userProvider
-                                            .usersigned!
-                                            .user
-                                            .userType;
+                                      if (success &&
+                                          userProvider.profile != null) {
+                                        // Get user type from profile
+                                        final userType =
+                                            userProvider.profile!.userType;
 
-                                        if (role == ApiKey.student) {
+                                        // Navigate based on user type
+                                        if (userType == ApiKey.student) {
                                           Navigator.pushReplacementNamed(
                                             context,
                                             AppRoutes.studentmainscreen,
                                           );
-                                        } else if (role == ApiKey.teacher) {
+                                        } else if (userType == ApiKey.teacher) {
                                           Navigator.pushReplacementNamed(
                                             context,
                                             AppRoutes.teacherMainScreen,
                                           );
-                                        } else if (role == ApiKey.parent) {
+                                        } else if (userType == ApiKey.parent) {
                                           Navigator.pushReplacementNamed(
                                             context,
                                             AppRoutes.parentMainScreen,
                                           );
+                                        } else {
+                                          // Handle unknown user type
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Unknown user type. Please contact support.',
+                                                style: AppTypography.paragrah
+                                                    .copyWith(
+                                                      color: Colors.white,
+                                                    ),
+                                              ),
+                                              backgroundColor: AppColors.error,
+                                            ),
+                                          );
                                         }
                                       } else if (userProvider.error != null) {
-                                        // Show error
+                                        // Show error snackbar
                                         ScaffoldMessenger.of(
                                           context,
                                         ).showSnackBar(
@@ -142,8 +162,12 @@ class SignInScreen extends StatelessWidget {
                                               userProvider.error!,
                                               style: AppTypography.paragrah
                                                   .copyWith(
-                                                    color: AppColors.error,
+                                                    color: Colors.white,
                                                   ),
+                                            ),
+                                            backgroundColor: AppColors.error,
+                                            duration: const Duration(
+                                              seconds: 4,
                                             ),
                                           ),
                                         );
@@ -171,13 +195,33 @@ class SignInScreen extends StatelessWidget {
 
                           // Display error message from the provider
                           if (userProvider.error != null)
-                            Center(
-                              child: Text(
-                                userProvider.error!,
-                                style: AppTypography.paragrah.copyWith(
-                                  color: AppColors.error,
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: AppColors.error.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: AppColors.error.withOpacity(0.3),
                                 ),
-                                textAlign: TextAlign.center,
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.error_outline,
+                                    color: AppColors.error,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      userProvider.error!,
+                                      style: AppTypography.paragrah.copyWith(
+                                        color: AppColors.error,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
 
@@ -186,7 +230,9 @@ class SignInScreen extends StatelessWidget {
                           // Forgot Password Button
                           Center(
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                // TODO: Navigate to forgot password screen
+                              },
                               child: Text(
                                 "Forgot your password?",
                                 style: AppTypography.paragrah.copyWith(
@@ -206,21 +252,28 @@ class SignInScreen extends StatelessWidget {
 
                 // Back to Sign Up Button
                 TextButton.icon(
-                  onPressed: () {
-                    userProvider.signInEmail.clear();
-                    userProvider.signInPassword.clear();
-                    userProvider.error = null;
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
+                  onPressed: userProvider.loading
+                      ? null
+                      : () {
+                          // Clear form and errors
+                          userProvider.signInEmail.clear();
+                          userProvider.signInPassword.clear();
+                          context.read<UserProvider>().error = null;
+                          Navigator.pop(context);
+                        },
+                  icon: Icon(
                     Icons.arrow_back,
-                    color: AppColors.sky800,
+                    color: userProvider.loading
+                        ? AppColors.neutral400
+                        : AppColors.sky800,
                     size: 16,
                   ),
                   label: Text(
                     "Back to Sign up",
                     style: AppTypography.paragrah.copyWith(
-                      color: AppColors.sky800,
+                      color: userProvider.loading
+                          ? AppColors.neutral400
+                          : AppColors.sky800,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

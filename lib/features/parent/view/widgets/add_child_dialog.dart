@@ -11,7 +11,7 @@ class AddChildDialog {
           insetPadding: const EdgeInsets.all(16),
           child: AddNewChildWidget(
             onClose: () => Navigator.of(context).pop(),
-            onCreateAccount: () {
+            onSuccess: () {
               Navigator.of(context).pop();
             },
           ),

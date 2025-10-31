@@ -3,7 +3,7 @@ import 'package:edutech_app/core/api/dio_consumer.dart';
 import 'package:edutech_app/core/api/endpoints.dart';
 import 'package:edutech_app/core/cache/cache_helper.dart';
 import 'package:edutech_app/core/errors/exceptions.dart';
-import 'package:edutech_app/features/auth/models/login_model.dart';
+import 'package:edutech_app/features/auth/models/token_response_model.dart';
 import 'package:edutech_app/features/auth/models/signup_model.dart';
 import 'package:edutech_app/features/auth/models/student_model.dart';
 import 'package:edutech_app/features/auth/models/user_model.dart';
@@ -30,15 +30,16 @@ class UserProvider extends ChangeNotifier {
   bool _loading = false;
   UserModel? _profile;
   String? error;
-  SigninModel? _usersigned;
+  String? _token;
   Student? _student;
   final List<Student> _children = [];
-  List<Student> get children => _children;
 
+  List<Student> get children => _children;
   Student? get student => _student;
   bool get loading => _loading;
-  SigninModel? get usersigned => _usersigned;
+  String? get token => _token;
   UserModel? get profile => _profile;
+  bool get isAuthenticated => _token != null;
 
   Future<bool> signin() async {
     _loading = true;
@@ -54,18 +55,21 @@ class UserProvider extends ChangeNotifier {
         },
       );
 
-      _usersigned = SigninModel.fromJson(response);
+      final tokenResponse = TokenResponseModel.fromJson(response);
+      _token = tokenResponse.token;
 
-      // Save token & userId
-      CacheHelper().saveData(key: ApiKey.token, value: _usersigned!.token);
-      CacheHelper().saveData(
-        key: ApiKey.userType,
-        value: _usersigned!.user.userType,
-      );
+      // Save token
+      await CacheHelper().saveData(key: ApiKey.token, value: _token!);
+
+      // Fetch profile after successful signin to get user details
+      await getProfile();
 
       return true;
     } on ServerException catch (e) {
       error = e.errorModel.errorMessage;
+      return false;
+    } catch (e) {
+      error = "Unexpected error: $e";
       return false;
     } finally {
       _loading = false;
@@ -98,14 +102,24 @@ class UserProvider extends ChangeNotifier {
         data: formData,
         isFormData: true,
       );
+
       final signupModel = SignupModel.fromJson(response);
+
       // Save token
       if (signupModel.token.isNotEmpty) {
-        CacheHelper().saveData(key: ApiKey.token, value: signupModel.token);
-        CacheHelper().saveData(
-          key: ApiKey.userType,
-          value: signupModel.user.userType,
-        );
+        _token = signupModel.token;
+        await CacheHelper().saveData(key: ApiKey.token, value: _token!);
+
+        // Save user type if available from signup model
+        if (signupModel.user.userType!.isNotEmpty) {
+          await CacheHelper().saveData(
+            key: ApiKey.userType,
+            value: signupModel.user.userType,
+          );
+        }
+
+        // Fetch profile after successful signup
+        await getProfile();
 
         return true;
       } else {
@@ -126,27 +140,28 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> getProfile() async {
     _loading = true;
+    error = null;
     notifyListeners();
+
     try {
       final response = await api.get(Endpoints.profile);
-      print('respoonseee $response');
+      print('Response: $response');
 
       _profile = UserModel.fromJson(response);
 
-      print('profilee: ${_profile!.firstName}');
+      // Save user type from profile
+      if (_profile?.userType != null) {
+        await CacheHelper().saveData(
+          key: ApiKey.userType,
+          value: _profile!.userType,
+        );
+      }
+
+      print('Profile: ${_profile!.firstName} ${_profile!.lastName}');
     } on ServerException catch (e) {
       error = e.errorModel.errorMessage;
       print("Server Exception: $error");
-    } on TypeError catch (e) {
-      // This will catch the error if it's a type mismatch
-      error = "Type error during parsing: $e";
-      print("Type Error: $error");
-    } on NoSuchMethodError catch (e) {
-      // This will catch the error if a method is called on a null value
-      error = "Method not found during parsing: $e";
-      print("No Such Method Error: $error");
     } catch (e) {
-      // Fallback for other unexpected errors
       error = "Unexpected error: $e";
       print("Unexpected Error: $error");
     } finally {
@@ -159,27 +174,21 @@ class UserProvider extends ChangeNotifier {
     _loading = true;
     error = null;
     notifyListeners();
+
     try {
-      // The response variable already contains the JSON data (Map<String, dynamic>)
       final response = await api.post(Endpoints.addStudent, data: request);
 
       _student = Student.fromJson(response['student']);
-
-      print('ssssssssssssssssss${_student}');
       _children.add(_student!);
-      print('ccccccccc${_children}');
 
-      notifyListeners();
-      return;
+      print('Student added: $_student');
+      print('Children count: ${_children.length}');
     } on ServerException catch (e) {
       error = e.errorModel.errorMessage;
       print("Server Exception: $error");
-      return;
     } catch (e) {
-      // This will now catch any other unexpected errors
-      print("Parsing or other Unexpected error: $e");
       error = "Unexpected error: $e";
-      return;
+      print("Unexpected Error: $e");
     } finally {
       _loading = false;
       notifyListeners();
@@ -187,7 +196,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> logout() async {
-    _usersigned = null;
+    _token = null;
     _profile = null;
     _student = null;
     _children.clear();
@@ -202,12 +211,12 @@ class UserProvider extends ChangeNotifier {
     dateOfBirth.clear();
     signupPassword.clear();
     signupConfirmPassword.clear();
-    await CacheHelper.removeData(key: ApiKey.token);
 
     // Clear cached data
     await CacheHelper.removeData(key: ApiKey.token);
     await CacheHelper.removeData(key: ApiKey.id);
     await CacheHelper.removeData(key: ApiKey.user);
+    await CacheHelper.removeData(key: ApiKey.userType);
 
     notifyListeners();
   }

@@ -14,6 +14,7 @@ class CustomTextFormField extends StatelessWidget {
   final double? height;
   final int maxlines;
   final void Function(String)? onChanged;
+  final bool? enabled;
 
   const CustomTextFormField({
     super.key,
@@ -27,11 +28,13 @@ class CustomTextFormField extends StatelessWidget {
     this.height = AppSpacing.buttonHeight,
     this.maxlines = 1,
     this.onChanged,
+    this.enabled,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       cursorHeight: AppSpacing.lg,
       textAlign: TextAlign.justify,
       onChanged: onChanged,

@@ -1,12 +1,12 @@
 import 'package:edutech_app/core/api/endpoints.dart';
 
-class LoginModel {
+class TokenResponseModel {
   final String token;
 
-  LoginModel({required this.token});
+  TokenResponseModel({required this.token});
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) {
-    return LoginModel(token: json[ApiKey.token]);
+  factory TokenResponseModel.fromJson(Map<String, dynamic> json) {
+    return TokenResponseModel(token: json[ApiKey.token]);
   }
   Map<String, dynamic> toJson() {
     return {ApiKey.token: token};

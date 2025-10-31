@@ -11,6 +11,10 @@ class Endpoints {
   static String sendMessage = '/ChatBot/send-message';
   static String getSessions = '/ChatBot/sessions';
   static String sessionsHistory = '/ChatBot/history';
+  static String parentHome = '/Parent/home';
+  static String parentChildren = '/Parent/children';
+  static String childInfo = '/Parent/child/{childId}';
+  static String childSessions = '/Parent/child/{childId}/sessions';
 }
 
 class ApiKey {
@@ -59,4 +63,21 @@ class ApiKey {
   static String content = "content";
   static String isFromUser = "isFromUser";
   static String sentAt = "sentAt";
+  //teacher apikeys
+  static String teacherFullName = "fullName";
+  static String teacherPic = "picUrl";
+  static String teacherStudents = "students";
+  static String teachertotalClasses = "totalClasses";
+  static String teacherClasses = "classes";
+  static String createClassMessage = "message";
+  static String classId = "classId";
+  static String className = "className";
+  static String classSubject = "subject";
+  static String classGrade = "grade";
+  static String addStudentMessage = "message";
+  static String enrollment = "enrollment";
+  static String studentId = "studentId";
+  static String studentUserName = "username";
+  static String studentName = "studentName";
+  static String classIdRequest = "ClassId";
 }

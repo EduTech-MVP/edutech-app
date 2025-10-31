@@ -70,21 +70,85 @@ class CustomAppbar extends StatelessWidget {
 
   Widget _buildHomeContent(BuildContext context) {
     final userProvider = context.watch<UserProvider>();
-    final user = userProvider.usersigned?.user ?? userProvider.profile;
+    final user = userProvider.profile;
+
+    // Handle loading state
+    if (userProvider.loading && user == null) {
+      return Row(
+        children: [
+          CircleAvatar(
+            radius: MediaQuery.of(context).size.width * 0.06,
+            child: const CircularProgressIndicator(strokeWidth: 2),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 100,
+                  height: 12,
+                  decoration: BoxDecoration(
+                    color: AppColors.neutral200,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  width: 150,
+                  height: 16,
+                  decoration: BoxDecoration(
+                    color: AppColors.neutral200,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
+    // Get greeting based on time of day
+    final greeting = _getGreeting();
+
     return Row(
       children: [
         // Profile avatar
-        CircleAvatar(
-          radius: MediaQuery.of(context).size.width * 0.06,
-          backgroundImage:
-              user?.profileImageUrl != null && user!.profileImageUrl!.isNotEmpty
-              ? NetworkImage(user.profileImageUrl!)
-              : NetworkImage(
-                  'http://edutech.runasp.net/profile-images/default.jpg',
-                ),
+        GestureDetector(
+          onTap: () {
+            // Navigate to profile page if needed
+            if (navigationPage != null) {
+              Navigator.pushNamed(context, navigationPage!);
+            }
+          },
+          child: CircleAvatar(
+            radius: MediaQuery.of(context).size.width * 0.06,
+            backgroundImage:
+                user?.profileImageUrl != null &&
+                    user!.profileImageUrl!.isNotEmpty
+                ? NetworkImage(user.profileImageUrl!)
+                : const NetworkImage(
+                    'http://edutech.runasp.net/profile-images/default.jpg',
+                  ),
+            child:
+                user?.profileImageUrl == null || user!.profileImageUrl!.isEmpty
+                ? Text(
+                    user?.firstName?.isNotEmpty == true
+                        ? user!.firstName![0].toUpperCase()
+                        : 'U',
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                : null,
+          ),
         ),
 
         const SizedBox(width: 16),
+
         // Greeting section
         Expanded(
           child: Column(
@@ -92,21 +156,23 @@ class CustomAppbar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Good morning!',
+                greeting,
                 style: AppTypography.subtle.copyWith(
                   color: AppColors.neutral700,
                 ),
               ),
               Text(
-                '${user!.firstName}',
+                user?.firstName ?? 'User',
                 style: AppTypography.heading4.copyWith(
                   color: AppColors.textPrimary,
                   fontWeight: FontWeight.bold,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
         ),
+
         // Trailing widget or notification bell
         if (trailingWidget != null)
           GestureDetector(onTap: onTrailingPressed, child: trailingWidget!)
@@ -126,9 +192,9 @@ class CustomAppbar extends StatelessWidget {
   Widget _buildPageContent(BuildContext context) {
     return Row(
       children: [
-        //back arrow
+        // Back arrow (commented out - uncomment if needed)
         // GestureDetector(
-        //   onTap: () => Navigator.pop(context),
+        //   onTap: onBackPressed ?? () => Navigator.pop(context),
         //   child: Container(
         //     width: 24,
         //     height: 24,
@@ -145,19 +211,37 @@ class CustomAppbar extends StatelessWidget {
         //   ),
         // ),
         const SizedBox(width: 16),
-        //page title
+
+        // Page title
         Expanded(
           child: Text(
             pageTitle ?? 'Page',
             style: AppTypography.heading3.copyWith(
               color: AppColors.textPrimary,
             ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
+
         // Trailing widget (optional)
         if (trailingWidget != null)
           GestureDetector(onTap: onTrailingPressed, child: trailingWidget!),
       ],
     );
+  }
+
+  // Helper method to get greeting based on time of day
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+
+    if (hour < 12) {
+      return 'Good morning!';
+    } else if (hour < 17) {
+      return 'Good afternoon!';
+    } else if (hour < 21) {
+      return 'Good evening!';
+    } else {
+      return 'Good night!';
+    }
   }
 }

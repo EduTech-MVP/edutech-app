@@ -25,7 +25,11 @@ class StudentHome extends StatelessWidget {
           padding: const EdgeInsets.all(AppSpacing.pagePadding),
           child: Column(
             children: [
-              const AiTutorCard(),
+              const AiTutorCard(
+                headerText: 'AI Tutor Ready!',
+                contentText: 'I’m here to help you learn something new today! ',
+                buttonText: 'Start Learning',
+              ),
               const Progress(),
               const TaskList(),
               SizedBox(height: AppSpacing.lg),

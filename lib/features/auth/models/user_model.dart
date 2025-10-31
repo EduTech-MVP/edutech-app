@@ -1,5 +1,6 @@
 import 'package:edutech_app/core/api/endpoints.dart';
 
+////user profile
 class UserModel {
   final int? id;
   final String? email;

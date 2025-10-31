@@ -37,7 +37,6 @@ class Student {
     };
   }
 
-  // Make sure this method exists
   static List<Student> listFromJson(List<dynamic> jsonList) {
     return jsonList.map((json) => Student.fromJson(json)).toList();
   }

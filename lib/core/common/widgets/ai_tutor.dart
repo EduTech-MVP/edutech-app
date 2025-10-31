@@ -9,7 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AiTutorCard extends StatelessWidget {
-  const AiTutorCard({super.key});
+  final String headerText;
+  final String contentText;
+  final String buttonText;
+
+  const AiTutorCard({
+    super.key,
+    required this.headerText,
+    required this.buttonText,
+    required this.contentText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +39,8 @@ class AiTutorCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'AI Tutor Ready!',
+                  headerText,
+                  //'AI Tutor Ready!',
                   style: AppTypography.heading4.copyWith(
                     color: AppColors.sky700,
                   ),
@@ -41,7 +51,8 @@ class AiTutorCard extends StatelessWidget {
                     color: Colors.black,
                     fontSize: 13,
                   ),
-                  'I’m here to help you learn something new today! ',
+                  contentText,
+                  //  'I’m here to help you learn something new today! ',
                   maxLines: 3,
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * .01),
@@ -51,7 +62,8 @@ class AiTutorCard extends StatelessWidget {
                     Icons.play_arrow_outlined,
                     color: Colors.white,
                   ),
-                  text: 'Start Learning',
+                  text: buttonText,
+                  // 'Start Learning',
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => ChatScreen()),

@@ -19,7 +19,8 @@ class ChatBubbleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.read<ChatController>();
     final userProvider = context.watch<UserProvider>();
-    final user = userProvider.usersigned?.user ?? userProvider.profile;
+    final user = userProvider.profile;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: message.isBot
@@ -39,13 +40,14 @@ class ChatBubbleWidget extends StatelessWidget {
           ),
           const SizedBox(width: 8),
         ],
-        //chat bubble
+
+        // Chat bubble
         if (message.isBot)
           Flexible(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //bot chat bubble
+                // Bot chat bubble
                 ChatBubble(
                   clipper: ChatBubbleClipper5(type: BubbleType.receiverBubble),
                   alignment: Alignment.centerLeft,
@@ -56,8 +58,9 @@ class ChatBubbleWidget extends StatelessWidget {
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
-                //choices
-                if (message.choices != null)
+
+                // Choices
+                if (message.choices != null && message.choices!.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 12,
@@ -72,8 +75,8 @@ class ChatBubbleWidget extends StatelessWidget {
                           onTap: () => controller.sendMessage(choice),
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 2,
+                              horizontal: 12,
+                              vertical: 6,
                             ),
                             decoration: BoxDecoration(
                               color: AppColors.sky200,
@@ -82,7 +85,7 @@ class ChatBubbleWidget extends StatelessWidget {
                                 BoxShadow(
                                   color: Colors.black.withOpacity(0.15),
                                   blurRadius: 6,
-                                  offset: const Offset(0, 3), // shadow position
+                                  offset: const Offset(0, 3),
                                 ),
                               ],
                             ),
@@ -90,6 +93,7 @@ class ChatBubbleWidget extends StatelessWidget {
                               choice,
                               style: AppTypography.small.copyWith(
                                 color: AppColors.sky700,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
@@ -116,18 +120,33 @@ class ChatBubbleWidget extends StatelessWidget {
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
+
+                // User avatar
                 Positioned(
                   bottom: -2,
                   right: -2,
                   child: CircleAvatar(
                     radius: 18,
+                    backgroundColor: AppColors.sky300,
                     backgroundImage:
                         user?.profileImageUrl != null &&
                             user!.profileImageUrl!.isNotEmpty
                         ? NetworkImage(user.profileImageUrl!)
-                        : NetworkImage(
-                            'http://edutech.runasp.net/profile-images/default.jpg',
-                          ),
+                        : null,
+                    child:
+                        user?.profileImageUrl == null ||
+                            user!.profileImageUrl!.isEmpty
+                        ? Text(
+                            user?.firstName?.isNotEmpty == true
+                                ? user!.firstName![0].toUpperCase()
+                                : 'U',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.sky700,
+                            ),
+                          )
+                        : null,
                   ),
                 ),
               ],
