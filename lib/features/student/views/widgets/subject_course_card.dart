@@ -24,11 +24,8 @@ class SubjectCourseCard extends StatelessWidget {
     return RoundedContainer(
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.sky50,
-          border: Border.all(
-            color: const Color(0xFFCBD5E1), // state-300
-            width: 1,
-          ),
+          color: AppColors.primaryforeground,
+          border: Border.all(color: AppColors.border, width: 1),
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
@@ -48,7 +45,7 @@ class SubjectCourseCard extends StatelessWidget {
                   Text(
                     subject,
                     style: AppTypography.heading4.copyWith(
-                      color: Color(0xFF1E293B),
+                      color: AppColors.textPrimary,
                     ),
                   ),
                 ],
@@ -68,7 +65,7 @@ class SubjectCourseCard extends StatelessWidget {
                           detail,
                           style: AppTypography.subtle.copyWith(
                             fontSize: 14,
-                            color: Color(0xFF1E293B),
+                            color: AppColors.mutedtext,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -80,7 +77,7 @@ class SubjectCourseCard extends StatelessWidget {
                               width: 16,
                               height: 16,
                               colorFilter: ColorFilter.mode(
-                                Color(0xFF64748B),
+                                AppColors.textPrimary,
                                 BlendMode.srcIn,
                               ),
                             ),
@@ -90,7 +87,7 @@ class SubjectCourseCard extends StatelessWidget {
                                 progress,
                                 style: AppTypography.paragrah.copyWith(
                                   fontSize: 12,
-                                  color: AppColors.textTertiary,
+                                  color: AppColors.textPrimary,
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),

@@ -3,7 +3,6 @@ import 'package:edutech_app/core/api/dio_consumer.dart';
 import 'package:edutech_app/core/api/endpoints.dart';
 import 'package:edutech_app/core/cache/cache_helper.dart';
 import 'package:edutech_app/core/errors/exceptions.dart';
-import 'package:edutech_app/features/auth/models/login_model.dart';
 import 'package:edutech_app/features/auth/models/signup_model.dart';
 import 'package:edutech_app/features/auth/models/student_model.dart';
 import 'package:edutech_app/features/auth/models/user_model.dart';

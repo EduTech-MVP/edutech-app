@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="splash_background">#FFFFFF</color> <!-- White -->
+    <color name="splash_gradient_start">#2196F3</color> <!-- Example blue -->
+    <color name="splash_gradient_end">#1976D2</color>   <!-- Darker blue -->
+</resources>

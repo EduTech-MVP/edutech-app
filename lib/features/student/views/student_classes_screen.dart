@@ -13,7 +13,7 @@ class StudentLessons extends StatelessWidget {
         preferredSize: Size.fromHeight(
           MediaQuery.of(context).padding.top * 2.5,
         ),
-        child: const CustomAppbar.page(pageTitle: "Classes"),
+        child: const CustomAppbar.screen(pageTitle: "Classes"),
       ),
       body: const CoursesList(),
     );
