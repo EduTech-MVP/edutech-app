@@ -16,7 +16,7 @@ class StudentProfileScreen extends StatelessWidget {
         preferredSize: Size.fromHeight(
           MediaQuery.of(context).padding.top * 2.5,
         ),
-        child: const CustomAppbar.page(
+        child: const CustomAppbar.screen(
           pageTitle: "Profile",
           trailingWidget: LogoutButton(),
         ),

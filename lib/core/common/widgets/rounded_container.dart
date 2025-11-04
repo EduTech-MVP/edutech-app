@@ -16,7 +16,7 @@ class RoundedContainer extends StatelessWidget {
     this.gradient,
     required this.child,
     this.padding,
-    this.color = AppColors.sky50,
+    this.color = AppColors.primaryforeground,
     this.boxShadow = const [AppColors.defaultShadow],
     this.bordercolor = Colors.transparent,
     this.width,

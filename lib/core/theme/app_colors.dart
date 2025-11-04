@@ -12,6 +12,10 @@ class AppColors {
   static const Color sky700 = Color(0xFF0369A1);
   static const Color sky800 = Color(0xFF075985);
   static const Color sky900 = Color(0xFF0C4A6E);
+  static const Color funsky = Color(0xFF86D2F9);
+  static const Color funmint = Color(0xFF93ECD6);
+  static const Color funyellow = Color(0xFFFFD966);
+  static const Color funcoral = Color(0xFFF59B89);
 
   // gradient color
   static const Color gradientStart = sky200;
@@ -47,6 +51,7 @@ class AppColors {
   static const Color onBackground = Color(0xFF0F172A);
   static const Color onSurface = Color(0xFF080E0F);
   static const Color onPrimary = Color(0xFFF8FAFC);
+  static const Color buttonprimary = Color(0xFF25AFF4);
 
   // Text Colors
   static const Color textPrimary = Color(0xFF0F172A);
@@ -54,9 +59,11 @@ class AppColors {
   static const Color textTertiary = Color(0xFF64748B);
   static const Color textDisabled = Color(0xFF94A3B8);
   static const Color textBlack = Color(0xFF000000);
+  static const Color primaryforeground = Color(0xFFFFFFFF);
+  static const Color mutedtext = Color(0xFF65758B);
 
   // Border Colors
-  static const Color border = Color(0xFFE2E8F0);
+  static const Color border = Color(0xFFD7E0EA);
   static const Color borderLight = Color(0xFFF1F5F9);
   static const Color borderMedium = Color(0xFFCBD5E1);
 

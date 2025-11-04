@@ -31,7 +31,10 @@ class AiTutorCard extends StatelessWidget {
           SvgPicture.asset(
             'assets/icons/bot.svg',
             height: AppSpacing.iconXXXL,
-            colorFilter: ColorFilter.mode(AppColors.sky500, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(
+              AppColors.background,
+              BlendMode.srcIn,
+            ),
           ),
           SizedBox(width: 10),
           Expanded(
@@ -42,13 +45,13 @@ class AiTutorCard extends StatelessWidget {
                   headerText,
                   //'AI Tutor Ready!',
                   style: AppTypography.heading4.copyWith(
-                    color: AppColors.sky700,
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 Text(
                   style: AppTypography.subtle.copyWith(
                     height: 1.5,
-                    color: Colors.black,
+                    color: AppColors.textPrimary,
                     fontSize: 13,
                   ),
                   contentText,

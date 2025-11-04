@@ -62,7 +62,11 @@ class ProfileCard extends StatelessWidget {
 
           // Name
           Text(
+<<<<<<< HEAD
             "${user.firstName ?? ''} ${user.lastName ?? ''}".trim(),
+=======
+            "${user.firstName ?? ''} ${user.lastName ?? ''}",
+>>>>>>> 96a92878263737a2e3139f15fb26bf1ab12ad0d4
             style: AppTypography.heading4,
             textAlign: TextAlign.center,
           ),
