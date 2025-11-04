@@ -34,7 +34,7 @@ class ProfileCard extends StatelessWidget {
 
           // Name
           Text(
-            "${user!.firstName ?? ''} ${user.lastName ?? ''}",
+            "${user.firstName ?? ''} ${user.lastName ?? ''}",
             style: AppTypography.heading4,
           ),
 

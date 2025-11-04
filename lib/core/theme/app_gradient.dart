@@ -6,7 +6,7 @@ class AppGradients {
   static const LinearGradient iconBlue = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [AppColors.sky700, AppColors.sky900],
+    colors: [AppColors.buttonprimary, AppColors.buttonprimary],
   );
 
   static const LinearGradient buttonPrimary = LinearGradient(
@@ -17,12 +17,17 @@ class AppGradients {
   static const LinearGradient card = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [AppColors.sky200, AppColors.sky100],
+    colors: [AppColors.funsky, AppColors.funmint],
   );
 
   static const LinearGradient grade = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [AppColors.sky100, AppColors.sky50],
+  );
+  static const LinearGradient icongold = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [AppColors.funyellow, AppColors.funcoral],
   );
 }

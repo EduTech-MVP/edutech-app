@@ -21,7 +21,9 @@ class NavItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = context.watch<NavigationController>();
     final bool isSelected = index == provider.selectedIndex;
-    final Color itemColor = isSelected ? Colors.black : AppColors.neutral500;
+    final Color itemColor = isSelected
+        ? AppColors.buttonprimary
+        : AppColors.mutedtext;
 
     return GestureDetector(
       onTap: () => provider.onItemTapped(index),

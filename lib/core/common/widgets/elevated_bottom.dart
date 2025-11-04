@@ -22,7 +22,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.trailingIcon,
     this.width,
     this.gradient = AppGradients.iconBlue,
-    this.textColor = AppColors.sky50,
+    this.textColor = AppColors.background,
     this.borderColor = AppColors.sky700,
   }) : assert(
          leadingIcon == null || trailingIcon == null,

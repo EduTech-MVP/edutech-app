@@ -1,10 +1,8 @@
 import 'package:edutech_app/core/common/widgets/subject_card_widget.dart';
-import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/student/models/subjec_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class Progress extends StatelessWidget {
   const Progress({super.key});
@@ -24,35 +22,13 @@ class Progress extends StatelessWidget {
         subTitle: 'Class A - Metro Boomin',
         lessonsCompleted: 'Completed 12 lessons',
       ),
-      Subject(
-        image: 'assets/images/english.svg',
-        title: 'English',
-        subTitle: 'Class M - Kendrick Lamar',
-        lessonsCompleted: 'Completed 10 lessons',
-      ),
-      Subject(
-        image: 'assets/images/arabic.svg',
-        title: 'Arabic',
-        subTitle: 'Class C - DJ Khalid',
-        lessonsCompleted: 'Completed 7 lessons',
-      ),
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: AppSpacing.lg),
-        Row(
-          children: [
-            SvgPicture.asset(
-              'assets/icons/star.svg',
-              height: AppSpacing.iconLG,
-              colorFilter: ColorFilter.mode(AppColors.sky500, BlendMode.srcIn),
-            ),
-            SizedBox(width: AppSpacing.sm),
-            Text('Your progress', style: AppTypography.heading3),
-          ],
-        ),
+        Row(children: [Text('Your progress', style: AppTypography.heading3)]),
         const SizedBox(height: AppSpacing.xl),
         SizedBox(
           child: GridView.builder(
@@ -62,7 +38,7 @@ class Progress extends StatelessWidget {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisSpacing: AppSpacing.md,
               crossAxisSpacing: AppSpacing.md,
-              crossAxisCount: 2,
+              crossAxisCount: 1,
             ),
             itemBuilder: (context, index) {
               return SubjectCard(subject: subjects[index]);

@@ -34,8 +34,18 @@ class CustomAppbar extends StatelessWidget {
        onBackPressed = null,
        isHomePage = true;
 
+  // Page AppBar - shows title with no back arrow
+  const CustomAppbar.screen({
+    super.key,
+    required this.pageTitle,
+    this.trailingWidget,
+    this.onTrailingPressed,
+    this.navigationPage,
+  }) : isHomePage = false,
+       onBackPressed = null;
+
   // Page AppBar - shows title with back arrow
-  const CustomAppbar.page({
+  const CustomAppbar.witharrow({
     super.key,
     required this.pageTitle,
     this.trailingWidget,
@@ -150,7 +160,7 @@ class CustomAppbar extends StatelessWidget {
           child: Text(
             pageTitle ?? 'Page',
             style: AppTypography.heading3.copyWith(
-              color: AppColors.textPrimary,
+              color: AppColors.buttonprimary,
             ),
           ),
         ),
