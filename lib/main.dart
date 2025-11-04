@@ -1,6 +1,7 @@
 import 'package:edutech_app/core/cache/cache_helper.dart';
 import 'package:edutech_app/core/providers/app_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/routes/app_routes.dart';
@@ -17,11 +18,11 @@ class EduTechApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'EduTech',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      initialRoute: AppRoutes.splashScreen,
+      initialRoute: AppRoutes.studentmainscreen,
       routes: AppRoutes.routes,
     );
   }

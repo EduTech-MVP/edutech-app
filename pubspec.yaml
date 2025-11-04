@@ -9,36 +9,33 @@ environment:
   sdk: ^3.8.1
 
 dependencies:
+  connectivity_plus: null
+  cupertino_icons: ^1.0.8
+  dio: null
+  file_picker: null
+  firebase: ^9.0.3
+  firebase_core: ^4.2.0
   flutter:
     sdk: flutter
-    ##provider for statemangement
-
-  provider: 
-  font_awesome_flutter: 
-  
-  ##file picker to upload images 
-  image_picker: 
-  file_picker: 
-  mime: ^1.0.0
-  http_parser: 
-   # For persisting login state
-  shared_preferences: ^2.3.2 
- 
-  cupertino_icons: ^1.0.8
-  flutter_dotenv: ^5.1.0
-  flutter_svg:
-  flutter_chat_bubble: ^2.0.2  # For chat bubbles
-  http: 
-  connectivity_plus:
-  dio: 
+  flutter_chat_bubble: ^2.0.2
+  flutter_dotenv: ^6.0.0
+  flutter_svg: null
+  font_awesome_flutter: null
+  get: ^4.7.2
+  gradient_borders: ^1.0.2
+  http: null
+  http_parser: null
+  image_picker: null
+  intl: null
   jwt_decoder: ^2.0.1
-  intl: 
- 
+  mime: ^1.0.0
+  provider: null
+  shared_preferences: ^2.3.2
+
 dev_dependencies:
+  flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
-
-  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true

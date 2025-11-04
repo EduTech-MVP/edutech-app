@@ -2,6 +2,7 @@ import 'package:edutech_app/features/auth/view/sign_in_screen.dart';
 import 'package:edutech_app/features/auth/view/sign_up_screen.dart';
 import 'package:edutech_app/features/auth/view/splash_screen.dart';
 import 'package:edutech_app/features/parent/view/children_screen.dart';
+import 'package:edutech_app/features/roadmap/views/roadmap_screen.dart';
 import 'package:edutech_app/features/student/views/student_home.dart';
 import 'package:edutech_app/features/student/views/main_screen.dart';
 import 'package:edutech_app/features/parent/view/parent_main_screen.dart';
@@ -26,6 +27,7 @@ class AppRoutes {
   static const String teacherClasses = '/teacher-classes';
   static const String splashScreen = '/splash_screen';
   static const String student = '/student-home';
+  static const String roadmap = '/road-map';
 
   static Map<String, WidgetBuilder> get routes {
     return {
@@ -42,6 +44,7 @@ class AppRoutes {
       teacherHome: (context) => const TeacherHomeScreen(),
       teacherMainScreen: (context) => const TeacherMainScreen(),
       teacherClasses: (context) => const TeacherClassesScreen(),
+      roadmap: (context) => const RoadmapScreen(),
     };
   }
 }

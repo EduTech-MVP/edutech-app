@@ -1,6 +1,8 @@
+import 'package:edutech_app/features/roadmap/views/roadmap_screen.dart';
 import 'package:edutech_app/features/student/controllers/student_classes_controller.dart';
 import 'package:edutech_app/features/student/views/widgets/subject_course_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class CoursesList extends StatelessWidget {
@@ -26,8 +28,9 @@ class CoursesList extends StatelessWidget {
                         subject: course.subject,
                         detail: course.detail,
                         progress: course.progress,
-                        onContinue: () =>
-                            controller.onContinuePressed(course.subject),
+                        onContinue: () => Get.to(
+                          () => RoadmapScreen(subjectName: course.subject),
+                        ),
                       ),
                       const SizedBox(height: 36),
                     ],
