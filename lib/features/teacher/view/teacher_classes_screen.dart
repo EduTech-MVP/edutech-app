@@ -22,7 +22,7 @@ class TeacherClassesScreen extends StatelessWidget {
         preferredSize: Size.fromHeight(
           MediaQuery.of(context).padding.top * 2.5,
         ),
-        child: CustomAppbar.page(pageTitle: 'Classes'),
+        child: CustomAppbar.screen(pageTitle: 'Classes'),
       ),
       body: SafeArea(
         child: Column(

@@ -1,5 +1,4 @@
 class Endpoints {
-  static const String baseUrl = 'http://edutech.runasp.net/api';
   static String profile = '/Auth/profile';
   static String signin = '/Auth/login';
   static String register = '/Auth/register';

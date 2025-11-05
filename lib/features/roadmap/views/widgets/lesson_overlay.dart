@@ -1,3 +1,4 @@
+import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/roadmap/controller/lesson_provider.dart';
 import 'package:edutech_app/features/roadmap/models/lesson_ui_model.dart';
@@ -7,18 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-// 1. TOP-LEVEL FUNCTION: This function is defined outside any class
-// and is callable by other files that import this file (RoadmapScreen.dart).
 void showLessonOverlay(BuildContext context, Lesson lesson) {
-  // We use context.read to access the provider without listening for changes
-  // because we are only calling a method (completeLesson) inside the callback.
   final provider = context.read<LessonProvider>();
 
   Get.dialog(
     LessonOverlay(
       lesson: lesson,
       onComplete: (lessonId) {
-        // This is the correct logic for updating the state:
         provider.completeLesson(lessonId);
       },
     ),
@@ -26,15 +22,11 @@ void showLessonOverlay(BuildContext context, Lesson lesson) {
   );
 }
 
-// 2. WIDGET CLASS: The LessonOverlay is the dialog structure.
 class LessonOverlay extends StatelessWidget {
   final Lesson lesson;
-  // Callback function to inform the parent (RoadmapScreen via _showLessonOverlay)
-  // that the lesson is complete.
   final Function(int)? onComplete;
 
-  const LessonOverlay({Key? key, required this.lesson, this.onComplete})
-    : super(key: key);
+  const LessonOverlay({super.key, required this.lesson, this.onComplete});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +36,7 @@ class LessonOverlay extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.neutral50,
           borderRadius: BorderRadius.circular(24),
         ),
         child: Material(
@@ -107,7 +99,6 @@ class LessonOverlay extends StatelessWidget {
                 subtitle: 'Complete tasks',
                 colors: [const Color(0xFF49DD7F), const Color(0xFF17A44B)],
                 onTap: () {
-                  // Execute the onComplete callback passed from the top-level function
                   onComplete?.call(lesson.id);
                   Get.back();
                   Get.snackbar(

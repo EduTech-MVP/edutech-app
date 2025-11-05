@@ -4,7 +4,9 @@ import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/auth/controllers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class CustomAppbar extends StatelessWidget {
@@ -13,7 +15,6 @@ class CustomAppbar extends StatelessWidget {
   final VoidCallback? onTrailingPressed;
   final VoidCallback? onBackPressed;
   final bool isHomePage;
-  final String? navigationPage;
 
   const CustomAppbar({
     super.key,
@@ -21,7 +22,6 @@ class CustomAppbar extends StatelessWidget {
     this.trailingWidget,
     this.onTrailingPressed,
     this.onBackPressed,
-    this.navigationPage,
   }) : isHomePage = pageTitle == null;
 
   // Home AppBar - shows profile and greeting
@@ -29,7 +29,6 @@ class CustomAppbar extends StatelessWidget {
     super.key,
     this.trailingWidget,
     this.onTrailingPressed,
-    this.navigationPage,
   }) : pageTitle = null,
        onBackPressed = null,
        isHomePage = true;
@@ -40,7 +39,6 @@ class CustomAppbar extends StatelessWidget {
     required this.pageTitle,
     this.trailingWidget,
     this.onTrailingPressed,
-    this.navigationPage,
   }) : isHomePage = false,
        onBackPressed = null;
 
@@ -51,7 +49,6 @@ class CustomAppbar extends StatelessWidget {
     this.trailingWidget,
     this.onTrailingPressed,
     this.onBackPressed,
-    this.navigationPage,
   }) : isHomePage = false;
 
   @override
@@ -126,35 +123,25 @@ class CustomAppbar extends StatelessWidget {
     return Row(
       children: [
         // Profile avatar
-        GestureDetector(
-          onTap: () {
-            // Navigate to profile page if needed
-            if (navigationPage != null) {
-              Navigator.pushNamed(context, navigationPage!);
-            }
-          },
-          child: CircleAvatar(
-            radius: MediaQuery.of(context).size.width * 0.06,
-            backgroundImage:
-                user?.profileImageUrl != null &&
-                    user!.profileImageUrl!.isNotEmpty
-                ? NetworkImage(user.profileImageUrl!)
-                : const NetworkImage(
-                    'http://edutech.runasp.net/profile-images/default.jpg',
+        CircleAvatar(
+          radius: MediaQuery.of(context).size.width * 0.06,
+          backgroundImage:
+              user?.profileImageUrl != null && user!.profileImageUrl!.isNotEmpty
+              ? NetworkImage(user.profileImageUrl!)
+              : const NetworkImage(
+                  'http://edutech.runasp.net/profile-images/default.jpg',
+                ),
+          child: user?.profileImageUrl == null || user!.profileImageUrl!.isEmpty
+              ? Text(
+                  user?.firstName?.isNotEmpty == true
+                      ? user!.firstName![0].toUpperCase()
+                      : 'U',
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                    fontWeight: FontWeight.bold,
                   ),
-            child:
-                user?.profileImageUrl == null || user!.profileImageUrl!.isEmpty
-                ? Text(
-                    user?.firstName?.isNotEmpty == true
-                        ? user!.firstName![0].toUpperCase()
-                        : 'U',
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.04,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                : null,
-          ),
+                )
+              : null,
         ),
 
         const SizedBox(width: 16),
@@ -202,27 +189,15 @@ class CustomAppbar extends StatelessWidget {
   Widget _buildPageContent(BuildContext context) {
     return Row(
       children: [
-        // Back arrow (commented out - uncomment if needed)
-        // GestureDetector(
-        //   onTap: onBackPressed ?? () => Navigator.pop(context),
-        //   child: Container(
-        //     width: 24,
-        //     height: 24,
-        //     alignment: Alignment.center,
-        //     child: SvgPicture.asset(
-        //       'assets/icons/backarrow.svg',
-        //       width: 24,
-        //       height: 24,
-        //       colorFilter: ColorFilter.mode(
-        //         AppColors.neutral800,
-        //         BlendMode.srcIn,
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        const SizedBox(width: 16),
-
-        // Page title
+        if (onBackPressed != null)
+          GestureDetector(
+            onTap: onBackPressed ?? () => Get.back(),
+            child: SvgPicture.asset(
+              'assets/icons/backarrow.svg',
+              color: AppColors.buttonprimary,
+            ),
+          ),
+        if (onBackPressed != null) const SizedBox(width: 16),
         Expanded(
           child: Text(
             pageTitle ?? 'Page',

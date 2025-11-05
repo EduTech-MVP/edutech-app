@@ -51,7 +51,7 @@ class ClassDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildAppBar(BuildContext context) {
-    return CustomAppbar.page(
+    return CustomAppbar.screen(
       pageTitle: '${classData.subject} • ${classData.name}',
     );
   }

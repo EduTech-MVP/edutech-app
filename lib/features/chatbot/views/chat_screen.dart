@@ -25,7 +25,7 @@ class ChatScreen extends StatelessWidget {
         preferredSize: Size.fromHeight(
           MediaQuery.of(context).padding.top * 2.5,
         ),
-        child: CustomAppbar.page(
+        child: CustomAppbar.screen(
           pageTitle: 'Ai tutor',
           trailingWidget: Container(
             padding: EdgeInsets.all(4),

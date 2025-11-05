@@ -1,4 +1,5 @@
-import 'package:edutech_app/core/theme/app_colors.dart';
+import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
+import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/roadmap/models/lesson_ui_model.dart';
@@ -8,22 +9,18 @@ import 'package:get/get.dart';
 class VideoTutorialScreen extends StatelessWidget {
   final Lesson lesson;
 
-  const VideoTutorialScreen({Key? key, required this.lesson}) : super(key: key);
+  const VideoTutorialScreen({super.key, required this.lesson});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffF1FCFD),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.primary400),
-          onPressed: () => Get.back(),
+    return GradientScaffold.main(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(
+          MediaQuery.of(context).padding.top * 2.5,
         ),
-        title: Text(
-          'Video Tutorial',
-          style: AppTypography.heading3.copyWith(color: AppColors.primary400),
+        child: CustomAppbar.witharrow(
+          pageTitle: 'Video Turorial',
+          onBackPressed: () => Get.back(),
         ),
       ),
       body: SingleChildScrollView(
@@ -46,7 +43,6 @@ class VideoTutorialScreen extends StatelessWidget {
                     ),
 
                     width: double.infinity,
-                    // padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
@@ -82,16 +78,12 @@ class VideoTutorialScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-
-                  // const SizedBox(height: 20),
-                  // Lesson Description Card
                 ],
               ),
             ],
           ),
         ),
       ),
-      //  bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

@@ -9,13 +9,13 @@ class LessonOption extends StatelessWidget {
   final VoidCallback onTap;
 
   const LessonOption({
-    Key? key,
+    super.key,
     required this.image,
     required this.title,
     required this.subtitle,
     required this.colors,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +27,9 @@ class LessonOption extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.10), // soft shadow
-              blurRadius: 20, // bigger = more blur
-              //spreadRadius: .9, // small spread
-              offset: Offset(0, 10), // move shadow down a little
+              color: Colors.black.withValues(alpha: 0.10),
+              blurRadius: 20,
+              offset: Offset(0, 10),
             ),
           ],
           gradient: LinearGradient(colors: colors),

@@ -50,7 +50,7 @@ class _ChildrenScreenState extends State<ChildrenScreen> {
         preferredSize: Size.fromHeight(
           MediaQuery.of(context).padding.top * 2.5,
         ),
-        child: const CustomAppbar.page(pageTitle: "Children"),
+        child: const CustomAppbar.screen(pageTitle: "Children"),
       ),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
