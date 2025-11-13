@@ -46,13 +46,14 @@ class AiTutorCard extends StatelessWidget {
                   //'AI Tutor Ready!',
                   style: AppTypography.heading4.copyWith(
                     color: AppColors.textPrimary,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 Text(
                   style: AppTypography.subtle.copyWith(
                     height: 1.5,
                     color: AppColors.textPrimary,
-                    fontSize: 13,
+                    fontSize: 14,
                   ),
                   contentText,
                   //  'I’m here to help you learn something new today! ',

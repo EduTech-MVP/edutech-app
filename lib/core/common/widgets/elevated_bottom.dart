@@ -39,7 +39,12 @@ class CustomElevatedButton extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: gradient,
           borderRadius: BorderRadius.circular(AppSpacing.radiusXXL),
-          border: Border.all(color: borderColor),
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromRGBO(8, 14, 15, 0.08),
+              offset: Offset(0, 4),
+            ),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -50,7 +55,10 @@ class CustomElevatedButton extends StatelessWidget {
             ],
             Text(
               text,
-              style: AppTypography.paragrah.copyWith(color: textColor),
+              style: AppTypography.paragrah.copyWith(
+                color: textColor,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             if (trailingIcon != null) ...[
               const SizedBox(width: AppSpacing.spacing8),
