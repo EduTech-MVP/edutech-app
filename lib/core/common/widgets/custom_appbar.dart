@@ -59,7 +59,7 @@ class CustomAppbar extends StatelessWidget {
         child: Container(
           height: 150,
           decoration: BoxDecoration(
-            color: AppColors.sky50,
+            color: Colors.white,
             //  boxShadow: [AppColors.defaultShadow],
           ),
           child: SafeArea(

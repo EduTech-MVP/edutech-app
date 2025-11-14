@@ -1,7 +1,9 @@
+// Updated lesson_overlay.dart
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/roadmap/controller/lesson_provider.dart';
 import 'package:edutech_app/features/roadmap/models/lesson_ui_model.dart';
+import 'package:edutech_app/features/roadmap/views/home_work_screen.dart';
 import 'package:edutech_app/features/roadmap/views/video_tutorial_screen.dart';
 import 'package:edutech_app/features/roadmap/views/widgets/lesson_option.dart';
 import 'package:flutter/material.dart';
@@ -99,14 +101,10 @@ class LessonOverlay extends StatelessWidget {
                 subtitle: 'Complete tasks',
                 colors: [const Color(0xFF49DD7F), const Color(0xFF17A44B)],
                 onTap: () {
-                  onComplete?.call(lesson.id);
                   Get.back();
-                  Get.snackbar(
-                    'Homework',
-                    'Lesson marked as complete!',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.white,
-                    colorText: Colors.black,
+                  Get.to(
+                    () =>
+                        HomeworkScreen(lesson: lesson, onComplete: onComplete),
                   );
                 },
               ),

@@ -37,9 +37,13 @@ class GradientScaffold extends StatelessWidget {
     this.begin,
     this.end,
   }) : gradientColors = const [
-         Color(0xFFE0F2FE),
-         Color(0xFFE4F4FE),
-         Color(0xFFF0F9FF),
+         Color(0xffF0F7FF),
+         Color(0xffF0F7FF),
+         Color(0xffF0F7FF),
+
+         //  Color(0xFFE0F2FE),
+         //  Color(0xFFE4F4FE),
+         //  Color(0xFFF0F9FF),
        ];
 
   @override

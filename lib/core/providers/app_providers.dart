@@ -35,6 +35,7 @@ List<SingleChildWidget> appProviders = [
   ChangeNotifierProvider(create: (_) => TeacherStudentsController()),
   //sstudent
   ChangeNotifierProvider(create: (_) => LessonProvider()),
+  //ChangeNotifierProvider(create: (_) => HomeworkProvider()),
 
   // Common providers
   ChangeNotifierProvider(
