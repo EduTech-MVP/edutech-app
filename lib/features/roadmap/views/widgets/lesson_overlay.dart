@@ -1,6 +1,7 @@
 // Updated lesson_overlay.dart
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
+import 'package:edutech_app/features/chatbot/views/chat_screen.dart';
 import 'package:edutech_app/features/roadmap/controller/lesson_provider.dart';
 import 'package:edutech_app/features/roadmap/models/lesson_ui_model.dart';
 import 'package:edutech_app/features/roadmap/views/home_work_screen.dart';
@@ -85,13 +86,7 @@ class LessonOverlay extends StatelessWidget {
                 colors: [const Color(0xFF84D1F9), const Color(0xFF28B0F4)],
                 onTap: () {
                   Get.back();
-                  Get.snackbar(
-                    'AI Session',
-                    'Opening AI tutor chat...',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.white,
-                    colorText: Colors.black,
-                  );
+                  Get.to(() => ChatScreen());
                 },
               ),
               const SizedBox(height: 16),
