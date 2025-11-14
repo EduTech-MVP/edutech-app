@@ -1,5 +1,4 @@
 // ignore_for_file: deprecated_member_use
-
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
@@ -99,7 +98,7 @@ class ChatScreen extends StatelessWidget {
                           height: 40,
                           width: 40,
                           decoration: BoxDecoration(
-                            color: AppColors.sky700,
+                            color: AppColors.buttonprimary,
                             border: Border.all(color: Colors.grey),
                             borderRadius: const BorderRadius.only(
                               topRight: Radius.circular(20),
@@ -110,9 +109,10 @@ class ChatScreen extends StatelessWidget {
                           ),
                           child: SvgPicture.asset(
                             'assets/icons/send.svg',
-                            height: 10,
-                            width: 10,
+                            height: 32,
+                            width: 32,
                             color: Colors.white,
+                            fit: BoxFit.scaleDown,
                           ),
                         ),
                       ),

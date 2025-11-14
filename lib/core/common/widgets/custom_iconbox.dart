@@ -1,3 +1,4 @@
+import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_gradient.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class CustomIconBox extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: gradient,
         borderRadius: BorderRadius.circular(radius),
+        boxShadow: [AppColors.shadowMedium],
       ),
       child: Center(
         child: IconTheme(data: Theme.of(context).primaryIconTheme, child: icon),

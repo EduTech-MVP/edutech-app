@@ -4,7 +4,6 @@ import 'package:edutech_app/core/api/endpoints.dart';
 import 'package:edutech_app/core/cache/cache_helper.dart';
 import 'package:edutech_app/core/errors/exceptions.dart';
 import 'package:edutech_app/features/auth/models/token_response_model.dart';
-import 'package:edutech_app/features/auth/models/signup_model.dart';
 import 'package:edutech_app/features/auth/models/student_model.dart';
 import 'package:edutech_app/features/auth/models/user_model.dart';
 import 'package:edutech_app/features/parent/model/add_student_request.dart';
@@ -97,35 +96,9 @@ class UserProvider extends ChangeNotifier {
           ApiKey.profileImage: await MultipartFile.fromFile(profilePicturePath),
       });
 
-      final response = await api.post(
-        Endpoints.register,
-        data: formData,
-        isFormData: true,
-      );
-
-      final signupModel = SignupModel.fromJson(response);
-
-      // Save token
-      if (signupModel.token.isNotEmpty) {
-        _token = signupModel.token;
-        await CacheHelper().saveData(key: ApiKey.token, value: _token!);
-
-        // Save user type if available from signup model
-        if (signupModel.user.userType!.isNotEmpty) {
-          await CacheHelper().saveData(
-            key: ApiKey.userType,
-            value: signupModel.user.userType,
-          );
-        }
-
-        // Fetch profile after successful signup
-        await getProfile();
-
-        return true;
-      } else {
-        error = "Signup failed: missing token";
-        return false;
-      }
+      await api.post(Endpoints.register, data: formData, isFormData: true);
+      // User must verify email before signing in
+      return true;
     } on ServerException catch (e) {
       error = e.errorModel.errorMessage;
       return false;

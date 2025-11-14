@@ -18,12 +18,18 @@ class Logo extends StatelessWidget {
           'assets/images/logo.svg',
           height: AppSpacing.iconXXXL * 2,
         ),
-        Text(firstText, style: AppTypography.heading2.copyWith(fontSize: 38)),
+        Text(
+          firstText,
+          style: AppTypography.heading2.copyWith(
+            fontSize: 42,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
         Text(
           secondText,
           style: AppTypography.lead.copyWith(
-            color: AppColors.sky700,
-            height: 1.4,
+            color: AppColors.buttonprimary,
+            height: 1,
           ),
         ),
       ],

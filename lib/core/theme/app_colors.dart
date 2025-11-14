@@ -92,8 +92,18 @@ class AppColors {
     spreadRadius: 2,
     offset: Offset(0, 5),
   );
+  static const shadowLarge = BoxShadow(
+    color: AppColors.shadowLight,
+    blurRadius: 0,
+    spreadRadius: 0,
+    offset: Offset(0, 8),
+  );
+  static const shadowMedium = BoxShadow(
+    color: AppColors.shadowLight,
+    blurRadius: 0,
+    spreadRadius: 0,
+    offset: Offset(0, 4),
+  );
   // Shadow Colors
   static const Color shadowLight = Color(0x0F080E0F);
-  static const Color shadowMedium = Color(0x26080E0F);
-  static const Color shadowDark = Color(0x40080E0F);
 }

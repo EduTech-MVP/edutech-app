@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:edutech_app/core/routes/app_routes.dart';
+import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/features/auth/controllers/user_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -289,9 +290,9 @@ class OnboardingProvider extends ChangeNotifier {
     }
 
     try {
-      // Format dateOfBirth as MM/dd/yyyy
+      // Format dateOfBirth as YYYY-MM-DD (API requirement)
       final formattedDateOfBirth = _data.dateOfBirth != null
-          ? DateFormat('MM/dd/yyyy').format(_data.dateOfBirth!)
+          ? DateFormat('yyyy-MM-dd').format(_data.dateOfBirth!)
           : '';
       if (kDebugMode) {
         print('Formatted DateOfBirth: $formattedDateOfBirth');
@@ -314,14 +315,24 @@ class OnboardingProvider extends ChangeNotifier {
       );
 
       if (success) {
+        // Show toast message about email verification
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text(
+              'Please check your Gmail and confirm your email address',
+            ),
+            backgroundColor: AppColors.success,
+            duration: const Duration(seconds: 6),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+
+        // Redirect to sign-in screen for Teacher and Parent
         switch (_data.userType) {
           case 'Teacher':
-            Navigator.pushReplacementNamed(
-              context,
-              AppRoutes.teacherMainScreen,
-            );
           case 'Parent':
-            Navigator.pushReplacementNamed(context, AppRoutes.parentMainScreen);
+            Navigator.pushReplacementNamed(context, AppRoutes.signIn);
+            break;
         }
         return true;
       } else {

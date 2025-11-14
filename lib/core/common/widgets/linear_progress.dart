@@ -14,7 +14,7 @@ class LinearProgress extends StatelessWidget {
         child: LinearProgressIndicator(
           value: value,
           backgroundColor: AppColors.neutral100,
-          color: AppColors.sky700,
+          color: AppColors.buttonprimary,
           minHeight: AppSpacing.sm,
         ),
       ),

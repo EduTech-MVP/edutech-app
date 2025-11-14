@@ -49,15 +49,15 @@ class OnboardingScreen extends StatelessWidget {
                                 children: [
                                   const Icon(
                                     Icons.arrow_back,
-                                    color: AppColors.sky800,
+                                    color: AppColors.buttonprimary,
                                     size: 20,
                                   ),
                                   const SizedBox(width: AppSpacing.spacing8),
                                   Text(
                                     "Back",
                                     style: AppTypography.paragrah.copyWith(
-                                      color: AppColors.sky800,
-                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.buttonprimary,
+                                      fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                     ),
                                   ),
@@ -73,15 +73,15 @@ class OnboardingScreen extends StatelessWidget {
                                 children: [
                                   const Icon(
                                     Icons.arrow_back,
-                                    color: AppColors.sky800,
+                                    color: AppColors.buttonprimary,
                                     size: 20,
                                   ),
                                   const SizedBox(width: AppSpacing.spacing8),
                                   Text(
                                     "Back",
                                     style: AppTypography.paragrah.copyWith(
-                                      color: AppColors.sky800,
-                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.buttonprimary,
+                                      fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                     ),
                                   ),
@@ -92,7 +92,7 @@ class OnboardingScreen extends StatelessWidget {
                           Text(
                             "${provider.currentStep + 1} of ${provider.totalSteps}",
                             style: AppTypography.subtle.copyWith(
-                              color: AppColors.sky900,
+                              color: AppColors.mutedtext,
                               fontWeight: FontWeight.w500,
                             ),
                           ),

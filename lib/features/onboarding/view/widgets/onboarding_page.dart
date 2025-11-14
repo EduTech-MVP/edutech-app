@@ -99,16 +99,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
             padding: const EdgeInsets.all(AppSpacing.spacing24),
             decoration: BoxDecoration(
-              color: AppColors.sky100,
+              color: AppColors.background,
               borderRadius: BorderRadius.circular(AppSpacing.radiusXXL),
               border: Border.all(color: AppColors.border),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.shadowMedium,
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+              boxShadow: [AppColors.shadowMedium],
             ),
             child: Column(
               children: [

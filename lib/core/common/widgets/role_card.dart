@@ -26,14 +26,7 @@ class Rolecard extends StatelessWidget {
         width: 392,
         height: 104,
         decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.shadowMedium,
-              spreadRadius: 1,
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
+          boxShadow: [AppColors.shadowMedium],
           color: AppColors.sky50,
           borderRadius: BorderRadius.circular(AppSpacing.radiusXXL),
         ),

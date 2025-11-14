@@ -39,6 +39,7 @@ class Progress extends StatelessWidget {
               mainAxisSpacing: AppSpacing.md,
               crossAxisSpacing: AppSpacing.md,
               crossAxisCount: 1,
+              childAspectRatio: 1.5,
             ),
             itemBuilder: (context, index) {
               return SubjectCard(subject: subjects[index]);
