@@ -1,6 +1,9 @@
+import 'package:edutech_app/features/auth/view/forgot_password_screen.dart';
+import 'package:edutech_app/features/auth/view/reset_password_screen.dart';
 import 'package:edutech_app/features/auth/view/sign_in_screen.dart';
 import 'package:edutech_app/features/auth/view/sign_up_screen.dart';
 import 'package:edutech_app/features/auth/view/splash_screen.dart';
+import 'package:edutech_app/features/auth/view/verify_reset_code_screen.dart';
 import 'package:edutech_app/features/parent/view/children_screen.dart';
 import 'package:edutech_app/features/roadmap/views/roadmap_screen.dart';
 import 'package:edutech_app/features/student/views/student_home.dart';
@@ -16,6 +19,9 @@ class AppRoutes {
   static const String onboarding = '/onboarding';
   static const String signUp = '/signup';
   static const String signIn = '/signin';
+  static const String forgotPassword = '/forgot-password';
+  static const String verifyResetCode = '/verify-reset-code';
+  static const String resetPassword = '/reset-password';
   static const String studenthome = '/home';
   static const String studentmainscreen = '/mainscreen';
   static const String parenthome = '/homeparent';
@@ -37,6 +43,10 @@ class AppRoutes {
 
       signUp: (context) => const SignUpScreen(),
       signIn: (context) => SignInScreen(),
+      forgotPassword: (context) => const ForgotPasswordScreen(),
+      verifyResetCode: (context) => const VerifyResetCodeScreen(),
+      resetPassword: (context) => const ResetPasswordScreen(),
+
       studenthome: (context) => const StudentHome(),
       studentmainscreen: (context) => const MainScreen(),
       childrescreen: (context) => const ChildrenScreen(),

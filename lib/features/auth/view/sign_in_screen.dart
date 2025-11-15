@@ -231,7 +231,10 @@ class SignInScreen extends StatelessWidget {
                           Center(
                             child: TextButton(
                               onPressed: () {
-                                // TODO: Navigate to forgot password screen
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.forgotPassword,
+                                );
                               },
                               child: Text(
                                 "Forgot your password?",

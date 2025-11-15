@@ -6,9 +6,22 @@ import 'package:flutter/material.dart';
 class ApiInterceptors extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // Skip token for signin/signup
+    // Skip token for signin/signup/forgot-password/verify-reset-code
     if (options.path.contains(Endpoints.signin) ||
-        options.path.contains(Endpoints.register)) {
+        options.path.contains(Endpoints.register) ||
+        options.path.contains(Endpoints.forgotPassword) ||
+        options.path.contains(Endpoints.verifyResetPassword)) {
+      options.headers['Content-Type'] = 'application/json';
+      handler.next(options);
+      return;
+    }
+
+    // Use reset token for password reset endpoint
+    if (options.path.contains(Endpoints.resetPassword)) {
+      final resetToken = CacheHelper.getData(key: ApiKey.resetToken);
+      if (resetToken != null) {
+        options.headers['Authorization'] = 'Bearer $resetToken';
+      }
       options.headers['Content-Type'] = 'application/json';
       handler.next(options);
       return;

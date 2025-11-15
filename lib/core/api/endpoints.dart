@@ -5,6 +5,9 @@ class Endpoints {
   static String uploadProfileImage = '/Auth/upload-profile-image';
   static String deleteProfileImage = '/Auth/delete-profile-image';
   static String addStudent = '/Auth/parent/add-student';
+  static String forgotPassword = '/Auth/forgot-password';
+  static String verifyResetPassword = '/Auth/verify-reset-code';
+  static String resetPassword = '/Auth/reset-password';
 
   static String createSession = '/ChatBot/create-session';
   static String sendMessage = '/ChatBot/send-message';
@@ -46,6 +49,10 @@ class ApiKey {
   //image
   static String imageurl = "imageUrl";
 
+  //forgot password
+  static String resetCode = "code";
+  static String newPassword = "newPassword";
+  static String resetToken = "resetToken";
   //chat bot apikeys
   static String sessionid = "sessionId";
   static String createdat = "createdAt";
