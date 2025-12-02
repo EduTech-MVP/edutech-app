@@ -1,9 +1,14 @@
+import 'package:dio/dio.dart';
+import 'package:edutech_app/core/api/dio_consumer.dart';
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
+import 'package:edutech_app/core/common/widgets/shimmer_loader_helper.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
-import 'package:edutech_app/features/roadmap/controller/homework_provider.dart';
+import 'package:edutech_app/features/chatbot/controllers/chat_controller.dart';
+import 'package:edutech_app/features/chatbot/views/chat_screen.dart';
+import 'package:edutech_app/features/roadmap/controller/lesson_details_provider.dart';
 import 'package:edutech_app/features/roadmap/models/lesson_ui_model.dart';
 import 'package:edutech_app/features/roadmap/views/widgets/answer_option.dart';
 import 'package:edutech_app/features/roadmap/views/widgets/home_work_buttons.dart';
@@ -13,23 +18,32 @@ import 'package:provider/provider.dart';
 
 class HomeworkScreen extends StatelessWidget {
   final Lesson lesson;
+  final int classId;
   final Function(int)? onComplete;
 
-  const HomeworkScreen({super.key, required this.lesson, this.onComplete});
+  const HomeworkScreen({
+    super.key,
+    required this.lesson,
+    required this.classId,
+    this.onComplete,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => HomeworkProvider(lesson),
-      child: HomeworkView(onComplete: onComplete),
+      create: (_) =>
+          LessonDetailsProvider(apiConsumer: DioConsumer(dio: Dio()))
+            ..loadLessonDetails(classId, lesson.id),
+      child: HomeworkView(onComplete: onComplete, lessonId: lesson.id),
     );
   }
 }
 
 class HomeworkView extends StatelessWidget {
   final Function(int)? onComplete;
+  final int lessonId;
 
-  const HomeworkView({super.key, this.onComplete});
+  const HomeworkView({super.key, this.onComplete, required this.lessonId});
 
   @override
   Widget build(BuildContext context) {
@@ -43,96 +57,82 @@ class HomeworkView extends StatelessWidget {
           onBackPressed: () => Get.back(),
         ),
       ),
-      body: Consumer<HomeworkProvider>(
+      body: Consumer<LessonDetailsProvider>(
         builder: (context, provider, child) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.pagePadding,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Progress indicator
-                const SizedBox(height: 8),
+          if (provider.isLoading) {
+            return const Center(child: HomeworkShimmer());
+          }
 
-                Row(
-                  children: [
-                    Text(
-                      '${provider.currentQuestionIndex + 1}/${provider.totalQuestions}',
-                      style: AppTypography.small.copyWith(
-                        color: AppColors.neutral400,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
+          if (provider.questions.isEmpty) {
+            return const Center(child: Text("No homework questions found."));
+          }
 
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: LinearProgressIndicator(
-                    borderRadius: BorderRadius.circular(24),
-                    value: provider.progress,
-                    backgroundColor: AppColors.background,
-                    valueColor: const AlwaysStoppedAnimation<Color>(
-                      AppColors.primary500,
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.pagePadding,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Progress
+                  const SizedBox(height: 8),
+                  Text(
+                    '${provider.currentQuestionIndex + 1}/${provider.totalQuestions}',
+                    style: AppTypography.small.copyWith(
+                      color: AppColors.neutral400,
                     ),
-                    minHeight: 8,
                   ),
-                ),
-
-                const SizedBox(height: 16),
-
-                // Question card
-                Stack(
-                  children: [
-                    //background shadow
-                    Container(
-                      margin: const EdgeInsets.only(top: 10),
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: AppColors.neutral200,
-                        borderRadius: BorderRadius.circular(26),
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: provider.progress,
+                      backgroundColor: AppColors.background,
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        AppColors.primary500,
                       ),
-                      child: const SizedBox(width: double.infinity, height: 50),
+                      minHeight: 8,
                     ),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(color: AppColors.neutral300),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            provider.currentQuestion.text,
-                            style: AppTypography.heading3.copyWith(
-                              fontSize: 20,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Choose the correct answer',
-                            style: AppTypography.small.copyWith(
-                              color: AppColors.neutral400,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 18),
+                  ),
+                  const SizedBox(height: 16),
 
-                // Answer options
-                Flexible(
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
+                  // Question Card
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: 18,
+                    ),
+                    decoration: BoxDecoration(
+                      boxShadow: [AppColors.shadowLarge],
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(color: AppColors.neutral200),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          provider.currentQuestion.text,
+                          style: AppTypography.heading3.copyWith(fontSize: 20),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'chosse the correct answer',
+                          style: AppTypography.small.copyWith(
+                            color: AppColors.neutral400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+
+                  // Options List
+                  ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: provider.currentQuestion.options.length,
                     itemBuilder: (context, index) {
                       return AnswerOption(
@@ -148,23 +148,43 @@ class HomeworkView extends StatelessWidget {
                       );
                     },
                   ),
-                ),
 
-                // Action buttons
-                if (!provider.isAnswered)
-                  SubmitButton(
-                    isEnabled: provider.selectedAnswer != null,
-                    onPressed: provider.submitAnswer,
-                  )
-                else if (provider.currentQuestionIndex <
-                    provider.totalQuestions - 1)
-                  NextButton(onPressed: provider.nextQuestion)
-                else
-                  FinishButton(
-                    onPressed: () =>
-                        provider.finishHomework(context, onComplete),
+                  // Buttons
+                  if (!provider.isAnswered)
+                    SubmitButton(
+                      isEnabled: provider.selectedAnswer != null,
+                      onPressed: provider.submitAnswer,
+                    )
+                  else if (provider.currentQuestionIndex <
+                      provider.totalQuestions - 1)
+                    NextButton(onPressed: provider.nextQuestion)
+                  else
+                    FinishButton(
+                      onPressed: () => provider.finishHomework(
+                        context,
+                        onComplete,
+                        lessonId,
+                      ),
+                    ),
+                  SizedBox(height: 16),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        final controller = context.read<ChatController>();
+                        controller.createNewSession();
+                        Get.to(() => const ChatScreen());
+                      },
+                      child: Text(
+                        'Ask Ai Tutor',
+                        style: AppTypography.heading3.copyWith(
+                          color: AppColors.primary400,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
                   ),
-              ],
+                ],
+              ),
             ),
           );
         },

@@ -1,4 +1,5 @@
 class Endpoints {
+  static const String staticBaseUrl = 'http://edutech.runasp.net';
   static String profile = '/Auth/profile';
   static String signin = '/Auth/login';
   static String register = '/Auth/signup';
@@ -9,14 +10,22 @@ class Endpoints {
   static String verifyResetPassword = '/Auth/verify-reset-code';
   static String resetPassword = '/Auth/reset-password';
 
-  static String createSession = '/ChatBot/create-session';
-  static String sendMessage = '/ChatBot/send-message';
+  static String createSession = '/ChatBot/session';
+  static String sendMessage = '/ChatBot/message';
   static String getSessions = '/ChatBot/sessions';
   static String sessionsHistory = '/ChatBot/history';
+  static String deletesession = '/ChatBot/session';
+
   static String parentHome = '/Parent/home';
   static String parentChildren = '/Parent/children';
   static String childInfo = '/Parent/child/{childId}';
   static String childSessions = '/Parent/child/{childId}/sessions';
+
+  static const String studentClasses = '/Student/classes';
+  static const String studentClassLessons =
+      '/Student/classes/{classId}/lessons';
+  static const String studentLessonDetails =
+      '/Student/classes/{classId}/lessons/{lessonId}';
 }
 
 class ApiKey {
@@ -86,4 +95,8 @@ class ApiKey {
   static String studentUserName = "username";
   static String studentName = "studentName";
   static String classIdRequest = "ClassId";
+  static const String completionStatus = 'completionStatus';
+  static const String lessonId = 'lessonId';
+  static const String lessonName = 'lessonName';
+  static const String completed = 'Completed';
 }

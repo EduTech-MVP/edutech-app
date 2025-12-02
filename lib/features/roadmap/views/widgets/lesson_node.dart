@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:edutech_app/features/roadmap/models/lesson_ui_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart'; // <--- Import this
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class LessonNode extends StatelessWidget {
@@ -17,9 +18,11 @@ class LessonNode extends StatelessWidget {
 
   double _getHorizontalOffset(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return (screenWidth * .4) + (screenWidth * .18) * math.sin(index * .5) - 40;
+    // Adjusted calculation to keep nodes safely within screen bounds
+    return (screenWidth * .35) + (screenWidth * .18) * math.sin(index * .5);
   }
 
+  // ... (Keep your Gradients and BoxShadow getters exactly as they are) ...
   Gradient get _borderGradient => lesson.isLocked
       ? const LinearGradient(colors: [Color(0xff949698), Color(0xff949698)])
       : lesson.isCompleted
@@ -42,13 +45,18 @@ class LessonNode extends StatelessWidget {
     offset: const Offset(0, 8),
   );
 
-  Image get _nodeIcon => Image.asset(
+  Widget get _nodeIcon => SvgPicture.asset(
     lesson.isLocked
         ? 'assets/icons/lock.svg'
         : lesson.isCompleted
-        ? 'assets/icons/task.svg'
-        : 'assets/icons/enter.svg',
-    color: lesson.isLocked ? const Color(0xff949698) : Colors.white,
+        ? 'assets/icons/task.svg' // Ensure this file exists
+        : 'assets/icons/enter.svg', // Ensure this file exists
+    colorFilter: ColorFilter.mode(
+      lesson.isLocked ? const Color(0xff949698) : Colors.white,
+      BlendMode.srcIn,
+    ),
+    width: 32, // Give it a fixed size
+    height: 32,
   );
 
   @override
@@ -59,10 +67,11 @@ class LessonNode extends StatelessWidget {
       margin: EdgeInsets.only(left: _getHorizontalOffset(context)),
       child: GestureDetector(
         onTap: onTap,
-        behavior: HitTestBehavior.opaque,
+        behavior: HitTestBehavior.opaque, // Ensures the tap is caught
         child: Container(
           width: 90,
           height: 80,
+          alignment: Alignment.center, // Center the icon inside the bubble
           decoration: BoxDecoration(
             border: GradientBoxBorder(width: 5, gradient: _borderGradient),
             borderRadius: BorderRadius.circular(55),

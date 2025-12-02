@@ -3,6 +3,7 @@ import 'package:edutech_app/core/api/api_consumer.dart';
 import 'package:edutech_app/core/api/api_interceptors.dart';
 import 'package:edutech_app/core/errors/exceptions.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'dart:io';
 
 class DioConsumer extends ApiConsumer {
   final Dio dio;
@@ -15,6 +16,7 @@ class DioConsumer extends ApiConsumer {
     dio.interceptors.add(ApiInterceptors());
     dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
   }
+
   @override
   Future get(String path, {Map<String, dynamic>? queryParameters}) async {
     try {
@@ -79,6 +81,52 @@ class DioConsumer extends ApiConsumer {
       return response.data;
     } on DioException catch (e) {
       handleDioExceptions(e);
+    }
+  }
+
+  // NEW METHOD: For uploading files with form-data
+  Future<dynamic> postFormData(
+    String path, {
+    Map<String, dynamic>? data,
+    String? filePath,
+    String fileKey = 'image',
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      // Create FormData
+      FormData formData = FormData.fromMap({
+        ...?data, // Spread all text fields (message, sessionId, etc.)
+      });
+
+      // Add file if provided
+      if (filePath != null && filePath.isNotEmpty) {
+        final file = File(filePath);
+
+        // Check if file exists
+        if (await file.exists()) {
+          final fileName = filePath.split('/').last;
+
+          formData.files.add(
+            MapEntry(
+              fileKey,
+              await MultipartFile.fromFile(filePath, filename: fileName),
+            ),
+          );
+        }
+      }
+
+      final response = await dio.post(
+        path,
+        data: formData,
+        queryParameters: queryParameters,
+        options: Options(headers: {'Content-Type': 'multipart/form-data'}),
+      );
+
+      return response.data;
+    } on DioException catch (e) {
+      handleDioExceptions(e);
+    } catch (e) {
+      rethrow;
     }
   }
 }

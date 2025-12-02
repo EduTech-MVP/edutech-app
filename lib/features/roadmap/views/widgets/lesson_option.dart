@@ -1,3 +1,4 @@
+import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 
@@ -25,13 +26,7 @@ class LessonOption extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.10),
-              blurRadius: 20,
-              offset: Offset(0, 10),
-            ),
-          ],
+          boxShadow: [AppColors.shadowLarge],
           gradient: LinearGradient(colors: colors),
           borderRadius: BorderRadius.circular(24),
         ),

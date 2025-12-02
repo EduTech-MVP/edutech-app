@@ -27,13 +27,7 @@ class SubjectCourseCard extends StatelessWidget {
           color: AppColors.primaryforeground,
           border: Border.all(color: AppColors.border, width: 1),
           borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0XFF080E0F).withValues(alpha: 0.15),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          boxShadow: [AppColors.shadowMedium],
         ),
         child: Padding(
           padding: const EdgeInsets.all(24.0),
