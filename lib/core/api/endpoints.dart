@@ -17,6 +17,11 @@ class Endpoints {
   static String parentChildren = '/Parent/children';
   static String childInfo = '/Parent/child/{childId}';
   static String childSessions = '/Parent/child/{childId}/sessions';
+
+  static String classes = '/Teacher/classes';
+  static String createClass = '/Teacher/create-class';
+  static String classStudents = '/Teacher/classes/{classId}/students';
+  static String addStudentToClass = '/Teacher/add-student-to-class';
 }
 
 class ApiKey {
@@ -86,4 +91,7 @@ class ApiKey {
   static String studentUserName = "username";
   static String studentName = "studentName";
   static String classIdRequest = "ClassId";
+  static String classCode = "classCode";
+  static String lessonCount = "lessons";
+  static String studentCount = "studentCount";
 }
