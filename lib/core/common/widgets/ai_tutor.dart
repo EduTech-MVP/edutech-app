@@ -4,9 +4,12 @@ import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_gradient.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
+import 'package:edutech_app/features/chatbot/controllers/chat_controller.dart';
 import 'package:edutech_app/features/chatbot/views/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class AiTutorCard extends StatelessWidget {
   final String headerText;
@@ -69,9 +72,9 @@ class AiTutorCard extends StatelessWidget {
                   text: buttonText,
                   // 'Start Learning',
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => ChatScreen()),
-                    );
+                    final controller = context.read<ChatController>();
+                    controller.createNewSession();
+                    Get.to(() => const ChatScreen());
                   },
                 ),
               ],

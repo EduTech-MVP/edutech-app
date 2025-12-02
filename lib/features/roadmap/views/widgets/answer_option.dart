@@ -45,65 +45,51 @@ class AnswerOption extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: GestureDetector(
         onTap: onTap,
-        child: Stack(
-          children: [
-            //shadow
-            Container(
-              margin: const EdgeInsets.only(top: 10),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: AppColors.neutral200,
-                borderRadius: BorderRadius.circular(26),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          decoration: BoxDecoration(
+            boxShadow: [AppColors.shadowMedium],
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(26),
+            border: Border.all(color: borderColor, width: 1),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 18,
+                height: 18,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: showResult || isSelected
+                      ? Colors.transparent
+                      : Colors.transparent,
+                  border: Border.all(color: AppColors.primary400, width: 1),
+                ),
+                child:
+                    showResult && isCorrect ||
+                        isSelected && !showResult ||
+                        showResult && isSelected && !isCorrect
+                    ? Center(
+                        child: Container(
+                          width: 6,
+                          height: 6,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColors.primary400,
+                          ),
+                        ),
+                      )
+                    : null,
               ),
-              child: const SizedBox(width: double.infinity, height: 8),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              decoration: BoxDecoration(
-                color: backgroundColor,
-                borderRadius: BorderRadius.circular(26),
-                border: Border.all(color: borderColor, width: 1),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  option,
+                  style: AppTypography.heading3.copyWith(fontSize: 16),
+                ),
               ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 18,
-                    height: 18,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: showResult || isSelected
-                          ? Colors
-                                .transparent // No background fill
-                          : Colors.transparent,
-                      border: Border.all(color: AppColors.primary400, width: 1),
-                    ),
-                    child:
-                        showResult && isCorrect ||
-                            isSelected && !showResult ||
-                            showResult && isSelected && !isCorrect
-                        ? Center(
-                            child: Container(
-                              width: 6,
-                              height: 6,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.primary400,
-                              ),
-                            ),
-                          )
-                        : null,
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      option,
-                      style: AppTypography.heading3.copyWith(fontSize: 16),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

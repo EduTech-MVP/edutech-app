@@ -17,7 +17,6 @@ class StudentRepository {
 
   Future<List<dynamic>> getLessonsForClass(int classId) async {
     try {
-      // dynamic path replacement
       final path = Endpoints.studentClassLessons.replaceAll(
         '{classId}',
         classId.toString(),
@@ -28,14 +27,12 @@ class StudentRepository {
       rethrow;
     }
   }
-  // ... inside StudentRepository class
 
   Future<Map<String, dynamic>> getLessonDetails(
     int classId,
     int lessonId,
   ) async {
     try {
-      // Replace placeholders
       String path = Endpoints.studentLessonDetails
           .replaceAll('{classId}', classId.toString())
           .replaceAll('{lessonId}', lessonId.toString());

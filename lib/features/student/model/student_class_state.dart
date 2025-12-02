@@ -1,4 +1,4 @@
-import 'subject_course.dart'; // Make sure this import points to your SubjectCourse model
+import 'subject_course.dart';
 
 class StudentClassesState {
   final List<SubjectCourse> courses;

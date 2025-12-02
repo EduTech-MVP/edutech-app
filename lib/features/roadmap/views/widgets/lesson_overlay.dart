@@ -1,5 +1,6 @@
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
+import 'package:edutech_app/features/chatbot/controllers/chat_controller.dart';
 import 'package:edutech_app/features/chatbot/views/chat_screen.dart';
 import 'package:edutech_app/features/roadmap/controller/lessons_provider.dart';
 import 'package:edutech_app/features/roadmap/models/lesson_ui_model.dart';
@@ -10,14 +11,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-// 1. UPDATE FUNCTION SIGNATURE: Add classId here
 void showLessonOverlay(BuildContext context, Lesson lesson, int classId) {
   final provider = context.read<LessonProvider>();
 
   Get.dialog(
     LessonOverlay(
       lesson: lesson,
-      classId: classId, // Pass it to the widget
+      classId: classId,
       onComplete: (lessonId) {
         provider.completeLesson(lessonId);
       },
@@ -28,7 +28,7 @@ void showLessonOverlay(BuildContext context, Lesson lesson, int classId) {
 
 class LessonOverlay extends StatelessWidget {
   final Lesson lesson;
-  final int classId; // 2. ADD VARIABLE HERE
+  final int classId;
   final Function(int)? onComplete;
 
   const LessonOverlay({
@@ -83,27 +83,24 @@ class LessonOverlay extends StatelessWidget {
                 colors: [const Color(0xFFF87070), const Color(0xFFEF4545)],
                 onTap: () {
                   Get.back();
-                  Get.to(
-                    () => VideoTutorialScreen(lesson: lesson, classId: classId),
-                  );
+                  Get.to(() => VideoTutorialScreen(lesson: lesson, classId: 6));
                 },
               ),
               const SizedBox(height: 16),
 
-              // AI Session (No change needed unless Chat needs ID)
               LessonOption(
                 image: 'assets/icons/messege.svg',
                 title: 'AI Session',
                 subtitle: 'Chat with AI tutor for help',
                 colors: [const Color(0xFF84D1F9), const Color(0xFF28B0F4)],
                 onTap: () {
-                  Get.back();
-                  Get.to(() => ChatScreen());
+                  final controller = context.read<ChatController>();
+                  controller.createNewSession();
+                  Get.to(() => const ChatScreen());
                 },
               ),
               const SizedBox(height: 16),
 
-              // 4. PASS ID TO HOMEWORK SCREEN
               LessonOption(
                 image: 'assets/icons/book2.svg',
                 title: 'Homework',
@@ -114,7 +111,7 @@ class LessonOverlay extends StatelessWidget {
                   Get.to(
                     () => HomeworkScreen(
                       lesson: lesson,
-                      classId: classId, // <--- PASS IT HERE
+                      classId: classId,
                       onComplete: onComplete,
                     ),
                   );
