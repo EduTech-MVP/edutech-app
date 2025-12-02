@@ -10,8 +10,8 @@ class Endpoints {
   static String verifyResetPassword = '/Auth/verify-reset-code';
   static String resetPassword = '/Auth/reset-password';
 
-  static String createSession = '/ChatBot/session';
-  static String sendMessage = '/ChatBot/message';
+  static String createSession = '/ChatBot/create-session';
+  static String sendMessage = '/ChatBot/send-message';
   static String getSessions = '/ChatBot/sessions';
   static String sessionsHistory = '/ChatBot/history';
   static String deletesession = '/ChatBot/session';

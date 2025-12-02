@@ -1,7 +1,7 @@
 class LessonSummary {
   final int lessonId;
   final String lessonName;
-  final String completionStatus; // "NotStarted", etc.
+  final String completionStatus;
   final String? completedAt;
 
   LessonSummary({

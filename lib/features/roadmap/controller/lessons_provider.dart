@@ -29,7 +29,6 @@ class LessonProvider extends ChangeNotifier {
         final json = data[i];
         final bool isCompleted = json['completionStatus'] == 'Completed';
 
-        // Logic: Lesson is locked if previous is not completed
         bool isLocked = false;
         if (i > 0) {
           final prevJson = data[i - 1];
@@ -65,17 +64,14 @@ class LessonProvider extends ChangeNotifier {
     }
   }
 
-  // --- RESTORED METHOD ---
   void completeLesson(int lessonId) {
     final index = _lessons.indexWhere((l) => l.id == lessonId);
     if (index != -1) {
-      // 1. Mark current lesson as completed
       _lessons[index] = _lessons[index].copyWith(
         isCompleted: true,
         isActive: false,
       );
 
-      // 2. Unlock the next lesson (if it exists)
       if (index + 1 < _lessons.length) {
         _lessons[index + 1] = _lessons[index + 1].copyWith(
           isLocked: false,
@@ -83,11 +79,7 @@ class LessonProvider extends ChangeNotifier {
         );
       }
 
-      // 3. Update UI
       notifyListeners();
-
-      // Note: If you have an API endpoint to save progress (e.g. POST /complete),
-      // call it here using _repository.completeLesson(lessonId)
     }
   }
 }

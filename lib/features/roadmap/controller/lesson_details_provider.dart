@@ -16,7 +16,7 @@ class LessonDetailsProvider extends ChangeNotifier {
   String? videoUrl;
   List<Question> questions = [];
 
-  // To track homework progress
+  //   homework progress
   int currentQuestionIndex = 0;
   int? selectedAnswer;
   bool isAnswered = false;
@@ -29,18 +29,16 @@ class LessonDetailsProvider extends ChangeNotifier {
     try {
       final data = await _repository.getLessonDetails(classId, lessonId);
 
-      // 1. Parse Video URL
+      //  Parse Video URL
       videoUrl = data['tutorialVideoUrl'];
 
-      // 2. Parse Questions
+      //   Parse Questions
       if (data['questions'] != null) {
         questions = (data['questions'] as List).map((q) {
           return Question(
             id: q['lessonQuestionId'],
             text: q['question'],
-            // API returns options as a List of strings
             options: List<String>.from(q['options']),
-            // API returns index of correct answer
             correctAnswer: q['correctAnswerIndex'],
           );
         }).toList();
@@ -88,7 +86,6 @@ class LessonDetailsProvider extends ChangeNotifier {
     if (onComplete != null) {
       onComplete(lessonId);
     }
-    Navigator.pop(context); // Close screen
-    // Show success message if you like
+    Navigator.pop(context);
   }
 }

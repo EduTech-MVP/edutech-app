@@ -18,11 +18,9 @@ class LessonNode extends StatelessWidget {
 
   double _getHorizontalOffset(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    // Adjusted calculation to keep nodes safely within screen bounds
     return (screenWidth * .35) + (screenWidth * .18) * math.sin(index * .5);
   }
 
-  // ... (Keep your Gradients and BoxShadow getters exactly as they are) ...
   Gradient get _borderGradient => lesson.isLocked
       ? const LinearGradient(colors: [Color(0xff949698), Color(0xff949698)])
       : lesson.isCompleted
@@ -49,13 +47,13 @@ class LessonNode extends StatelessWidget {
     lesson.isLocked
         ? 'assets/icons/lock.svg'
         : lesson.isCompleted
-        ? 'assets/icons/task.svg' // Ensure this file exists
-        : 'assets/icons/enter.svg', // Ensure this file exists
+        ? 'assets/icons/task.svg'
+        : 'assets/icons/enter.svg',
     colorFilter: ColorFilter.mode(
       lesson.isLocked ? const Color(0xff949698) : Colors.white,
       BlendMode.srcIn,
     ),
-    width: 32, // Give it a fixed size
+    width: 32,
     height: 32,
   );
 
@@ -67,11 +65,11 @@ class LessonNode extends StatelessWidget {
       margin: EdgeInsets.only(left: _getHorizontalOffset(context)),
       child: GestureDetector(
         onTap: onTap,
-        behavior: HitTestBehavior.opaque, // Ensures the tap is caught
+        behavior: HitTestBehavior.opaque,
         child: Container(
           width: 90,
           height: 80,
-          alignment: Alignment.center, // Center the icon inside the bubble
+          alignment: Alignment.center,
           decoration: BoxDecoration(
             border: GradientBoxBorder(width: 5, gradient: _borderGradient),
             borderRadius: BorderRadius.circular(55),

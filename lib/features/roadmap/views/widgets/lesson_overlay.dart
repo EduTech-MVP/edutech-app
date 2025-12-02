@@ -10,14 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-// 1. UPDATE FUNCTION SIGNATURE: Add classId here
 void showLessonOverlay(BuildContext context, Lesson lesson, int classId) {
   final provider = context.read<LessonProvider>();
 
   Get.dialog(
     LessonOverlay(
       lesson: lesson,
-      classId: classId, // Pass it to the widget
+      classId: classId,
       onComplete: (lessonId) {
         provider.completeLesson(lessonId);
       },
@@ -28,7 +27,7 @@ void showLessonOverlay(BuildContext context, Lesson lesson, int classId) {
 
 class LessonOverlay extends StatelessWidget {
   final Lesson lesson;
-  final int classId; // 2. ADD VARIABLE HERE
+  final int classId;
   final Function(int)? onComplete;
 
   const LessonOverlay({
@@ -83,14 +82,11 @@ class LessonOverlay extends StatelessWidget {
                 colors: [const Color(0xFFF87070), const Color(0xFFEF4545)],
                 onTap: () {
                   Get.back();
-                  Get.to(
-                    () => VideoTutorialScreen(lesson: lesson, classId: classId),
-                  );
+                  Get.to(() => VideoTutorialScreen(lesson: lesson, classId: 6));
                 },
               ),
               const SizedBox(height: 16),
 
-              // AI Session (No change needed unless Chat needs ID)
               LessonOption(
                 image: 'assets/icons/messege.svg',
                 title: 'AI Session',
@@ -103,7 +99,6 @@ class LessonOverlay extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // 4. PASS ID TO HOMEWORK SCREEN
               LessonOption(
                 image: 'assets/icons/book2.svg',
                 title: 'Homework',
@@ -114,7 +109,7 @@ class LessonOverlay extends StatelessWidget {
                   Get.to(
                     () => HomeworkScreen(
                       lesson: lesson,
-                      classId: classId, // <--- PASS IT HERE
+                      classId: classId,
                       onComplete: onComplete,
                     ),
                   );

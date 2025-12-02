@@ -3,7 +3,7 @@ import 'package:edutech_app/core/api/endpoints.dart';
 class ChatSession {
   final String sessionId;
   final int userId;
-  final int clusterId;
+  final int? clusterId; // Changed to nullable int
   final String createdAt;
   final String lastActivityAt;
   final bool isActive;
@@ -11,7 +11,7 @@ class ChatSession {
   ChatSession({
     required this.sessionId,
     required this.userId,
-    required this.clusterId,
+    this.clusterId, // Now optional
     required this.createdAt,
     required this.lastActivityAt,
     required this.isActive,
@@ -19,12 +19,12 @@ class ChatSession {
 
   factory ChatSession.fromJson(Map<String, dynamic> json) {
     return ChatSession(
-      sessionId: json[ApiKey.sessionid],
-      userId: json[ApiKey.userId],
-      clusterId: json[ApiKey.clusterid],
-      createdAt: json[ApiKey.createdat],
-      lastActivityAt: json[ApiKey.lastActivityAt],
-      isActive: json[ApiKey.isActive],
+      sessionId: json[ApiKey.sessionid] as String,
+      userId: json[ApiKey.userId] as int,
+      clusterId: json[ApiKey.clusterid] as int?, // Cast to nullable int
+      createdAt: json[ApiKey.createdat] as String,
+      lastActivityAt: json[ApiKey.lastActivityAt] as String,
+      isActive: json[ApiKey.isActive] as bool,
     );
   }
 }
