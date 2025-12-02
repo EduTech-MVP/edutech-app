@@ -27,6 +27,11 @@ class Endpoints {
   static String classStudents = '/Teacher/classes/{classId}/students';
   static String addStudentToClass = '/Teacher/add-student-to-class';
   static String studentProfile = '/Teacher/students/{studentId}/profile';
+  static String teacherLessons = '/Teacher/Classes/{classId}/Lessons';
+  static String teacherLessonDetails =
+      '/Teacher/classes/{classId}/lessons/{lessonId}';
+  static String updateVideoUrl =
+      '/Teacher/Classes/{classId}/Lessons/{lessonId}/video';
 
   // Student endpoints
   static const String studentClasses = '/Student/classes';
