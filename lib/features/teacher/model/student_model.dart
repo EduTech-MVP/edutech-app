@@ -18,14 +18,40 @@ class StudentModel {
   });
 
   factory StudentModel.fromJson(Map<String, dynamic> json) {
+    // Handle profile image path - convert relative to absolute URL
+    String? profileImage =
+        json['profileImagePath'] ??
+        json[ApiKey.profileImageurl] ??
+        json['profileImageUrl'];
+
+    // If profile image is a relative path, convert to absolute URL
+    if (profileImage != null &&
+        profileImage.isNotEmpty &&
+        profileImage.startsWith('/')) {
+      profileImage = 'http://edutech.runasp.net$profileImage';
+    }
+
     return StudentModel(
-      id: json[ApiKey.studentId]?.toString() ?? json['id']?.toString() ?? '',
+      id:
+          json[ApiKey.studentId]?.toString() ??
+          json['studentId']?.toString() ??
+          json['id']?.toString() ??
+          '',
       name:
-          json[ApiKey.studentName] ?? json['name'] ?? json['studentName'] ?? '',
-      username: json[ApiKey.userName] ?? json['username'] ?? '',
+          json['fullName'] ??
+          json[ApiKey.studentName] ??
+          json['name'] ??
+          json['studentName'] ??
+          '${json['firstName'] ?? ''} ${json['lastName'] ?? ''}'.trim(),
+      username:
+          json[ApiKey.userName] ??
+          json['username'] ??
+          json['userName'] ??
+          json['Username'] ??
+          '',
       completedLessons: json['completedLessons'] ?? 0,
       points: json['points'] ?? 0,
-      profileImageUrl: json[ApiKey.profileImageurl] ?? json['profileImageUrl'],
+      profileImageUrl: profileImage,
     );
   }
 

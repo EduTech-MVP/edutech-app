@@ -30,4 +30,10 @@ class AppGradients {
     end: Alignment.bottomRight,
     colors: [AppColors.funyellow, AppColors.funcoral],
   );
+
+  static const LinearGradient tapbar = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [AppColors.funsky, AppColors.buttonprimary],
+  );
 }

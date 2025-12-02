@@ -1,21 +1,31 @@
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/common/widgets/section_header.dart';
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
+import 'package:edutech_app/core/common/widgets/generic_empty_state.dart';
+import 'package:edutech_app/core/common/widgets/generic_error_state.dart';
+import 'package:edutech_app/core/common/widgets/generic_loading_state.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
-import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/teacher/controller/teacher_students_controller.dart';
 import 'package:edutech_app/features/teacher/model/class_model.dart';
 import 'package:edutech_app/features/teacher/view/widgets/add_student_dialog.dart';
-import 'package:edutech_app/features/teacher/view/widgets/student_card.dart';
+import 'package:edutech_app/features/teacher/view/widgets/custom_tab_bar.dart';
+import 'package:edutech_app/features/teacher/view/widgets/students_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-class ClassDetailsScreen extends StatelessWidget {
+class ClassDetailsScreen extends StatefulWidget {
   final ClassModel classData;
 
   const ClassDetailsScreen({super.key, required this.classData});
+
+  @override
+  State<ClassDetailsScreen> createState() => _ClassDetailsScreenState();
+}
+
+class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
+  int _selectedTabIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +39,22 @@ class ClassDetailsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
+            // Tab Bar
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.spacing24,
+                vertical: AppSpacing.spacing16,
+              ),
+              child: CustomTabBar(
+                selectedIndex: _selectedTabIndex,
+                onTabSelected: (index) {
+                  setState(() {
+                    _selectedTabIndex = index;
+                  });
+                },
+                tabs: const ['Students', 'Lessons'],
+              ),
+            ),
             // Main Content
             Expanded(
               child: SingleChildScrollView(
@@ -37,8 +63,10 @@ class ClassDetailsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Students Section
-                      _buildStudentsSection(context),
+                      // Tab Content
+                      _selectedTabIndex == 0
+                          ? _buildStudentsSection(context)
+                          : _buildLessonsSection(context),
                     ],
                   ),
                 ),
@@ -51,14 +79,18 @@ class ClassDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildAppBar(BuildContext context) {
-    return CustomAppbar.screen(
-      pageTitle: '${classData.subject} • ${classData.name}',
+    return CustomAppbar.witharrow(
+      pageTitle: '${widget.classData.subject} • ${widget.classData.name}',
+      onBackPressed: () => Navigator.pop(context),
     );
   }
 
   Widget _buildStudentsSection(BuildContext context) {
     final studentsController = context.watch<TeacherStudentsController>();
-    final students = studentsController.getStudentsForClass(classData.id);
+    final students = studentsController.getStudentsForClass(
+      widget.classData.id,
+    );
+    final classId = int.tryParse(widget.classData.id);
 
     return SectionHeader(
       title: 'Manage Students',
@@ -74,111 +106,37 @@ class ClassDetailsScreen extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: AppSpacing.spacing16),
         child: studentsController.loading
-            ? const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(AppSpacing.spacing24),
-                  child: CircularProgressIndicator(color: AppColors.primary500),
-                ),
-              )
+            ? const GenericLoadingState(message: 'Loading students...')
             : studentsController.error != null
-            ? _buildErrorState(studentsController)
-            : Column(
-                children: students.isEmpty
-                    ? [_buildEmptyState()]
-                    : students.map((student) {
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: AppSpacing.spacing16,
-                          ),
-                          child: StudentCard(
-                            student: student,
-                            onTap: () {
-                              // Navigate to student detail or show student options
-                            },
-                          ),
-                        );
-                      }).toList(),
-              ),
+            ? GenericErrorState(
+                error: studentsController.error!,
+                onRetry: () =>
+                    studentsController.fetchClassStudents(classId ?? 0),
+              )
+            : students.isEmpty
+            ? const GenericEmptyState(
+                icon: Icons.people_outline,
+                title: 'No Students Yet',
+                message: 'Add students to this class to get started',
+              )
+            : StudentsList(students: students),
       ),
     );
   }
 
-  Widget _buildEmptyState() {
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.spacing24),
-      decoration: BoxDecoration(
-        color: AppColors.sky50,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.borderLight),
-        boxShadow: [AppColors.defaultShadow],
-      ),
-      child: Column(
-        children: [
-          const Icon(Icons.people_outline, size: 64, color: AppColors.sky300),
-          const SizedBox(height: AppSpacing.spacing16),
-          Text('No Students Yet', style: AppTypography.heading4),
-          const SizedBox(height: AppSpacing.spacing8),
-          Text(
-            'Add students to this class to get started',
-            style: AppTypography.paragrah.copyWith(
-              color: AppColors.textSecondary,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildErrorState(TeacherStudentsController controller) {
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.spacing24),
-      decoration: BoxDecoration(
-        color: Colors.red.shade50,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.borderLight),
-      ),
-      child: Column(
-        children: [
-          const Icon(Icons.error_outline, size: 64, color: Colors.red),
-          const SizedBox(height: AppSpacing.spacing16),
-          Text(
-            controller.error ?? 'An error occurred',
-            style: AppTypography.paragrah.copyWith(
-              color: AppColors.textPrimary,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: AppSpacing.spacing16),
-          ElevatedButton(
-            onPressed: () {
-              final classId = int.tryParse(classData.id);
-              if (classId != null) {
-                controller.fetchClassStudents(classId);
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary500,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.spacing24,
-                vertical: AppSpacing.spacing12,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: const Text('Retry'),
-          ),
-        ],
-      ),
+  Widget _buildLessonsSection(BuildContext context) {
+    return const GenericEmptyState(
+      icon: Icons.school_outlined,
+      title: 'Lessons Coming Soon',
+      message: 'Lesson management features will be available soon',
     );
   }
 
   void _showAddStudentDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AddStudentDialog(classId: int.parse(classData.id)),
+      builder: (context) =>
+          AddStudentDialog(classId: int.parse(widget.classData.id)),
     );
   }
 }

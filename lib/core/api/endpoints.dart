@@ -93,5 +93,5 @@ class ApiKey {
   static String classIdRequest = "ClassId";
   static String classCode = "classCode";
   static String lessonCount = "lessons";
-  static String studentCount = "studentCount";
+  static String studentsCount = "studentsCount";
 }

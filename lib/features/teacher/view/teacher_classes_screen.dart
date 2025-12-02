@@ -1,14 +1,14 @@
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/common/widgets/section_header.dart';
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
+import 'package:edutech_app/core/common/widgets/generic_empty_state.dart';
+import 'package:edutech_app/core/common/widgets/generic_error_state.dart';
+import 'package:edutech_app/core/common/widgets/generic_loading_state.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/features/teacher/controller/teacher_classes_controller.dart';
 import 'package:edutech_app/features/teacher/view/widgets/add_class_dialog.dart';
-import 'package:edutech_app/features/teacher/view/widgets/classes_empty_state.dart';
-import 'package:edutech_app/features/teacher/view/widgets/classes_error_state.dart';
 import 'package:edutech_app/features/teacher/view/widgets/classes_list.dart';
-import 'package:edutech_app/features/teacher/view/widgets/classes_loading_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -74,15 +74,22 @@ class TeacherClassesScreen extends StatelessWidget {
 
   Widget _buildContent(TeacherClassesController controller) {
     if (controller.loading) {
-      return const ClassesLoadingState();
+      return const GenericLoadingState(message: 'Loading classes...');
     }
 
     if (controller.error != null) {
-      return ClassesErrorState(controller: controller);
+      return GenericErrorState(
+        error: controller.error!,
+        onRetry: controller.fetchClasses,
+      );
     }
 
     if (controller.classes.isEmpty) {
-      return const ClassesEmptyState();
+      return const GenericEmptyState(
+        icon: Icons.school_outlined,
+        title: 'No Classes Yet',
+        message: 'Create your first class to get started',
+      );
     }
 
     return ClassesList(classes: controller.classes);

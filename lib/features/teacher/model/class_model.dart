@@ -27,7 +27,7 @@ class ClassModel {
       subject: json[ApiKey.classSubject] ?? '',
       grade: json[ApiKey.classGrade] ?? 0,
       lessonCount: json[ApiKey.lessonCount] ?? 0,
-      studentCount: json[ApiKey.studentCount] ?? 0,
+      studentCount: json[ApiKey.studentsCount] ?? 0,
     );
   }
   Map<String, dynamic> toJson() {
@@ -37,7 +37,7 @@ class ClassModel {
       ApiKey.classSubject: subject,
       ApiKey.classGrade: grade,
       ApiKey.lessonCount: lessonCount,
-      ApiKey.studentCount: studentCount,
+      ApiKey.studentsCount: studentCount,
       ApiKey.classCode: classCode,
     };
   }
