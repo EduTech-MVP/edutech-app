@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:edutech_app/core/theme/app_colors.dart';
-import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/chatbot/controllers/chat_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -17,24 +17,37 @@ class ImagePreviewWidget extends StatelessWidget {
 
     if (pendingImage == null) return const SizedBox.shrink();
 
-    return _ImagePreviewContent(image: pendingImage);
+    // Show full-screen preview
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          fullscreenDialog: true,
+          builder: (context) => _FullScreenImagePreview(image: pendingImage),
+        ),
+      );
+    });
+
+    return const SizedBox.shrink();
   }
 }
 
-class _ImagePreviewContent extends StatefulWidget {
+class _FullScreenImagePreview extends StatefulWidget {
   final XFile image;
-  const _ImagePreviewContent({required this.image});
+  const _FullScreenImagePreview({required this.image});
 
   @override
-  State<_ImagePreviewContent> createState() => _ImagePreviewContentState();
+  State<_FullScreenImagePreview> createState() =>
+      _FullScreenImagePreviewState();
 }
 
-class _ImagePreviewContentState extends State<_ImagePreviewContent> {
+class _FullScreenImagePreviewState extends State<_FullScreenImagePreview> {
   final TextEditingController _captionController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void dispose() {
     _captionController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -42,151 +55,158 @@ class _ImagePreviewContentState extends State<_ImagePreviewContent> {
     final controller = context.read<ChatController>();
     controller.sendImageMessage(_captionController.text);
     _captionController.clear();
+    Navigator.of(context).pop();
   }
 
   void _handleCancel() {
     context.read<ChatController>().cancelImagePreview();
     _captionController.clear();
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    final keyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
-
-    return SafeArea(
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: AppColors.background,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          boxShadow: [AppColors.shadowLarge],
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            /// Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Send Image",
-                  style: AppTypography.heading4.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: _handleCancel,
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            /// ⭐ Scrollable area when keyboard shows
-            Flexible(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    _DynamicImagePreview(
-                      imagePath: widget.image.path,
-                      keyboardVisible: keyboardVisible,
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    /// Caption input
-                    TextField(
-                      controller: _captionController,
-                      maxLines: 3,
-                      minLines: 1,
-                      decoration: InputDecoration(
-                        hintText: "Add a caption...",
-                        hintStyle: AppTypography.small.copyWith(
-                          color: AppColors.neutral500,
-                        ),
-                        filled: true,
-                        fillColor: AppColors.neutral100,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: const EdgeInsets.all(12),
-                      ),
-                      style: AppTypography.small,
-                    ),
-
-                    const SizedBox(height: 16),
-                  ],
-                ),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          // Full-screen image
+          Positioned.fill(
+            child: InteractiveViewer(
+              minScale: 0.5,
+              maxScale: 4.0,
+              child: Center(
+                child: Image.file(File(widget.image.path), fit: BoxFit.contain),
               ),
             ),
+          ),
 
-            /// Fixed bottom send button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _handleSend,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.buttonprimary,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+          // Top bar with close button
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: SafeArea(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.black.withOpacity(0.6), Colors.transparent],
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.send, color: Colors.white, size: 20),
-                    const SizedBox(width: 8),
-                    Text(
-                      "Send Image",
-                      style: AppTypography.small.copyWith(
+                    IconButton(
+                      icon: const Icon(
+                        Icons.close,
                         color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                        size: 28,
                       ),
+                      onPressed: _handleCancel,
                     ),
+                    const Spacer(),
+                    // Optional: Add more actions here (crop, edit, etc.)
                   ],
                 ),
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+          ),
 
-/// Dynamic preview that shrinks when keyboard appears
-class _DynamicImagePreview extends StatelessWidget {
-  final String imagePath;
-  final bool keyboardVisible;
+          // Bottom bar with caption and send button
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.8),
+                    Colors.black.withOpacity(0.6),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      // Caption input
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.3),
+                              width: 1,
+                            ),
+                          ),
+                          child: TextField(
+                            controller: _captionController,
+                            focusNode: _focusNode,
+                            maxLines: 4,
+                            minLines: 1,
+                            style: const TextStyle(
+                              color: AppColors.onBackground,
+                              fontSize: 16,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: "Add a caption...",
+                              hintStyle: TextStyle(
+                                color: AppColors.neutral900,
+                                fontSize: 16,
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
 
-  const _DynamicImagePreview({
-    required this.imagePath,
-    required this.keyboardVisible,
-  });
+                      const SizedBox(width: 12),
 
-  @override
-  Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    final maxHeight = keyboardVisible
-        ? screenHeight * 0.18
-        : screenHeight * 0.38;
-
-    return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: maxHeight, minHeight: 80),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Image.file(
-          File(imagePath),
-          width: double.infinity,
-          fit: BoxFit.contain,
-        ),
+                      // Send button
+                      GestureDetector(
+                        onTap: _handleSend,
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: AppColors.buttonprimary,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.buttonprimary.withOpacity(0.4),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/icons/send.svg',
+                            height: 32,
+                            width: 32,
+                            color: Colors.white,
+                            fit: BoxFit.scaleDown,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

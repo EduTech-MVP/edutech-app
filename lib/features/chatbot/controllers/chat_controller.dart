@@ -13,7 +13,7 @@ import 'package:image_picker/image_picker.dart';
 
 /// Optimized ChatController with better state management
 class ChatController with ChangeNotifier {
-  // ========== PRIVATE STATE ==========
+  //  PRIVATE STATE
   final DioConsumer _api;
   final ImagePicker _imagePicker = ImagePicker();
 
@@ -48,7 +48,7 @@ class ChatController with ChangeNotifier {
   // Search state
   String _searchQuery = '';
 
-  // ========== PUBLIC GETTERS ==========
+  //  PUBLIC GETTERS
   String? get sessionId => _sessionId;
   String? get error => _error;
   List<Message> get messages => List.unmodifiable(_messages);
@@ -84,12 +84,12 @@ class ChatController with ChangeNotifier {
     }).toList();
   }
 
-  // ========== CONSTRUCTOR ==========
+  //  CONSTRUCTOR
   ChatController({required DioConsumer api}) : _api = api {
     _initializeChat();
   }
 
-  // ========== IMAGE HANDLING ==========
+  //   IMAGE HANDLING
 
   /// Pick image from gallery and show preview
   Future<void> pickImageForPreview() async {
@@ -212,7 +212,7 @@ class ChatController with ChangeNotifier {
     }
   }
 
-  // ========== SESSION MANAGEMENT ==========
+  // SESSION MANAGEMENT
 
   /// Create a new chat session
   Future<SessionResponse> _createSession() async {
@@ -251,8 +251,6 @@ class ChatController with ChangeNotifier {
         _logDebug("New session created: $_sessionId");
         await fetchSessions(refresh: true);
       } catch (e) {
-        // If session creation fails (404), clear messages and set null session
-        // Session will be auto-created when user sends first message
         _logDebug("Session creation failed, will create on first message");
         _sessionId = null;
         _messages.clear();
@@ -265,7 +263,7 @@ class ChatController with ChangeNotifier {
     }
   }
 
-  // ========== HISTORY MANAGEMENT ==========
+  //  HISTORY MANAGEMENT
 
   /// Fetch chat sessions with titles and pagination
   Future<void> fetchSessions({bool refresh = false}) async {
@@ -428,7 +426,7 @@ class ChatController with ChangeNotifier {
     }
   }
 
-  // ========== MESSAGE MANAGEMENT ==========
+  //  MESSAGE MANAGEMENT
 
   /// Send text message to API
   Future<SendMessageModel> _sendMessage(String sessionId, String text) async {
@@ -542,7 +540,7 @@ class ChatController with ChangeNotifier {
     }
   }
 
-  // ========== UI STATE MANAGEMENT ==========
+  //  UI STATE MANAGEMENT
 
   /// Toggle history drawer
   void toggleHistory() {
@@ -592,7 +590,7 @@ class ChatController with ChangeNotifier {
     return session.title ?? 'New Chat';
   }
 
-  // ========== SEARCH METHODS ==========
+  // SEARCH METHODS
 
   /// Update search query and filter sessions
   void updateSearchQuery(String query) {
@@ -610,8 +608,7 @@ class ChatController with ChangeNotifier {
     }
   }
 
-  // ========== PRIVATE HELPER METHODS ==========
-
+  //  PRIVATE HELPER METHODS
   void _addMessage(Message message) {
     _messages.add(message);
     notifyListeners();

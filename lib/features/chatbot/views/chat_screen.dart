@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
@@ -12,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-/// Optimized ChatScreen - Pure StatelessWidget
-/// Uses context.select() for granular rebuilds
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
 
@@ -23,13 +19,11 @@ class ChatScreen extends StatelessWidget {
   }
 }
 
-/// Chat screen content with granular selectors
 class _ChatScreenContent extends StatelessWidget {
   const _ChatScreenContent();
 
   @override
   Widget build(BuildContext context) {
-    // Separate selectors for different UI states
     final showHistory = context.select<ChatController, bool>(
       (controller) => controller.showHistory,
     );
@@ -47,7 +41,6 @@ class _ChatScreenContent extends StatelessWidget {
 
     return Stack(
       children: [
-        // Main chat content that slides
         AnimatedPositioned(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
@@ -116,10 +109,8 @@ class _MainChatContent extends StatelessWidget {
 
           if (isLoading) const LinearProgressIndicator(),
 
-          // Show image preview when image is selected
           if (showImagePreview) const ImagePreviewWidget(),
 
-          // Hide text input when image preview is shown
           if (!showImagePreview)
             MessageInputField(
               onSend: (text) =>
@@ -132,7 +123,6 @@ class _MainChatContent extends StatelessWidget {
   }
 }
 
-/// History toggle button
 class _HistoryButton extends StatelessWidget {
   final VoidCallback onTap;
 
@@ -147,7 +137,6 @@ class _HistoryButton extends StatelessWidget {
   }
 }
 
-/// Backdrop overlay for closing drawer
 class _BackdropOverlay extends StatelessWidget {
   final VoidCallback onTap;
 

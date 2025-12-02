@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-/// Optimized MessageInputField - StatelessWidget wrapper
 class MessageInputField extends StatelessWidget {
   final Function(String) onSend;
   final bool isLoading;
@@ -23,7 +22,6 @@ class MessageInputField extends StatelessWidget {
   }
 }
 
-/// Internal stateful widget for text controller management
 class _MessageInputContent extends StatefulWidget {
   final Function(String) onSend;
   final bool isLoading;
@@ -130,7 +128,7 @@ class _MessageInputContentState extends State<_MessageInputContent> {
         bottomRight: Radius.circular(8),
       ),
       borderSide: BorderSide(
-        width: AppSpacing.radiusXS * 0.7,
+        width: AppSpacing.radiusXS * 0.1,
         color: AppColors.neutral300,
       ),
     );
