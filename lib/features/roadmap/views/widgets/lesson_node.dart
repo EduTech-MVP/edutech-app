@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:edutech_app/features/roadmap/models/lesson_ui_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart'; // <--- Import this
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class LessonNode extends StatelessWidget {
@@ -17,7 +18,7 @@ class LessonNode extends StatelessWidget {
 
   double _getHorizontalOffset(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return (screenWidth * .4) + (screenWidth * .18) * math.sin(index * .5) - 40;
+    return (screenWidth * .35) + (screenWidth * .18) * math.sin(index * .5);
   }
 
   Gradient get _borderGradient => lesson.isLocked
@@ -42,13 +43,18 @@ class LessonNode extends StatelessWidget {
     offset: const Offset(0, 8),
   );
 
-  Image get _nodeIcon => Image.asset(
+  Widget get _nodeIcon => SvgPicture.asset(
     lesson.isLocked
         ? 'assets/icons/lock.svg'
         : lesson.isCompleted
         ? 'assets/icons/task.svg'
         : 'assets/icons/enter.svg',
-    color: lesson.isLocked ? const Color(0xff949698) : Colors.white,
+    colorFilter: ColorFilter.mode(
+      lesson.isLocked ? const Color(0xff949698) : Colors.white,
+      BlendMode.srcIn,
+    ),
+    width: 32,
+    height: 32,
   );
 
   @override
@@ -63,6 +69,7 @@ class LessonNode extends StatelessWidget {
         child: Container(
           width: 90,
           height: 80,
+          alignment: Alignment.center,
           decoration: BoxDecoration(
             border: GradientBoxBorder(width: 5, gradient: _borderGradient),
             borderRadius: BorderRadius.circular(55),

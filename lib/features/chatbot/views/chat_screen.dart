@@ -1,145 +1,163 @@
 // ignore_for_file: deprecated_member_use
+
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
-import 'package:edutech_app/core/theme/app_spacing.dart';
-import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/chatbot/controllers/chat_controller.dart';
-import 'package:edutech_app/features/chatbot/views/widgets/chat_bubble.dart';
+import 'package:edutech_app/features/chatbot/views/widgets/chat_messege_list.dart';
+import 'package:edutech_app/features/chatbot/views/widgets/history_slide.dart';
+import 'package:edutech_app/features/chatbot/views/widgets/image_preview.dart';
+import 'package:edutech_app/features/chatbot/views/widgets/message_inputfeild.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
+/// Optimized ChatScreen - Pure StatelessWidget
+/// Uses context.select() for granular rebuilds
 class ChatScreen extends StatelessWidget {
-  final TextEditingController _controller = TextEditingController();
-
-  ChatScreen({super.key});
+  const ChatScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<ChatController>();
+    return const _ChatScreenContent();
+  }
+}
 
+/// Chat screen content with granular selectors
+class _ChatScreenContent extends StatelessWidget {
+  const _ChatScreenContent();
+
+  @override
+  Widget build(BuildContext context) {
+    // Separate selectors for different UI states
+    final showHistory = context.select<ChatController, bool>(
+      (controller) => controller.showHistory,
+    );
+
+    final showImagePreview = context.select<ChatController, bool>(
+      (controller) => controller.showImagePreview,
+    );
+
+    final isLoading = context.select<ChatController, bool>(
+      (controller) => controller.isLoading,
+    );
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    final drawerWidth = screenWidth * 0.75;
+
+    return Stack(
+      children: [
+        // Main chat content that slides
+        AnimatedPositioned(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          left: showHistory ? -drawerWidth : 0,
+          right: showHistory ? drawerWidth : 0,
+          top: 0,
+          bottom: 0,
+          child: _MainChatContent(
+            showImagePreview: showImagePreview,
+            isLoading: isLoading,
+          ),
+        ),
+
+        // History Drawer
+        HistoryDrawer(
+          isOpen: showHistory,
+          onClose: () => context.read<ChatController>().closeHistory(),
+        ),
+
+        // Backdrop overlay
+        if (showHistory)
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            left: 0,
+            right: drawerWidth,
+            top: 0,
+            bottom: 0,
+            child: _BackdropOverlay(
+              onTap: () => context.read<ChatController>().closeHistory(),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+/// Main chat content
+class _MainChatContent extends StatelessWidget {
+  final bool showImagePreview;
+  final bool isLoading;
+
+  const _MainChatContent({
+    required this.showImagePreview,
+    required this.isLoading,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return GradientScaffold.main(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(
           MediaQuery.of(context).padding.top * 2.5,
         ),
-        child: CustomAppbar.screen(
-          pageTitle: 'Ai tutor',
-          trailingWidget: Container(
-            padding: EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.neutral300),
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [AppColors.sky200, AppColors.primary50],
-              ),
-            ),
-            child: Text(
-              'Chat Mode',
-              style: AppTypography.small.copyWith(color: AppColors.sky700),
-            ),
+        child: CustomAppbar.witharrow(
+          onBackPressed: () => Get.back(),
+          pageTitle: 'AI Tutor',
+          trailingWidget: _HistoryButton(
+            onTap: () => context.read<ChatController>().toggleHistory(),
           ),
         ),
       ),
       body: Column(
         children: [
-          Expanded(
-            child: ListView.builder(
-              physics: AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.all(18),
+          const Expanded(child: ChatMessagesList()),
 
-              itemCount: controller.messages.length,
-              itemBuilder: (context, index) {
-                final message = controller.messages[index];
-                return ChatBubbleWidget(message: message);
-              },
+          if (isLoading) const LinearProgressIndicator(),
+
+          // Show image preview when image is selected
+          if (showImagePreview) const ImagePreviewWidget(),
+
+          // Hide text input when image preview is shown
+          if (!showImagePreview)
+            MessageInputField(
+              onSend: (text) =>
+                  context.read<ChatController>().sendMessage(text),
+              isLoading: isLoading,
             ),
-          ),
-          if (controller.isLoading) const LinearProgressIndicator(),
-          Padding(
-            padding: EdgeInsets.all(18.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: SizedBox(
-                          height: 40,
-                          child: TextFormField(
-                            cursorHeight: 18,
-                            cursorColor: AppColors.neutral500,
-                            controller: _controller,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintStyle: AppTypography.small.copyWith(
-                                color: AppColors.neutral500,
-                              ),
-                              contentPadding: EdgeInsets.only(left: 16),
-                              hintText: "Type a message...",
-                              border: buildBorder(),
-                              enabledBorder: buildBorder(),
-                              focusedBorder: buildBorder(),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      GestureDetector(
-                        onTap: () {
-                          controller.sendMessage(_controller.text);
-                          _controller.clear();
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            color: AppColors.buttonprimary,
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                              topLeft: Radius.circular(0),
-                              bottomLeft: Radius.circular(0),
-                            ),
-                          ),
-                          child: SvgPicture.asset(
-                            'assets/icons/send.svg',
-                            height: 32,
-                            width: 32,
-                            color: Colors.white,
-                            fit: BoxFit.scaleDown,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 80),
-              ],
-            ),
-          ),
         ],
       ),
     );
   }
 }
 
-OutlineInputBorder buildBorder() {
-  return OutlineInputBorder(
-    borderRadius: BorderRadius.only(
-      topLeft: Radius.circular(30),
-      bottomLeft: Radius.circular(30),
-      topRight: Radius.circular(8),
-      bottomRight: Radius.circular(8),
-    ),
-    borderSide: BorderSide(
-      width: AppSpacing.radiusXS * .7,
-      color: AppColors.neutral300,
-    ),
-  );
+/// History toggle button
+class _HistoryButton extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _HistoryButton({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Icon(Icons.more_vert, color: AppColors.neutral700),
+    );
+  }
+}
+
+/// Backdrop overlay for closing drawer
+class _BackdropOverlay extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _BackdropOverlay({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(color: Colors.black.withOpacity(0.1)),
+    );
+  }
 }

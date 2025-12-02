@@ -1,26 +1,24 @@
-import 'package:edutech_app/core/api/endpoints.dart';
-
+// session_response.dart
 class SessionResponse {
   final String sessionId;
-  final String createdAt;
-  final int clusterId;
+  final String? createdAt;
+  final int? clusterId;
 
-  SessionResponse({
-    required this.sessionId,
-    required this.clusterId,
-    required this.createdAt,
-  });
+  SessionResponse({required this.sessionId, this.createdAt, this.clusterId});
 
   factory SessionResponse.fromJson(Map<String, dynamic> json) {
-    if (json[ApiKey.sessionid] == null ||
-        json[ApiKey.createdat] == null ||
-        json[ApiKey.clusterid] == null) {
-      throw FormatException('Missing required fields in JSON: $json');
-    }
     return SessionResponse(
-      sessionId: json[ApiKey.sessionid] as String,
-      createdAt: json[ApiKey.createdat] as String,
-      clusterId: json[ApiKey.clusterid] as int,
+      sessionId: (json['sessionid'] ?? json['sessionId']) as String,
+      createdAt: json['createdAt'] as String?,
+      clusterId: json['clusterId'] as int?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'sessionId': sessionId,
+      'createdAt': createdAt,
+      'clusterId': clusterId,
+    };
   }
 }

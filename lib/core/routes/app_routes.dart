@@ -5,7 +5,6 @@ import 'package:edutech_app/features/auth/view/sign_up_screen.dart';
 import 'package:edutech_app/features/auth/view/splash_screen.dart';
 import 'package:edutech_app/features/auth/view/verify_reset_code_screen.dart';
 import 'package:edutech_app/features/parent/view/children_screen.dart';
-import 'package:edutech_app/features/roadmap/views/roadmap_screen.dart';
 import 'package:edutech_app/features/student/views/student_home.dart';
 import 'package:edutech_app/features/student/views/main_screen.dart';
 import 'package:edutech_app/features/parent/view/parent_main_screen.dart';
@@ -13,6 +12,7 @@ import 'package:edutech_app/features/teacher/view/teacher_classes_screen.dart';
 import 'package:edutech_app/features/teacher/view/teacher_home_screen.dart';
 import 'package:edutech_app/features/teacher/view/teacher_main_screen.dart';
 import 'package:edutech_app/features/teacher/view/teacher_profile_screen.dart';
+import 'package:edutech_app/features/roadmap/views/roadmap_screen.dart';
 import 'package:flutter/material.dart';
 import '../../features/onboarding/view/onboarding_screen.dart';
 
@@ -58,7 +58,7 @@ class AppRoutes {
       teacherMainScreen: (context) => const TeacherMainScreen(),
       teacherClasses: (context) => const TeacherClassesScreen(),
       teacherProfile: (context) => const TeacherProfileScreen(),
-      roadmap: (context) => const RoadmapScreen(),
+      roadmap: (context) => const RoadmapScreen(classId: 0),
     };
   }
 }

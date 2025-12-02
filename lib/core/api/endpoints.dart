@@ -1,4 +1,5 @@
 class Endpoints {
+  static const String staticBaseUrl = 'http://edutech.runasp.net';
   static String profile = '/Auth/profile';
   static String signin = '/Auth/login';
   static String register = '/Auth/signup';
@@ -13,16 +14,26 @@ class Endpoints {
   static String sendMessage = '/ChatBot/send-message';
   static String getSessions = '/ChatBot/sessions';
   static String sessionsHistory = '/ChatBot/history';
+  static String deletesession = '/ChatBot/session';
+
   static String parentHome = '/Parent/home';
   static String parentChildren = '/Parent/children';
   static String childInfo = '/Parent/child/{childId}';
   static String childSessions = '/Parent/child/{childId}/sessions';
 
+  // Teacher endpoints
   static String classes = '/Teacher/classes';
   static String createClass = '/Teacher/create-class';
   static String classStudents = '/Teacher/classes/{classId}/students';
   static String addStudentToClass = '/Teacher/add-student-to-class';
   static String studentProfile = '/Teacher/students/{studentId}/profile';
+
+  // Student endpoints
+  static const String studentClasses = '/Student/classes';
+  static const String studentClassLessons =
+      '/Student/classes/{classId}/lessons';
+  static const String studentLessonDetails =
+      '/Student/classes/{classId}/lessons/{lessonId}';
 }
 
 class ApiKey {
@@ -93,6 +104,7 @@ class ApiKey {
   static String studentUserName = "username";
   static String studentName = "studentName";
   static String classIdRequest = "ClassId";
+  // Teacher API keys
   static String classCode = "classCode";
   static String lessonCount = "lessons";
   static String studentsCount = "studentsCount";
@@ -106,4 +118,9 @@ class ApiKey {
   static String subject = "subject";
   static String success = "success";
   static String data = "data";
+  // Student API keys
+  static const String completionStatus = 'completionStatus';
+  static const String lessonId = 'lessonId';
+  static const String lessonName = 'lessonName';
+  static const String completed = 'Completed';
 }
