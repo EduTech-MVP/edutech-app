@@ -73,23 +73,32 @@ class ClassDetailsScreen extends StatelessWidget {
       useElevatedButton: true,
       child: Padding(
         padding: const EdgeInsets.only(top: AppSpacing.spacing16),
-        child: Column(
-          children: students.isEmpty
-              ? [_buildEmptyState()]
-              : students.map((student) {
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: AppSpacing.spacing16,
-                    ),
-                    child: StudentCard(
-                      student: student,
-                      onTap: () {
-                        // Navigate to student detail or show student options
-                      },
-                    ),
-                  );
-                }).toList(),
-        ),
+        child: studentsController.loading
+            ? const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(AppSpacing.spacing24),
+                  child: CircularProgressIndicator(color: AppColors.primary500),
+                ),
+              )
+            : studentsController.error != null
+            ? _buildErrorState(studentsController)
+            : Column(
+                children: students.isEmpty
+                    ? [_buildEmptyState()]
+                    : students.map((student) {
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: AppSpacing.spacing16,
+                          ),
+                          child: StudentCard(
+                            student: student,
+                            onTap: () {
+                              // Navigate to student detail or show student options
+                            },
+                          ),
+                        );
+                      }).toList(),
+              ),
       ),
     );
   }
@@ -121,23 +130,55 @@ class ClassDetailsScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildErrorState(TeacherStudentsController controller) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.spacing24),
+      decoration: BoxDecoration(
+        color: Colors.red.shade50,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.borderLight),
+      ),
+      child: Column(
+        children: [
+          const Icon(Icons.error_outline, size: 64, color: Colors.red),
+          const SizedBox(height: AppSpacing.spacing16),
+          Text(
+            controller.error ?? 'An error occurred',
+            style: AppTypography.paragrah.copyWith(
+              color: AppColors.textPrimary,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: AppSpacing.spacing16),
+          ElevatedButton(
+            onPressed: () {
+              final classId = int.tryParse(classData.id);
+              if (classId != null) {
+                controller.fetchClassStudents(classId);
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary500,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.spacing24,
+                vertical: AppSpacing.spacing12,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: const Text('Retry'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _showAddStudentDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AddStudentDialog(
-        onAddStudent: (username) {
-          // For demo purposes
-          final studentsController = context.read<TeacherStudentsController>();
-          studentsController.addStudentToClass(classData.id, username);
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Added student with username: $username'),
-              backgroundColor: AppColors.sky700,
-            ),
-          );
-        },
-      ),
+      builder: (context) => AddStudentDialog(classId: int.parse(classData.id)),
     );
   }
 }

@@ -1,9 +1,9 @@
+import 'package:edutech_app/core/common/widgets/rounded_container.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
-import 'package:edutech_app/core/theme/app_gradient.dart';
-import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/teacher/model/class_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ClassCard extends StatelessWidget {
   final ClassModel classData;
@@ -15,88 +15,104 @@ class ClassCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(AppSpacing.spacing24),
-        decoration: BoxDecoration(
-          color: AppColors.sky50,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: AppColors.neutral300),
-          boxShadow: [AppColors.defaultShadow],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Class title and grade
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: RoundedContainer(
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.primaryforeground,
+            border: Border.all(color: AppColors.border, width: 1),
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [AppColors.shadowMedium],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  '${classData.subject} • ${classData.name}',
-                  style: AppTypography.heading4.copyWith(
-                    color: AppColors.neutral800,
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.spacing8,
-                    vertical: AppSpacing.spacing4,
-                  ),
-                  decoration: BoxDecoration(
-                    gradient: AppGradients.grade,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.neutral300),
-                  ),
-                  child: Text(
-                    classData.grade,
-                    style: AppTypography.subtle.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.sky700,
+                // Class name and grade badge
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        '${classData.subject} • ${classData.name}',
+                        style: AppTypography.heading2.copyWith(
+                          color: AppColors.textPrimary,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.sky50,
+                          borderRadius: BorderRadius.circular(100),
+                          border: Border.all(
+                            color: AppColors.buttonprimary,
+                            width: 1,
+                          ),
+                        ),
+                        child: Text(
+                          '${classData.grade}th grade',
+                          style: AppTypography.labelxl.copyWith(
+                            color: const Color(0xFF25AFF4),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                // Lessons and Students
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/book.svg',
+                      width: 20,
+                      height: 20,
+                      colorFilter: ColorFilter.mode(
+                        AppColors.sky500,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${classData.lessonCount} lessons',
+                      style: AppTypography.paragrah.copyWith(
+                        fontSize: 14,
+                        color: AppColors.sky500,
+                      ),
+                    ),
+                    const SizedBox(width: 24),
+                    SvgPicture.asset(
+                      'assets/icons/profile.svg',
+                      width: 20,
+                      height: 20,
+                      colorFilter: ColorFilter.mode(
+                        AppColors.sky500,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${classData.studentCount} students',
+                      style: AppTypography.paragrah.copyWith(
+                        fontSize: 14,
+                        color: AppColors.sky500,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-
-            const SizedBox(height: AppSpacing.spacing16),
-
-            // Stats
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _StatItem(
-                  value: classData.lessonCount.toString(),
-                  label: 'Lessons',
-                ),
-                const SizedBox(width: 8),
-                _StatItem(
-                  value: classData.studentCount.toString(),
-                  label: 'Students',
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
-    );
-  }
-}
-
-class _StatItem extends StatelessWidget {
-  final String value;
-  final String label;
-
-  const _StatItem({required this.value, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(value, style: AppTypography.heading3),
-        Text(
-          label,
-          style: AppTypography.subtle.copyWith(color: AppColors.neutral600),
-        ),
-      ],
     );
   }
 }

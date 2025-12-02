@@ -35,8 +35,12 @@ List<SingleChildWidget> appProviders = [
 
   // Teacher providers
   ChangeNotifierProvider(create: (_) => TeacherNavigationController()),
-  ChangeNotifierProvider(create: (_) => TeacherClassesController()),
-  ChangeNotifierProvider(create: (_) => TeacherStudentsController()),
+  ChangeNotifierProvider(
+    create: (_) => TeacherClassesController(api: DioConsumer(dio: Dio())),
+  ),
+  ChangeNotifierProvider(
+    create: (_) => TeacherStudentsController(api: DioConsumer(dio: Dio())),
+  ),
   //sstudent
   ChangeNotifierProvider(create: (_) => LessonProvider()),
   //ChangeNotifierProvider(create: (_) => HomeworkProvider()),
