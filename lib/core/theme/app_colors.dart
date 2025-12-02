@@ -13,10 +13,16 @@ class AppColors {
   static const Color sky800 = Color(0xFF075985);
   static const Color sky900 = Color(0xFF0C4A6E);
   static const Color funsky = Color(0xFF86D2F9);
+  static const Color funsky5 = Color(0x8086D2F9);
   static const Color funmint = Color(0xFF93ECD6);
-  static const Color funyellow = Color(0xFFFFD966);
+  static const Color funmint2 = Color(0x4093ECD6);
+  static const Color funmint5 = Color(0x8093ECD6);
   static const Color funcoral = Color(0xFFF59B89);
-
+  static const Color funpink = Color(0xFFF7A1BE);
+  static const Color funyellow = Color(0xFFFFD966);
+  static const Color funyellow2 = Color(0x40FFD966);
+  static const Color funcoral5 = Color(0x80F59B89);
+  static const Color funlavender = Color(0xFFC2ADEB);
   // gradient color
   static const Color gradientStart = sky200;
   static const Color gradientEnd = Color(0xFFF0F9FF);
@@ -66,6 +72,14 @@ class AppColors {
   static const Color border = Color(0xFFD7E0EA);
   static const Color borderLight = Color(0xFFF1F5F9);
   static const Color borderMedium = Color(0xFFCBD5E1);
+
+  //sidebar
+  static const Color sidebarBackground = Color(0xFFFAFAFA);
+  static const Color sidebarForeground = Color(0xFF3F3F46);
+  static const Color sidebarPrimary = Color(0xFF18181B);
+  static const Color sidebarAccent = Color(0xFFF4F4F5);
+  static const Color sidebarAccentForeground = Color(0xFF18181B);
+  static const Color sidebarBorder = Color(0xFFE5E7EB);
 
   // Status Colors
   static const Color success = Color(0xFF10B981);
