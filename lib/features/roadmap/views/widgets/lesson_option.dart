@@ -1,6 +1,7 @@
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LessonOption extends StatelessWidget {
   final String image;
@@ -38,11 +39,14 @@ class LessonOption extends StatelessWidget {
                 color: Colors.white.withValues(alpha: 0.25),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Image.asset(
+              child: SvgPicture.asset(
                 image,
-                color: Colors.white,
-                height: 24,
+                colorFilter: const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
+                ),
                 width: 24,
+                height: 24,
               ),
             ),
             const SizedBox(width: 16),

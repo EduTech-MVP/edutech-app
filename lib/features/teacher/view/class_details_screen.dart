@@ -7,10 +7,12 @@ import 'package:edutech_app/core/common/widgets/generic_loading_state.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/features/teacher/controller/teacher_students_controller.dart';
+import 'package:edutech_app/features/teacher/controller/teacher_lessons_controller.dart';
 import 'package:edutech_app/features/teacher/model/class_model.dart';
 import 'package:edutech_app/features/teacher/view/widgets/add_student_dialog.dart';
 import 'package:edutech_app/features/teacher/view/widgets/custom_tab_bar.dart';
 import 'package:edutech_app/features/teacher/view/widgets/students_list.dart';
+import 'package:edutech_app/features/teacher/view/widgets/teacher_lessons_roadmap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +28,18 @@ class ClassDetailsScreen extends StatefulWidget {
 
 class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
   int _selectedTabIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Load lessons when tab is initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final classId = int.tryParse(widget.classData.id);
+      if (classId != null) {
+        context.read<TeacherLessonsController>().loadLessons(classId);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,20 +71,19 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
             ),
             // Main Content
             Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSpacing.spacing24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Tab Content
-                      _selectedTabIndex == 0
-                          ? _buildStudentsSection(context)
-                          : _buildLessonsSection(context),
-                    ],
-                  ),
-                ),
-              ),
+              child: _selectedTabIndex == 0
+                  ? SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(AppSpacing.spacing24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildStudentsSection(context),
+                          ],
+                        ),
+                      ),
+                    )
+                  : _buildLessonsSection(context),
             ),
           ],
         ),
@@ -125,11 +138,15 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
   }
 
   Widget _buildLessonsSection(BuildContext context) {
-    return const GenericEmptyState(
-      icon: Icons.school_outlined,
-      title: 'Lessons Coming Soon',
-      message: 'Lesson management features will be available soon',
-    );
+    final classId = int.tryParse(widget.classData.id);
+    if (classId == null) {
+      return const GenericEmptyState(
+        icon: Icons.error_outline,
+        title: 'Invalid Class',
+        message: 'Unable to load lessons for this class',
+      );
+    }
+    return TeacherLessonsRoadmap(classId: classId);
   }
 
   void _showAddStudentDialog(BuildContext context) {
