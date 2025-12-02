@@ -3,6 +3,7 @@ import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/teacher/model/class_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ClassCard extends StatelessWidget {
@@ -24,11 +25,11 @@ class ClassCard extends StatelessWidget {
             boxShadow: [AppColors.shadowMedium],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Class name and grade badge
+                // Class name and class code
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -43,24 +44,43 @@ class ClassCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    // Class Code
                     Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.sky50,
-                          borderRadius: BorderRadius.circular(100),
-                          border: Border.all(
-                            color: AppColors.buttonprimary,
-                            width: 1,
+                      flex: 1,
+                      child: GestureDetector(
+                        onTap: () =>
+                            _copyClassCode(context, classData.classCode),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 8,
                           ),
-                        ),
-                        child: Text(
-                          '${classData.grade}th grade',
-                          style: AppTypography.labelxl.copyWith(
-                            color: const Color(0xFF25AFF4),
+                          decoration: BoxDecoration(
+                            color: AppColors.sky50,
+                            borderRadius: BorderRadius.circular(100),
+                            border: Border.all(
+                              color: AppColors.buttonprimary,
+                              width: 1,
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                classData.classCode,
+                                style: AppTypography.labellarge.copyWith(
+                                  color: AppColors.sky500,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(width: 3),
+                              Icon(
+                                Icons.copy,
+                                size: 12,
+                                color: AppColors.mutedtext,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -68,43 +88,72 @@ class ClassCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                // Lessons and Students
+                // Lessons, Students, and Grade
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SvgPicture.asset(
-                      'assets/icons/book.svg',
-                      width: 20,
-                      height: 20,
-                      colorFilter: ColorFilter.mode(
-                        AppColors.sky500,
-                        BlendMode.srcIn,
-                      ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/book.svg',
+                          width: 20,
+                          height: 20,
+                          colorFilter: ColorFilter.mode(
+                            AppColors.sky500,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          '${classData.lessonCount} lessons',
+                          style: AppTypography.paragrah.copyWith(
+                            fontSize: 14,
+                            color: AppColors.sky500,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '${classData.lessonCount} lessons',
-                      style: AppTypography.paragrah.copyWith(
-                        fontSize: 14,
-                        color: AppColors.sky500,
-                      ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/profile.svg',
+                          width: 20,
+                          height: 20,
+                          colorFilter: ColorFilter.mode(
+                            AppColors.sky500,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          '${classData.studentCount} students',
+                          style: AppTypography.paragrah.copyWith(
+                            fontSize: 14,
+                            color: AppColors.sky500,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 24),
-                    SvgPicture.asset(
-                      'assets/icons/profile.svg',
-                      width: 20,
-                      height: 20,
-                      colorFilter: ColorFilter.mode(
-                        AppColors.sky500,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '${classData.studentCount} students',
-                      style: AppTypography.paragrah.copyWith(
-                        fontSize: 14,
-                        color: AppColors.sky500,
-                      ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/grad_cap.svg',
+                          width: 20,
+                          height: 20,
+                          colorFilter: ColorFilter.mode(
+                            AppColors.sky500,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          '${classData.grade}th grade',
+                          style: AppTypography.paragrah.copyWith(
+                            fontSize: 14,
+                            color: AppColors.sky500,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -112,6 +161,17 @@ class ClassCard extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void _copyClassCode(BuildContext context, String classCode) {
+    Clipboard.setData(ClipboardData(text: classCode));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Class code "$classCode" copied to clipboard'),
+        duration: const Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }

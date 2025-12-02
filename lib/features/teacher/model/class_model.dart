@@ -4,7 +4,7 @@ class ClassModel {
   final String id;
   final String name;
   final String subject;
-  // final String classCode;
+  final String classCode;
   final int grade;
   final int lessonCount;
   final int studentCount;
@@ -13,21 +13,21 @@ class ClassModel {
     required this.id,
     required this.name,
     required this.subject,
+    required this.classCode,
     required this.grade,
     required this.lessonCount,
     required this.studentCount,
-    // required this.classCode,
   });
 
   factory ClassModel.fromJson(Map<String, dynamic> json) {
     return ClassModel(
       id: json[ApiKey.classId]?.toString() ?? '',
       name: json[ApiKey.className] ?? '',
+      classCode: json[ApiKey.classCode] ?? '',
       subject: json[ApiKey.classSubject] ?? '',
       grade: json[ApiKey.classGrade] ?? 0,
       lessonCount: json[ApiKey.lessonCount] ?? 0,
       studentCount: json[ApiKey.studentCount] ?? 0,
-      // classCode: json[ApiKey.classCode] ?? '',
     );
   }
   Map<String, dynamic> toJson() {
@@ -38,7 +38,7 @@ class ClassModel {
       ApiKey.classGrade: grade,
       ApiKey.lessonCount: lessonCount,
       ApiKey.studentCount: studentCount,
-      // ApiKey.classCode: classCode,
+      ApiKey.classCode: classCode,
     };
   }
 
@@ -49,7 +49,7 @@ class ClassModel {
     int? grade,
     int? lessonCount,
     int? studentCount,
-    // String? classCode,
+    String? classCode,
   }) {
     return ClassModel(
       id: id ?? this.id,
@@ -58,7 +58,7 @@ class ClassModel {
       grade: grade ?? this.grade,
       lessonCount: lessonCount ?? this.lessonCount,
       studentCount: studentCount ?? this.studentCount,
-      // classCode: classCode ?? this.classCode,
+      classCode: classCode ?? this.classCode,
     );
   }
 }
