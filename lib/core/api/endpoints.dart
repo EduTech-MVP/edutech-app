@@ -22,6 +22,7 @@ class Endpoints {
   static String createClass = '/Teacher/create-class';
   static String classStudents = '/Teacher/classes/{classId}/students';
   static String addStudentToClass = '/Teacher/add-student-to-class';
+  static String studentProfile = '/Teacher/students/{studentId}/profile';
 }
 
 class ApiKey {
@@ -46,6 +47,7 @@ class ApiKey {
   static const String parent = "Parent";
 
   static String profileImageurl = "profileImageUrl";
+  static String profileImagePath = "profileImagePath";
   static String token = "token";
   static String user = "user";
   static String id = "id";
@@ -94,4 +96,14 @@ class ApiKey {
   static String classCode = "classCode";
   static String lessonCount = "lessons";
   static String studentsCount = "studentsCount";
+  static String learningLevel = "learningLevel";
+  static String completedLessons = "completedLessons";
+  static String totalLessons = "totalLessons";
+  static String weeklyAttendance = "weeklyAttendance";
+  static String subjectProgress = "subjectProgress";
+  static String recentActivity = "recentActivity";
+  static String progressPercentage = "progressPercentage";
+  static String subject = "subject";
+  static String success = "success";
+  static String data = "data";
 }

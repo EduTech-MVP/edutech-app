@@ -12,6 +12,7 @@ import 'package:edutech_app/features/parent/view/parent_main_screen.dart';
 import 'package:edutech_app/features/teacher/view/teacher_classes_screen.dart';
 import 'package:edutech_app/features/teacher/view/teacher_home_screen.dart';
 import 'package:edutech_app/features/teacher/view/teacher_main_screen.dart';
+import 'package:edutech_app/features/teacher/view/teacher_profile_screen.dart';
 import 'package:flutter/material.dart';
 import '../../features/onboarding/view/onboarding_screen.dart';
 
@@ -31,6 +32,8 @@ class AppRoutes {
   static const String teacherMainScreen = '/teacher-main';
   static const String teacherClassDetails = '/teacher-class-details';
   static const String teacherClasses = '/teacher-classes';
+  static const String teacherProfile = '/teacher-profile';
+  static const String teacherStudentProfile = '/teacher-student-profile';
   static const String splashScreen = '/splash_screen';
   static const String student = '/student-home';
   static const String roadmap = '/road-map';
@@ -54,6 +57,7 @@ class AppRoutes {
       teacherHome: (context) => const TeacherHomeScreen(),
       teacherMainScreen: (context) => const TeacherMainScreen(),
       teacherClasses: (context) => const TeacherClassesScreen(),
+      teacherProfile: (context) => const TeacherProfileScreen(),
       roadmap: (context) => const RoadmapScreen(),
     };
   }

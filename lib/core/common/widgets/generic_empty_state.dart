@@ -22,6 +22,7 @@ class GenericEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(AppSpacing.spacing24),
       decoration: BoxDecoration(
         color: AppColors.sky50,
@@ -32,11 +33,7 @@ class GenericEmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 64,
-            color: iconColor ?? AppColors.sky300,
-          ),
+          Icon(icon, size: 64, color: iconColor ?? AppColors.sky300),
           const SizedBox(height: AppSpacing.spacing16),
           Text(title, style: AppTypography.heading4),
           const SizedBox(height: AppSpacing.spacing8),
@@ -56,4 +53,3 @@ class GenericEmptyState extends StatelessWidget {
     );
   }
 }
-

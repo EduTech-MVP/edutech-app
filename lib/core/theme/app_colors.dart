@@ -67,6 +67,11 @@ class AppColors {
   static const Color textBlack = Color(0xFF000000);
   static const Color primaryforeground = Color(0xFFFFFFFF);
   static const Color mutedtext = Color(0xFF65758B);
+  static const Color foreground = Color(0xFF141452);
+  static const Color primary = Color(0xFF25AFF4);
+  static const Color mutedforeground = Color(0xFF65758B);
+  static const Color secondary = Color(0xFF93ECD6);
+  static const Color destructive = Color(0xFFF2735A);
 
   // Border Colors
   static const Color border = Color(0xFFD7E0EA);

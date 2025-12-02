@@ -15,6 +15,7 @@ import 'package:edutech_app/features/parent/controller/parent_navigation_control
 import 'package:edutech_app/features/teacher/controller/teacher_navigation_controller.dart';
 import 'package:edutech_app/features/teacher/controller/teacher_classes_controller.dart';
 import 'package:edutech_app/features/teacher/controller/teacher_students_controller.dart';
+import 'package:edutech_app/features/teacher/controller/teacher_student_profile_controller.dart';
 
 List<SingleChildWidget> appProviders = [
   ChangeNotifierProvider(
@@ -40,6 +41,10 @@ List<SingleChildWidget> appProviders = [
   ),
   ChangeNotifierProvider(
     create: (_) => TeacherStudentsController(api: DioConsumer(dio: Dio())),
+  ),
+  ChangeNotifierProvider(
+    create: (_) =>
+        TeacherStudentProfileController(api: DioConsumer(dio: Dio())),
   ),
   //sstudent
   ChangeNotifierProvider(create: (_) => LessonProvider()),
