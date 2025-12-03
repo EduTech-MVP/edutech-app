@@ -2,21 +2,27 @@ import 'package:edutech_app/core/api/endpoints.dart';
 
 class AddStudentResponse {
   final String message;
-  final Enrollment enrollment;
+  final Enrollment? enrollment;
 
-  AddStudentResponse({required this.message, required this.enrollment});
+  AddStudentResponse({required this.message, this.enrollment});
 
   factory AddStudentResponse.fromJson(Map<String, dynamic> json) {
     return AddStudentResponse(
-      message: json[ApiKey.addStudentMessage],
-      enrollment: Enrollment.fromJson(json[ApiKey.enrollment]),
+      message:
+          json[ApiKey.addStudentMessage] ??
+          json[ApiKey.message] ??
+          json['message'] ??
+          'Student added successfully',
+      enrollment: json[ApiKey.enrollment] != null
+          ? Enrollment.fromJson(json[ApiKey.enrollment])
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       ApiKey.addStudentMessage: message,
-      ApiKey.enrollment: enrollment.toJson(),
+      if (enrollment != null) ApiKey.enrollment: enrollment!.toJson(),
     };
   }
 }
@@ -38,11 +44,11 @@ class Enrollment {
 
   factory Enrollment.fromJson(Map<String, dynamic> json) {
     return Enrollment(
-      studentId: json[ApiKey.studentId],
-      username: json[ApiKey.userName],
-      studentName: json[ApiKey.studentName],
-      classId: json[ApiKey.classId],
-      className: json[ApiKey.className],
+      studentId: json[ApiKey.studentId] ?? 0,
+      username: json[ApiKey.userName] ?? json['username'] ?? '',
+      studentName: json[ApiKey.studentName] ?? json['studentName'] ?? '',
+      classId: json[ApiKey.classId] ?? 0,
+      className: json[ApiKey.className] ?? json['className'] ?? '',
     );
   }
 

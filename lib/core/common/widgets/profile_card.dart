@@ -1,4 +1,5 @@
 import 'package:edutech_app/core/common/widgets/rounded_container.dart';
+import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/auth/controllers/user_provider.dart';
@@ -72,7 +73,11 @@ class ProfileCard extends StatelessWidget {
           // Email
           Text(
             user.email ?? 'No email',
-            style: AppTypography.small.copyWith(color: Colors.grey[600]),
+            style: AppTypography.labelsmall.copyWith(
+              color: AppColors.buttonprimary,
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+            ),
           ),
 
           const SizedBox(height: 16),
@@ -93,6 +98,7 @@ class ProfileCard extends StatelessWidget {
               style: AppTypography.small.copyWith(
                 color: _getUserTypeColor(user.userType),
                 fontWeight: FontWeight.w600,
+                fontSize: 16,
                 letterSpacing: 0.5,
               ),
             ),

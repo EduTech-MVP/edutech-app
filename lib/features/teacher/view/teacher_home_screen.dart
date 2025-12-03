@@ -6,7 +6,9 @@ import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/teacher/controller/teacher_classes_controller.dart';
-import 'package:edutech_app/features/teacher/view/widgets/home_class_card.dart';
+import 'package:edutech_app/features/teacher/controller/teacher_students_controller.dart';
+import 'package:edutech_app/features/teacher/view/class_details_screen.dart';
+import 'package:edutech_app/features/teacher/view/widgets/class_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -131,13 +133,27 @@ class TeacherHomeScreen extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: AppSpacing.spacing16),
         child: Column(
-          children: classesController.classes.map((classData) {
+          children: classesController.classes.take(4).map((classData) {
             return Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.spacing16),
-              child: HomeClassCard(
+              child: ClassCard(
                 classData: classData,
-                onTap: () {
-                  Navigator.pushNamed(context, AppRoutes.teacherClassDetails);
+                onTap: () async {
+                  final classId = int.tryParse(classData.id);
+                  if (classId != null) {
+                    await context
+                        .read<TeacherStudentsController>()
+                        .fetchClassStudents(classId);
+                  }
+                  if (context.mounted) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ClassDetailsScreen(classData: classData),
+                      ),
+                    );
+                  }
                 },
               ),
             );

@@ -13,7 +13,7 @@ class LogoutButton extends StatelessWidget {
     return GestureDetector(
       child: Text(
         "Logout",
-        style: AppTypography.large.copyWith(color: AppColors.sky300),
+        style: AppTypography.heading2.copyWith(color: AppColors.buttonprimary),
       ),
       onTap: () async {
         final confirmed = await showDialog<bool>(

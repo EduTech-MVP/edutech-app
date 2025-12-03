@@ -201,9 +201,11 @@ class CustomAppbar extends StatelessWidget {
         Expanded(
           child: Text(
             pageTitle ?? 'Page',
-            style: AppTypography.heading3.copyWith(
-              color: AppColors.buttonprimary,
-            ),
+            style: const TextStyle(
+              fontFamily: 'Fredoka',
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+            ).copyWith(color: AppColors.buttonprimary),
             overflow: TextOverflow.ellipsis,
           ),
         ),

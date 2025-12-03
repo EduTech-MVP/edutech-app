@@ -38,7 +38,10 @@ class SectionHeader extends StatelessWidget {
                   icon!,
                   const SizedBox(width: AppSpacing.spacing4),
                 ],
-                Text(title, style: AppTypography.heading3),
+                Text(
+                  title,
+                  style: AppTypography.heading1.copyWith(fontSize: 24),
+                ),
               ],
             ),
             if (showViewAll && actionButtonText != null)
@@ -70,6 +73,7 @@ class SectionHeader extends StatelessWidget {
                     ),
           ],
         ),
+        const SizedBox(height: 16),
         child,
       ],
     );

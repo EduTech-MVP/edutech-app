@@ -1,8 +1,20 @@
+import 'package:edutech_app/core/api/dio_consumer.dart';
+import 'package:edutech_app/core/api/endpoints.dart';
+import 'package:edutech_app/core/errors/exceptions.dart';
+import 'package:edutech_app/features/teacher/model/add_student_request.dart';
+import 'package:edutech_app/features/teacher/model/add_student_response.dart';
 import 'package:edutech_app/features/teacher/model/student_model.dart';
 import 'package:flutter/foundation.dart';
 
 class TeacherStudentsController extends ChangeNotifier {
+  final DioConsumer api;
+
+  TeacherStudentsController({required this.api});
+
   Map<String, List<StudentModel>> _classStudents = {};
+  bool _loading = false;
+  bool _addingStudent = false;
+  String? _error;
 
   List<StudentModel> getStudentsForClass(String classId) {
     return _classStudents[classId] ?? [];
@@ -12,74 +24,96 @@ class TeacherStudentsController extends ChangeNotifier {
     return _classStudents[classId]?.length ?? 0;
   }
 
-  TeacherStudentsController() {
-    // Mock data for demonstration
-    _loadStudents();
-  }
+  bool get loading => _loading;
+  bool get addingStudent => _addingStudent;
+  String? get error => _error;
 
-  void _loadStudents() {
-    _classStudents = {
-      '1': [
-        // Class M
-        StudentModel(
-          id: '1',
-          name: 'Aubrey Graham',
-          username: '@certifiedloverboy',
-          completedLessons: 37,
-          points: 67,
-        ),
-        StudentModel(
-          id: '2',
-          name: 'Kendrick Lamar',
-          username: '@kdot',
-          completedLessons: 42,
-          points: 89,
-        ),
-        StudentModel(
-          id: '3',
-          name: 'Metro Boomin',
-          username: '@metroboomin',
-          completedLessons: 28,
-          points: 54,
-        ),
-      ],
-      '2': [
-        // Class B
-        StudentModel(
-          id: '4',
-          name: 'DJ Khaled',
-          username: '@wethebestmusic',
-          completedLessons: 19,
-          points: 45,
-        ),
-        StudentModel(
-          id: '5',
-          name: 'Travis Scott',
-          username: '@travisscott',
-          completedLessons: 31,
-          points: 72,
-        ),
-      ],
-    };
+  Future<void> fetchClassStudents(int classId) async {
+    _loading = true;
+    _error = null;
     notifyListeners();
-  }
 
-  void addStudentToClass(String classId, String username) {
-    // Create a mock student with the username
-    final student = StudentModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      name: 'New Student',
-      username: username,
-      completedLessons: 0,
-      points: 0,
-    );
+    try {
+      final endpoint = Endpoints.classStudents.replaceAll(
+        '{classId}',
+        classId.toString(),
+      );
+      final response = await api.get(endpoint);
 
-    if (_classStudents.containsKey(classId)) {
-      _classStudents[classId]!.add(student);
-    } else {
-      _classStudents[classId] = [student];
+      if (kDebugMode) {
+        print('Fetch class students response: $response');
+      }
+
+      List<StudentModel> students = [];
+      if (response is List) {
+        students = response.map((json) => StudentModel.fromJson(json)).toList();
+      } else if (response is Map && response.containsKey('students')) {
+        students = (response['students'] as List)
+            .map((json) => StudentModel.fromJson(json))
+            .toList();
+      }
+
+      _classStudents[classId.toString()] = students;
+
+      if (kDebugMode) {
+        print('Fetched ${students.length} students for class $classId');
+      }
+    } on ServerException catch (e) {
+      _error = e.errorModel.errorMessage;
+      if (kDebugMode) {
+        print("Server Exception: $_error");
+      }
+    } catch (e) {
+      _error = "Unexpected error: $e";
+      if (kDebugMode) {
+        print("Unexpected Error: $_error");
+      }
+    } finally {
+      _loading = false;
+      notifyListeners();
     }
+  }
+
+  Future<bool> addStudentToClass(AddStudentRequest request) async {
+    _addingStudent = true;
+    _error = null;
     notifyListeners();
+
+    try {
+      final response = await api.post(
+        Endpoints.addStudentToClass,
+        data: request.toJson(),
+      );
+
+      if (kDebugMode) {
+        print('Add student response: $response');
+      }
+
+      final addStudentResponse = AddStudentResponse.fromJson(response);
+
+      if (kDebugMode) {
+        print('Student added: ${addStudentResponse.message}');
+      }
+
+      await fetchClassStudents(request.classId);
+
+      return true;
+    } on ServerException catch (e) {
+      _error = e.errorModel.errorMessage;
+      if (kDebugMode) {
+        print("Server Exception: $_error");
+      }
+      return false;
+    } catch (e) {
+      _error = "Unexpected error: $e";
+      if (kDebugMode) {
+        print("Unexpected Error: $_error");
+      }
+      return false;
+    } finally {
+      _addingStudent = false;
+      notifyListeners();
+    }
   }
 
   void removeStudentFromClass(String classId, String studentId) {

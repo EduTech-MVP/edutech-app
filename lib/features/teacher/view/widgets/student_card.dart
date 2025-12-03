@@ -1,5 +1,4 @@
 import 'package:edutech_app/core/theme/app_colors.dart';
-import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/teacher/model/student_model.dart';
 import 'package:flutter/material.dart';
@@ -16,75 +15,118 @@ class StudentCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(AppSpacing.spacing24),
+        margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
-          color: AppColors.sky50,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: AppColors.neutral300),
-          boxShadow: [AppColors.defaultShadow],
-        ),
-        child: Row(
-          children: [
-            // Profile Image
-            CircleAvatar(
-              radius: 28,
-              backgroundImage: student.profileImageUrl != null
-                  ? NetworkImage(student.profileImageUrl!)
-                  : const AssetImage('assets/images/profile_placeholder.png')
-                        as ImageProvider,
-            ),
-            const SizedBox(width: AppSpacing.spacing16),
-
-            // Student Info
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(student.name, style: AppTypography.heading4),
-                  const SizedBox(height: AppSpacing.spacing8),
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/book.svg',
-                        height: 16,
-                        width: 16,
-                        colorFilter: const ColorFilter.mode(
-                          AppColors.neutral500,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.spacing8),
-                      Text(
-                        'Completed ${student.completedLessons} lessons',
-                        style: AppTypography.subtle.copyWith(
-                          color: AppColors.neutral500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            // Points Badge
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.spacing8,
-                vertical: AppSpacing.spacing4,
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.sky100,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.neutral300),
-              ),
-              child: Text(
-                '${student.points} pts',
-                style: AppTypography.subtle.copyWith(color: AppColors.sky700),
-              ),
+          color: const Color(0xFFFFFFFF),
+          border: Border.all(color: AppColors.border, width: 1),
+          borderRadius: BorderRadius.circular(24), // 24dp radius from Figma
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
             ),
           ],
         ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            children: [
+              // Profile Image
+              _buildAvatar(),
+              const SizedBox(width: 16),
+
+              // Student Info
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Name
+                    Text(
+                      student.name.isNotEmpty
+                          ? student.name
+                          : 'Unknown Student',
+                      style: AppTypography.heading3.copyWith(
+                        color: AppColors.textPrimary,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8),
+                    // Completed Lessons
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/book.svg',
+                          height: 18,
+                          width: 18,
+                          colorFilter: const ColorFilter.mode(
+                            AppColors.buttonprimary,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Completed ${student.completedLessons} lessons',
+                          style: AppTypography.labelmedium.copyWith(
+                            color: AppColors.buttonprimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+
+              // Points Badge
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(100),
+                  border: Border.all(color: const Color(0xFF25AFF4), width: 2),
+                ),
+                child: Text(
+                  '${student.points} pts',
+                  style: AppTypography.labellarge.copyWith(
+                    color: const Color(0xFF25AFF4),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
+    );
+  }
+
+  Widget _buildAvatar() {
+    final hasImage =
+        student.profileImageUrl != null && student.profileImageUrl!.isNotEmpty;
+    final initial = student.name.isNotEmpty
+        ? student.name[0].toUpperCase()
+        : 'S';
+
+    return CircleAvatar(
+      radius: 32,
+      backgroundImage: hasImage ? NetworkImage(student.profileImageUrl!) : null,
+      backgroundColor: AppColors.sky100,
+      child: !hasImage
+          ? Text(
+              initial,
+              style: const TextStyle(
+                color: AppColors.sky600,
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
+              ),
+            )
+          : null,
     );
   }
 }

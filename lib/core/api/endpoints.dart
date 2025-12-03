@@ -21,6 +21,19 @@ class Endpoints {
   static String childInfo = '/Parent/child/{childId}';
   static String childSessions = '/Parent/child/{childId}/sessions';
 
+  // Teacher endpoints
+  static String classes = '/Teacher/classes';
+  static String createClass = '/Teacher/create-class';
+  static String classStudents = '/Teacher/classes/{classId}/students';
+  static String addStudentToClass = '/Teacher/add-student-to-class';
+  static String studentProfile = '/Teacher/students/{studentId}/profile';
+  static String teacherLessons = '/Teacher/Classes/{classId}/Lessons';
+  static String teacherLessonDetails =
+      '/Teacher/classes/{classId}/lessons/{lessonId}';
+  static String updateVideoUrl =
+      '/Teacher/Classes/{classId}/Lessons/{lessonId}/video';
+
+  // Student endpoints
   static const String studentClasses = '/Student/classes';
   static const String studentClassLessons =
       '/Student/classes/{classId}/lessons';
@@ -50,6 +63,7 @@ class ApiKey {
   static const String parent = "Parent";
 
   static String profileImageurl = "profileImageUrl";
+  static String profileImagePath = "profileImagePath";
   static String token = "token";
   static String user = "user";
   static String id = "id";
@@ -95,6 +109,21 @@ class ApiKey {
   static String studentUserName = "username";
   static String studentName = "studentName";
   static String classIdRequest = "ClassId";
+  // Teacher API keys
+  static String classCode = "classCode";
+  static String lessonCount = "lessons";
+  static String studentsCount = "studentsCount";
+  static String learningLevel = "learningLevel";
+  static String completedLessons = "completedLessons";
+  static String totalLessons = "totalLessons";
+  static String weeklyAttendance = "weeklyAttendance";
+  static String subjectProgress = "subjectProgress";
+  static String recentActivity = "recentActivity";
+  static String progressPercentage = "progressPercentage";
+  static String subject = "subject";
+  static String success = "success";
+  static String data = "data";
+  // Student API keys
   static const String completionStatus = 'completionStatus';
   static const String lessonId = 'lessonId';
   static const String lessonName = 'lessonName';

@@ -20,6 +20,11 @@ class AppGradients {
     colors: [AppColors.funsky, AppColors.funmint],
   );
 
+  static const LinearGradient minttosky = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [AppColors.funmint, AppColors.funsky],
+  );
   static const LinearGradient grade = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
@@ -29,5 +34,29 @@ class AppGradients {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [AppColors.funyellow, AppColors.funcoral],
+  );
+
+  static const LinearGradient coraltoyellow = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [AppColors.funcoral, AppColors.funyellow],
+  );
+
+  static const LinearGradient tapbar = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [AppColors.funsky, AppColors.buttonprimary],
+  );
+
+  static const LinearGradient red = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.topRight,
+    colors: [Color(0XFFF87171), Color(0XFFEF4444)],
+  );
+
+  static const LinearGradient green = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.topRight,
+    colors: [Color(0XFF4ADE80), Color(0XFF16A34A)],
   );
 }
