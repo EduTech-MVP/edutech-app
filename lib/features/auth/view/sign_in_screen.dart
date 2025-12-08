@@ -19,6 +19,50 @@ class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
 
   final _formKey = GlobalKey<FormState>();
+  final _passwordFocusNode = FocusNode();
+
+  void _handleSignIn(BuildContext context, UserProvider userProvider) async {
+    if (_formKey.currentState!.validate()) {
+      final success = await userProvider.signin();
+
+      if (success && userProvider.profile != null) {
+        // Get user type from profile
+        final userType = userProvider.profile!.userType;
+
+        // Navigate based on user type
+        if (userType == ApiKey.student) {
+          Navigator.pushReplacementNamed(context, AppRoutes.studentmainscreen);
+        } else if (userType == ApiKey.teacher) {
+          Navigator.pushReplacementNamed(context, AppRoutes.teacherMainScreen);
+        } else if (userType == ApiKey.parent) {
+          Navigator.pushReplacementNamed(context, AppRoutes.parentMainScreen);
+        } else {
+          // Handle unknown user type
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Unknown user type. Please contact support.',
+                style: AppTypography.paragrah.copyWith(color: Colors.white),
+              ),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        }
+      } else if (userProvider.error != null) {
+        // Show error snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              userProvider.error!,
+              style: AppTypography.paragrah.copyWith(color: Colors.white),
+            ),
+            backgroundColor: AppColors.error,
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +110,11 @@ class SignInScreen extends StatelessWidget {
                             controller: userProvider.signInEmail,
                             hintText: "Enter your email or username",
                             enabled: !userProvider.loading,
+                            textInputAction: TextInputAction.next,
+                            onFieldSubmitted: (_) {
+                              // Request focus on password field
+                              _passwordFocusNode.requestFocus();
+                            },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your email';
@@ -90,6 +139,13 @@ class SignInScreen extends StatelessWidget {
                             hintText: "Enter your password",
                             obscureText: true,
                             enabled: !userProvider.loading,
+                            focusNode: _passwordFocusNode,
+                            textInputAction: TextInputAction.done,
+                            onFieldSubmitted: (_) {
+                              if (!userProvider.loading) {
+                                _handleSignIn(context, userProvider);
+                              }
+                            },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your password';
@@ -108,72 +164,7 @@ class SignInScreen extends StatelessWidget {
                             text: userProvider.loading ? "" : "Sign in",
                             onTap: userProvider.loading
                                 ? null
-                                : () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      final success = await userProvider
-                                          .signin();
-
-                                      if (success &&
-                                          userProvider.profile != null) {
-                                        // Get user type from profile
-                                        final userType =
-                                            userProvider.profile!.userType;
-
-                                        // Navigate based on user type
-                                        if (userType == ApiKey.student) {
-                                          Navigator.pushReplacementNamed(
-                                            context,
-                                            AppRoutes.studentmainscreen,
-                                          );
-                                        } else if (userType == ApiKey.teacher) {
-                                          Navigator.pushReplacementNamed(
-                                            context,
-                                            AppRoutes.teacherMainScreen,
-                                          );
-                                        } else if (userType == ApiKey.parent) {
-                                          Navigator.pushReplacementNamed(
-                                            context,
-                                            AppRoutes.parentMainScreen,
-                                          );
-                                        } else {
-                                          // Handle unknown user type
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Unknown user type. Please contact support.',
-                                                style: AppTypography.paragrah
-                                                    .copyWith(
-                                                      color: Colors.white,
-                                                    ),
-                                              ),
-                                              backgroundColor: AppColors.error,
-                                            ),
-                                          );
-                                        }
-                                      } else if (userProvider.error != null) {
-                                        // Show error snackbar
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              userProvider.error!,
-                                              style: AppTypography.paragrah
-                                                  .copyWith(
-                                                    color: Colors.white,
-                                                  ),
-                                            ),
-                                            backgroundColor: AppColors.error,
-                                            duration: const Duration(
-                                              seconds: 4,
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                    }
-                                  },
+                                : () => _handleSignIn(context, userProvider),
                             width: double.infinity,
                             leadingIcon: userProvider.loading
                                 ? const SizedBox(
