@@ -75,8 +75,10 @@ class StrengthsFocusSection extends StatelessWidget {
                   height: 24,
                   colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
                 ),
-                const SizedBox(width: 4),
+                //const SizedBox(width: 4),
                 Text(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   title,
                   style: AppTypography.labelxl.copyWith(
                     color: AppColors.foreground,

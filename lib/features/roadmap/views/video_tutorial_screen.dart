@@ -129,7 +129,7 @@ class _VideoTutorialViewState extends State<VideoTutorialView> {
                         // Background Card
                         Container(
                           padding: const EdgeInsets.only(
-                            top: 200,
+                            top: 220,
                             left: 20,
                             right: 20,
                             bottom: 20,
@@ -140,18 +140,19 @@ class _VideoTutorialViewState extends State<VideoTutorialView> {
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [AppColors.shadowLarge],
                           ),
+
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'Watch Lesson',
-                                style: AppTypography.heading4,
+                                style: AppTypography.heading3,
                               ),
                               const SizedBox(height: 6),
                               Text(
                                 'Learn the fundamentals step by step',
-                                style: AppTypography.small.copyWith(
-                                  color: AppColors.neutral400,
+                                style: AppTypography.bodysmall.copyWith(
+                                  color: AppColors.mutedforeground,
                                 ),
                               ),
                             ],

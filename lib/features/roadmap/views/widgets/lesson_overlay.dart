@@ -8,6 +8,7 @@ import 'package:edutech_app/features/roadmap/views/home_work_screen.dart';
 import 'package:edutech_app/features/roadmap/views/video_tutorial_screen.dart';
 import 'package:edutech_app/features/roadmap/views/widgets/lesson_option.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
@@ -61,12 +62,12 @@ class LessonOverlay extends StatelessWidget {
                   Expanded(
                     child: Text(
                       'Lesson ${lesson.id}: ${lesson.title}',
-                      style: AppTypography.heading2.copyWith(fontSize: 24),
+                      style: AppTypography.heading2.copyWith(fontSize: 22),
                     ),
                   ),
                   GestureDetector(
                     onTap: () => Get.back(),
-                    child: Image.asset(
+                    child: SvgPicture.asset(
                       'assets/icons/close.svg',
                       width: 18,
                       height: 18,

@@ -87,11 +87,11 @@ class _MessageInputContentState extends State<_MessageInputContent> {
               textInputAction: TextInputAction.newline,
               cursorHeight: 18,
               cursorColor: AppColors.neutral500,
-              style: AppTypography.small,
+              style: AppTypography.bodymedium,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                hintStyle: AppTypography.small.copyWith(
+                hintStyle: AppTypography.bodymedium.copyWith(
                   color: AppColors.neutral500,
                 ),
                 contentPadding: const EdgeInsets.symmetric(
@@ -99,6 +99,7 @@ class _MessageInputContentState extends State<_MessageInputContent> {
                   vertical: 14,
                 ),
                 hintText: "Type a message...",
+
                 border: _buildBorder(),
                 enabledBorder: _buildBorder(),
                 focusedBorder: _buildBorder(),
@@ -145,10 +146,12 @@ class _CameraButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: const Icon(
-        Icons.camera_alt,
-        size: 24,
+      child: SvgPicture.asset(
+        'assets/icons/cam.svg',
         color: AppColors.neutral500,
+        width: 12,
+        height: 12,
+        fit: BoxFit.scaleDown,
       ),
     );
   }
@@ -170,12 +173,11 @@ class _SendButton extends StatelessWidget {
         width: 40,
         decoration: BoxDecoration(
           color: AppColors.buttonprimary,
-          border: Border.all(color: Colors.grey),
           borderRadius: const BorderRadius.only(
             topRight: Radius.circular(20),
             bottomRight: Radius.circular(20),
-            topLeft: Radius.circular(0),
-            bottomLeft: Radius.circular(0),
+            topLeft: Radius.circular(4),
+            bottomLeft: Radius.circular(4),
           ),
         ),
         child: hasText
@@ -183,10 +185,14 @@ class _SendButton extends StatelessWidget {
                 'assets/icons/send.svg',
                 height: 32,
                 width: 32,
-                color: Colors.white,
                 fit: BoxFit.scaleDown,
               )
-            : const Icon(Icons.mic, color: Colors.white, size: 24),
+            : SvgPicture.asset(
+                'assets/icons/recored.svg',
+                height: 40,
+                width: 40,
+                fit: BoxFit.scaleDown,
+              ),
       ),
     );
   }
@@ -222,7 +228,7 @@ void _showImageSourceBottomSheet(BuildContext context) {
             ),
             const SizedBox(height: 20),
             _ImageSourceTile(
-              icon: Icons.photo_camera,
+              icon: 'assets/icons/cam.svg',
               title: 'Take Photo',
               onTap: () {
                 Navigator.pop(context);
@@ -231,7 +237,7 @@ void _showImageSourceBottomSheet(BuildContext context) {
             ),
             const Divider(height: 1),
             _ImageSourceTile(
-              icon: Icons.photo_library,
+              icon: 'assets/icons/star.svg',
               title: 'Choose from Gallery',
               onTap: () {
                 Navigator.pop(context);
@@ -248,7 +254,7 @@ void _showImageSourceBottomSheet(BuildContext context) {
 
 /// Image source tile widget
 class _ImageSourceTile extends StatelessWidget {
-  final IconData icon;
+  final String icon;
   final String title;
   final VoidCallback onTap;
 
@@ -261,8 +267,14 @@ class _ImageSourceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: AppColors.buttonprimary),
-      title: Text(title, style: AppTypography.small),
+      leading: SvgPicture.asset(icon, color: AppColors.primary),
+      title: Text(
+        title,
+        style: AppTypography.bodyxs.copyWith(
+          fontSize: 16,
+          color: AppColors.primary,
+        ),
+      ),
       onTap: onTap,
     );
   }

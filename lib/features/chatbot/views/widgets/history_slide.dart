@@ -4,6 +4,7 @@ import 'package:edutech_app/features/chatbot/controllers/chat_controller.dart';
 import 'package:edutech_app/features/chatbot/models/sessions_with_title.dart';
 import 'package:edutech_app/features/chatbot/views/widgets/chat_message_shimmer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class HistoryDrawer extends StatelessWidget {
@@ -175,11 +176,11 @@ class _NewChatButton extends StatelessWidget {
                 fontSize: 18,
               ),
             ),
-            const SizedBox(width: 16),
-            Image.asset(
+            const SizedBox(width: 8),
+            SvgPicture.asset(
               'assets/icons/messege.svg',
-              width: 16,
-              height: 16,
+              width: 22,
+              height: 22,
               color: AppColors.buttonprimary,
             ),
           ],
@@ -397,7 +398,10 @@ class _DeleteSessionDialog extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               'Are you sure you want to delete this chat?',
-              style: AppTypography.small.copyWith(color: AppColors.neutral700),
+              style: AppTypography.labelsmall.copyWith(
+                fontSize: 16,
+                color: AppColors.neutral700,
+              ),
             ),
 
             const SizedBox(height: 20),
@@ -481,7 +485,7 @@ class _DeleteSessionDialog extends StatelessWidget {
               children: [
                 Text(
                   'Chat deleted successfully',
-                  style: AppTypography.small.copyWith(
+                  style: AppTypography.labelsmall.copyWith(
                     color: AppColors.background,
                   ),
                 ),
@@ -514,9 +518,9 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             isSearching ? 'No chats found' : 'No chat history yet',
-            style: AppTypography.small.copyWith(
-              color: Colors.grey.shade600,
-              fontWeight: FontWeight.w500,
+            style: AppTypography.labelsmall.copyWith(
+              color: AppColors.mutedtext,
+              fontSize: 16,
             ),
           ),
           if (isSearching)
@@ -524,8 +528,8 @@ class _EmptyState extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8),
               child: Text(
                 'Try a different search term',
-                style: AppTypography.small.copyWith(
-                  color: Colors.grey.shade500,
+                style: AppTypography.labelsmall.copyWith(
+                  color: AppColors.neutral400,
                   fontSize: 12,
                 ),
               ),

@@ -24,7 +24,6 @@ class SendMessageModel {
   SendMessageModel({required this.timeStamp, required this.response});
 
   factory SendMessageModel.fromJson(Map<String, dynamic> json) {
-    // API only returns: response and timestamp (NO sessionId)
     if (json[ApiKey.timestamp] == null || json[ApiKey.response] == null) {
       throw FormatException('Missing required fields in JSON: $json');
     }

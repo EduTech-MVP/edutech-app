@@ -153,7 +153,7 @@ class _EmptyState extends StatelessWidget {
     return Center(
       child: Text(
         'Start a conversation',
-        style: AppTypography.small.copyWith(color: AppColors.neutral500),
+        style: AppTypography.bodylarge.copyWith(color: AppColors.neutral500),
       ),
     );
   }

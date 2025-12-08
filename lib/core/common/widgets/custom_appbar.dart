@@ -154,7 +154,7 @@ class CustomAppbar extends StatelessWidget {
             children: [
               Text(
                 greeting,
-                style: AppTypography.subtle.copyWith(
+                style: AppTypography.bodymedium.copyWith(
                   color: AppColors.neutral700,
                 ),
               ),

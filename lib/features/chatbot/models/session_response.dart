@@ -1,4 +1,3 @@
-// session_response.dart
 class SessionResponse {
   final String sessionId;
   final String? createdAt;

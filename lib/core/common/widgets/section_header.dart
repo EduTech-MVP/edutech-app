@@ -30,20 +30,28 @@ class SectionHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                if (icon != null) ...[
-                  icon!,
-                  const SizedBox(width: AppSpacing.spacing4),
+            /// LEFT SIDE → icon + title
+            Expanded(
+              child: Row(
+                children: [
+                  if (icon != null) ...[
+                    icon!,
+                    const SizedBox(width: AppSpacing.spacing4),
+                  ],
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: AppTypography.heading1.copyWith(fontSize: 24),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
-                Text(
-                  title,
-                  style: AppTypography.heading1.copyWith(fontSize: 24),
-                ),
-              ],
+              ),
             ),
+
+            /// RIGHT SIDE → action button
             if (showViewAll && actionButtonText != null)
               useElevatedButton
                   ? CustomElevatedButton(
@@ -73,7 +81,10 @@ class SectionHeader extends StatelessWidget {
                     ),
           ],
         ),
+
         const SizedBox(height: 16),
+
+        /// CHILD
         child,
       ],
     );

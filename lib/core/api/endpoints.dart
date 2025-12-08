@@ -39,6 +39,7 @@ class Endpoints {
       '/Student/classes/{classId}/lessons';
   static const String studentLessonDetails =
       '/Student/classes/{classId}/lessons/{lessonId}';
+  static const String studentJoinClass = '/Student/join-class/{{classCode}}';
 }
 
 class ApiKey {

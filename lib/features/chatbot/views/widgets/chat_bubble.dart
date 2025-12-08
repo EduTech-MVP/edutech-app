@@ -403,22 +403,15 @@ class _ChoiceChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: AppColors.sky200,
+          color: AppColors.background,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.sky300, width: 1),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          border: Border.all(color: AppColors.primary, width: 1),
         ),
         child: Text(
           choice,
-          style: AppTypography.small.copyWith(
-            color: AppColors.sky700,
-            fontWeight: FontWeight.w500,
+          style: AppTypography.labelsmall.copyWith(
+            fontSize: 12,
+            color: AppColors.primary,
           ),
         ),
       ),

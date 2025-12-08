@@ -43,4 +43,10 @@ class StudentRepository {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> joinClass(String classCode) async {
+    final path = '/Student/join-class/$classCode';
+    final response = await apiConsumer.post(path);
+    return response as Map<String, dynamic>;
+  }
 }

@@ -1,9 +1,9 @@
-import 'dart:convert'; // Add this import
+import 'dart:convert';
 
 class ChatHistoryItem {
   final String content;
   final bool isFromUser;
-  final List<String>? choices; // Changed from List<dynamic>? to List<String>?
+  final List<String>? choices;
   final String? imageUrl;
 
   ChatHistoryItem({
@@ -14,16 +14,13 @@ class ChatHistoryItem {
   });
 
   factory ChatHistoryItem.fromJson(Map<String, dynamic> json) {
-    // Helper function to parse choices
     List<String>? parseChoices(dynamic choicesData) {
       if (choicesData == null) return null;
 
-      // If it's already a list, cast it
       if (choicesData is List) {
         return choicesData.cast<String>();
       }
 
-      // If it's a string (JSON-encoded), decode it first
       if (choicesData is String) {
         try {
           final decoded = jsonDecode(choicesData);

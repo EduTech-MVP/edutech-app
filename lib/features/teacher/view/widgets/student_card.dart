@@ -17,9 +17,9 @@ class StudentCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
-          color: const Color(0xFFFFFFFF),
+          color: Colors.white,
           border: Border.all(color: AppColors.border, width: 1),
-          borderRadius: BorderRadius.circular(24), // 24dp radius from Figma
+          borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.04),
@@ -31,18 +31,18 @@ class StudentCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Profile Image
+              /// Avatar
               _buildAvatar(),
               const SizedBox(width: 16),
 
-              // Student Info
-              Expanded(
+              /// Student Info (flexible so it shrinks if needed)
+              Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Name
+                    /// Name
                     Text(
                       student.name.isNotEmpty
                           ? student.name
@@ -54,7 +54,8 @@ class StudentCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 8),
-                    // Completed Lessons
+
+                    /// Completed Lessons Row
                     Row(
                       children: [
                         SvgPicture.asset(
@@ -67,10 +68,16 @@ class StudentCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 4),
-                        Text(
-                          'Completed ${student.completedLessons} lessons',
-                          style: AppTypography.labelmedium.copyWith(
-                            color: AppColors.buttonprimary,
+
+                        /// Prevent overflow inside this row
+                        Flexible(
+                          child: Text(
+                            'Completed ${student.completedLessons} lessons',
+                            style: AppTypography.labelmedium.copyWith(
+                              color: AppColors.buttonprimary,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -78,27 +85,11 @@ class StudentCard extends StatelessWidget {
                   ],
                 ),
               ),
+
               const SizedBox(width: 12),
 
-              // Points Badge
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 10,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(100),
-                  border: Border.all(color: const Color(0xFF25AFF4), width: 2),
-                ),
-                child: Text(
-                  '${student.points} pts',
-                  style: AppTypography.labellarge.copyWith(
-                    color: const Color(0xFF25AFF4),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
+              /// Points Badge
+              _buildPointsBadge(),
             ],
           ),
         ),
@@ -106,9 +97,11 @@ class StudentCard extends StatelessWidget {
     );
   }
 
+  /// Avatar Builder
   Widget _buildAvatar() {
     final hasImage =
         student.profileImageUrl != null && student.profileImageUrl!.isNotEmpty;
+
     final initial = student.name.isNotEmpty
         ? student.name[0].toUpperCase()
         : 'S';
@@ -127,6 +120,25 @@ class StudentCard extends StatelessWidget {
               ),
             )
           : null,
+    );
+  }
+
+  /// Points Badge
+  Widget _buildPointsBadge() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(100),
+        border: Border.all(color: const Color(0xFF25AFF4), width: 2),
+      ),
+      child: Text(
+        '${student.points} pts',
+        style: AppTypography.labellarge.copyWith(
+          color: const Color(0xFF25AFF4),
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 }

@@ -21,9 +21,9 @@ class LessonOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(24),
+      // borderRadius: BorderRadius.circular(24),
       child: Container(
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
@@ -56,12 +56,17 @@ class LessonOption extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: AppTypography.heading4.copyWith(color: Colors.white),
+                    style: AppTypography.heading4.copyWith(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: AppTypography.small.copyWith(color: Colors.white),
+                    style: AppTypography.bodysmall.copyWith(
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),

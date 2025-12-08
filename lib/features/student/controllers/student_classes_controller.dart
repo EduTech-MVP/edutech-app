@@ -41,6 +41,33 @@ class StudentClassesController extends ChangeNotifier {
     }
   }
 
+  Future<void> joinClass(String classCode) async {
+    try {
+      await _repository.joinClass(classCode);
+      // Success - caller will handle UI feedback
+    } catch (e) {
+      debugPrint("Error joining class: $e");
+
+      String errorMessage = 'Failed to join class';
+
+      final errorStr = e.toString();
+      if (errorStr.contains('ServerException:')) {
+        final startIndex = errorStr.indexOf('message:');
+        if (startIndex != -1) {
+          final messageStart = startIndex + 8; // length of "message:"
+          final messageEnd = errorStr.indexOf('}', messageStart);
+          if (messageEnd != -1) {
+            errorMessage = errorStr.substring(messageStart, messageEnd).trim();
+            // Remove quotes if present
+            errorMessage = errorMessage.replaceAll('"', '').replaceAll("'", "");
+          }
+        }
+      }
+
+      throw Exception(errorMessage);
+    }
+  }
+
   void _updateState(StudentClassesState newState) {
     _state = newState;
     notifyListeners();

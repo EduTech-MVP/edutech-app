@@ -38,8 +38,9 @@ class SubjectCourseCard extends StatelessWidget {
                 children: [
                   Text(
                     subject,
-                    style: AppTypography.heading4.copyWith(
+                    style: AppTypography.heading1.copyWith(
                       color: AppColors.textPrimary,
+                      fontSize: 24,
                     ),
                   ),
                 ],

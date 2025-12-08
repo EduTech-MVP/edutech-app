@@ -79,14 +79,15 @@ class HomeworkView extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     '${provider.currentQuestionIndex + 1}/${provider.totalQuestions}',
-                    style: AppTypography.small.copyWith(
-                      color: AppColors.neutral400,
+                    style: AppTypography.bodymedium.copyWith(
+                      color: AppColors.mutedforeground,
                     ),
                   ),
                   const SizedBox(height: 8),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: LinearProgressIndicator(
+                      borderRadius: BorderRadius.circular(16),
                       value: provider.progress,
                       backgroundColor: AppColors.background,
                       valueColor: const AlwaysStoppedAnimation<Color>(
@@ -115,13 +116,16 @@ class HomeworkView extends StatelessWidget {
                       children: [
                         Text(
                           provider.currentQuestion.text,
-                          style: AppTypography.heading3.copyWith(fontSize: 20),
+                          style: AppTypography.heading3.copyWith(
+                            fontSize: 20,
+                            color: AppColors.foreground,
+                          ),
                         ),
                         SizedBox(height: 4),
                         Text(
                           'chosse the correct answer',
-                          style: AppTypography.small.copyWith(
-                            color: AppColors.neutral400,
+                          style: AppTypography.bodysmall.copyWith(
+                            color: AppColors.mutedforeground,
                           ),
                         ),
                       ],
