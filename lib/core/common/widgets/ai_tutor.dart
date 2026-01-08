@@ -15,12 +15,14 @@ class AiTutorCard extends StatelessWidget {
   final String headerText;
   final String contentText;
   final String buttonText;
+  final VoidCallback? onButtonPressed;
 
   const AiTutorCard({
     super.key,
     required this.headerText,
     required this.buttonText,
     required this.contentText,
+    this.onButtonPressed,
   });
 
   @override
@@ -72,11 +74,12 @@ class AiTutorCard extends StatelessWidget {
                   ),
                   text: buttonText,
                   // 'Start Learning',
-                  onTap: () {
-                    final controller = context.read<ChatController>();
-                    controller.createNewSession();
-                    Get.to(() => const ChatScreen());
-                  },
+                  onTap: onButtonPressed ??
+                      () {
+                        final controller = context.read<ChatController>();
+                        controller.createNewSession();
+                        Get.to(() => const ChatScreen());
+                      },
                 ),
               ],
             ),

@@ -125,8 +125,10 @@ class CustomAppbar extends StatelessWidget {
         // Profile avatar
         CircleAvatar(
           radius: MediaQuery.of(context).size.width * 0.06,
-          backgroundImage:
-              user?.profileImageUrl != null && user!.profileImageUrl!.isNotEmpty
+          backgroundImage: user?.profileImageUrl != null &&
+                  user!.profileImageUrl!.isNotEmpty &&
+                  (user.profileImageUrl!.startsWith('http://') ||
+                      user.profileImageUrl!.startsWith('https://'))
               ? NetworkImage(user.profileImageUrl!)
               : const NetworkImage(
                   'http://edutech.runasp.net/profile-images/default.jpg',

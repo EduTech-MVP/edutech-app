@@ -5,6 +5,7 @@ import 'package:edutech_app/features/auth/view/sign_up_screen.dart';
 import 'package:edutech_app/features/auth/view/splash_screen.dart';
 import 'package:edutech_app/features/auth/view/verify_reset_code_screen.dart';
 import 'package:edutech_app/features/parent/view/children_screen.dart';
+import 'package:edutech_app/features/parent/view/child_insights_screen.dart';
 import 'package:edutech_app/features/student/views/student_home.dart';
 import 'package:edutech_app/features/student/views/main_screen.dart';
 import 'package:edutech_app/features/parent/view/parent_main_screen.dart';
@@ -27,6 +28,7 @@ class AppRoutes {
   static const String studentmainscreen = '/mainscreen';
   static const String parenthome = '/homeparent';
   static const String childrescreen = '/children';
+  static const String childInsights = '/child-insights';
   static const String parentMainScreen = '/parent-main';
   static const String teacherHome = '/teacher-home';
   static const String teacherMainScreen = '/teacher-main';
@@ -53,6 +55,7 @@ class AppRoutes {
       studenthome: (context) => const StudentHome(),
       studentmainscreen: (context) => const MainScreen(),
       childrescreen: (context) => const ChildrenScreen(),
+      childInsights: (context) => const ChildInsightsScreen(),
       parentMainScreen: (context) => const ParentMainScreen(),
       teacherHome: (context) => const TeacherHomeScreen(),
       teacherMainScreen: (context) => const TeacherMainScreen(),

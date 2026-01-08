@@ -5,7 +5,7 @@ class Endpoints {
   static String register = '/Auth/signup';
   static String uploadProfileImage = '/Auth/upload-profile-image';
   static String deleteProfileImage = '/Auth/delete-profile-image';
-  static String addStudent = '/Auth/parent/add-student';
+  static String addStudent = '/Parent/add-student';
   static String forgotPassword = '/Auth/forgot-password';
   static String verifyResetPassword = '/Auth/verify-reset-code';
   static String resetPassword = '/Auth/reset-password';

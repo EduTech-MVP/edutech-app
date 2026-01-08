@@ -3,6 +3,7 @@ import 'package:edutech_app/core/api/dio_consumer.dart';
 import 'package:edutech_app/features/auth/controllers/forgot_password_provider.dart';
 import 'package:edutech_app/features/auth/controllers/user_provider.dart';
 import 'package:edutech_app/features/parent/controller/parent_controller.dart';
+import 'package:edutech_app/features/parent/controller/add_child_controller.dart';
 import 'package:edutech_app/features/roadmap/controller/lessons_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -37,6 +38,22 @@ List<SingleChildWidget> appProviders = [
   ChangeNotifierProvider(create: (_) => ParentNavigationController()),
   ChangeNotifierProvider(
     create: (_) => ParentProvider(api: DioConsumer(dio: Dio())),
+  ),
+  ChangeNotifierProxyProvider2<
+    UserProvider,
+    ParentProvider,
+    AddChildController
+  >(
+    create: (_) => AddChildController(
+      userProvider: UserProvider(api: DioConsumer(dio: Dio())),
+      parentProvider: ParentProvider(api: DioConsumer(dio: Dio())),
+    ),
+    update: (_, userProvider, parentProvider, previous) =>
+        previous ??
+        AddChildController(
+          userProvider: userProvider,
+          parentProvider: parentProvider,
+        ),
   ),
 
   // Teacher providers
