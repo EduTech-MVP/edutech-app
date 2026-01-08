@@ -70,8 +70,10 @@ class _UserAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.select<UserProvider, dynamic>((p) => p.profile);
-    final hasImage =
-        user?.profileImageUrl != null && user!.profileImageUrl!.isNotEmpty;
+    final hasImage = user?.profileImageUrl != null &&
+        user!.profileImageUrl!.isNotEmpty &&
+        (user.profileImageUrl!.startsWith('http://') ||
+            user.profileImageUrl!.startsWith('https://'));
 
     return CircleAvatar(
       radius: 18,

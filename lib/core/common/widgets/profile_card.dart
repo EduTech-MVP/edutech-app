@@ -43,8 +43,10 @@ class ProfileCard extends StatelessWidget {
           // Profile Image
           CircleAvatar(
             radius: 50,
-            backgroundImage:
-                user.profileImageUrl != null && user.profileImageUrl!.isNotEmpty
+            backgroundImage: user.profileImageUrl != null &&
+                    user.profileImageUrl!.isNotEmpty &&
+                    (user.profileImageUrl!.startsWith('http://') ||
+                        user.profileImageUrl!.startsWith('https://'))
                 ? NetworkImage(user.profileImageUrl!)
                 : const NetworkImage(
                     'http://edutech.runasp.net/profile-images/default.jpg',

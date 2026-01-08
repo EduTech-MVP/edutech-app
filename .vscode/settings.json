@@ -1,6 +1,5 @@
 {
-  "cSpell.words": [
-    "edutech"
-  ],
-  "cmake.sourceDirectory": "D:/flutterProjects/edutech-app/windows/runner"
+  "cSpell.words": ["edutech"],
+  "cmake.sourceDirectory": "D:/Projects/edutech_app/linux/runner",
+  "java.configuration.updateBuildConfiguration": "interactive"
 }
