@@ -59,7 +59,10 @@ class ChildCard extends StatelessWidget {
   }
 
   Widget _buildAvatar() {
-    final hasImage = profileImage.isNotEmpty;
+    final hasImage =
+        profileImage.isNotEmpty &&
+        (profileImage.startsWith('http://') ||
+            profileImage.startsWith('https://'));
     final initial = name.isNotEmpty ? name[0].toUpperCase() : 'C';
 
     return CircleAvatar(
@@ -86,6 +89,7 @@ class ChildCard extends StatelessWidget {
         Text(
           name,
           style: AppTypography.heading4.copyWith(
+            fontSize: 20,
             color: AppColors.textPrimary,
             fontWeight: FontWeight.w600,
           ),
@@ -94,7 +98,10 @@ class ChildCard extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           '@$username',
-          style: AppTypography.small.copyWith(color: AppColors.neutral600),
+          style: AppTypography.small.copyWith(
+            color: AppColors.neutral600,
+            fontSize: 18,
+          ),
           overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 4),
@@ -116,6 +123,7 @@ class ChildCard extends StatelessWidget {
       child: Text(
         'Grade $grade',
         style: AppTypography.small.copyWith(
+          fontSize: 18,
           color: AppColors.sky700,
           fontWeight: FontWeight.w600,
         ),

@@ -1,6 +1,8 @@
 import 'package:edutech_app/core/api/dio_consumer.dart';
 import 'package:edutech_app/core/api/endpoints.dart';
 import 'package:edutech_app/core/errors/exceptions.dart';
+import 'package:edutech_app/core/models/ai_evaluation_model.dart';
+import 'package:edutech_app/core/utils/teacher_ai_evaluation_generator.dart';
 import 'package:edutech_app/features/teacher/model/student_profile_response.dart';
 import 'package:flutter/foundation.dart';
 
@@ -12,10 +14,12 @@ class TeacherStudentProfileController extends ChangeNotifier {
   StudentProfileData? _studentProfile;
   bool _loading = false;
   String? _error;
+  AIEvaluation? _aiEvaluation;
 
   StudentProfileData? get studentProfile => _studentProfile;
   bool get loading => _loading;
   String? get error => _error;
+  AIEvaluation? get aiEvaluation => _aiEvaluation;
 
   Future<bool> fetchStudentProfile(int studentId) async {
     _loading = true;
@@ -37,6 +41,17 @@ class TeacherStudentProfileController extends ChangeNotifier {
 
       if (profileResponse.success) {
         _studentProfile = profileResponse.data;
+        
+        // Generate AI evaluation based on student progress (teacher-specific)
+        if (_studentProfile != null) {
+          _aiEvaluation = TeacherAIEvaluationGenerator.generateEvaluation(
+            studentId: _studentProfile!.studentId,
+            studentName: _studentProfile!.fullName,
+            completedLessons: _studentProfile!.completedLessons,
+            totalLessons: _studentProfile!.totalLessons,
+          );
+        }
+        
         if (kDebugMode) {
           print('Fetched student profile for studentId: $studentId');
           print(
@@ -73,6 +88,7 @@ class TeacherStudentProfileController extends ChangeNotifier {
   void clearProfile() {
     _studentProfile = null;
     _error = null;
+    _aiEvaluation = null;
     notifyListeners();
   }
 

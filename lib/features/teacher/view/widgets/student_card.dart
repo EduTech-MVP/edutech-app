@@ -1,3 +1,4 @@
+import 'package:edutech_app/core/models/student_flag.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/features/teacher/model/student_model.dart';
@@ -6,9 +7,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class StudentCard extends StatelessWidget {
   final StudentModel student;
+  final StudentFlag flag;
   final VoidCallback? onTap;
 
-  const StudentCard({super.key, required this.student, this.onTap});
+  const StudentCard({
+    super.key,
+    required this.student,
+    this.flag = StudentFlag.normal,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +24,15 @@ class StudentCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: AppColors.border, width: 1),
+          color: _getCardColor(),
+          border: Border.all(
+            color: _getBorderColor(),
+            width: _getBorderWidth(),
+          ),
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: _getShadowColor(),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -86,10 +96,10 @@ class StudentCard extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 12),
+              // const SizedBox(width: 12),
 
-              /// Points Badge
-              _buildPointsBadge(),
+              // /// Points Badge - Commented out for now
+              // _buildPointsBadge(),
             ],
           ),
         ),
@@ -99,8 +109,10 @@ class StudentCard extends StatelessWidget {
 
   /// Avatar Builder
   Widget _buildAvatar() {
-    final hasImage =
-        student.profileImageUrl != null && student.profileImageUrl!.isNotEmpty;
+    final hasImage = student.profileImageUrl != null &&
+        student.profileImageUrl!.isNotEmpty &&
+        (student.profileImageUrl!.startsWith('http://') ||
+            student.profileImageUrl!.startsWith('https://'));
 
     final initial = student.name.isNotEmpty
         ? student.name[0].toUpperCase()
@@ -123,22 +135,86 @@ class StudentCard extends StatelessWidget {
     );
   }
 
-  /// Points Badge
-  Widget _buildPointsBadge() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(100),
-        border: Border.all(color: const Color(0xFF25AFF4), width: 2),
-      ),
-      child: Text(
-        '${student.points} pts',
-        style: AppTypography.labellarge.copyWith(
-          color: const Color(0xFF25AFF4),
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
+  // /// Points Badge - Commented out for now
+  // Widget _buildPointsBadge() {
+  //   return Container(
+  //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(100),
+  //       border: Border.all(color: const Color(0xFF25AFF4), width: 2),
+  //     ),
+  //     child: Text(
+  //       '${student.points} pts',
+  //       style: AppTypography.labellarge.copyWith(
+  //         color: const Color(0xFF25AFF4),
+  //         fontWeight: FontWeight.w600,
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  Color _getCardColor() {
+    switch (flag) {
+      case StudentFlag.excellent:
+        // Green - excellent performance
+        return const Color(0xFFE8F5E9); // Light green
+      case StudentFlag.good:
+        // Blue - good performance
+        return const Color(0xFFE3F2FD); // Light blue
+      case StudentFlag.average:
+        // Yellow - average performance
+        return const Color(0xFFFFF9C4); // Light yellow
+      case StudentFlag.needsAssistance:
+        // Red - needs assistance
+        return const Color(0xFFFFEBEE); // Light red
+      case StudentFlag.normal:
+        return Colors.white;
+    }
+  }
+
+  Color _getBorderColor() {
+    switch (flag) {
+      case StudentFlag.excellent:
+        return AppColors.success; // Green
+      case StudentFlag.good:
+        return AppColors.sky500; // Blue
+      case StudentFlag.average:
+        return AppColors.warning; // Yellow/Orange
+      case StudentFlag.needsAssistance:
+        return AppColors.error; // Red
+      case StudentFlag.normal:
+        return AppColors.border;
+    }
+  }
+
+  double _getBorderWidth() {
+    switch (flag) {
+      case StudentFlag.excellent:
+        return 2.0; // Thicker border for excellent students
+      case StudentFlag.good:
+        return 1.5;
+      case StudentFlag.average:
+        return 1.5;
+      case StudentFlag.needsAssistance:
+        return 1.5;
+      case StudentFlag.normal:
+        return 1.0;
+    }
+  }
+
+  Color _getShadowColor() {
+    switch (flag) {
+      case StudentFlag.excellent:
+        return AppColors.success.withOpacity(0.15); // Green shadow
+      case StudentFlag.good:
+        return AppColors.sky500.withOpacity(0.15); // Blue shadow
+      case StudentFlag.average:
+        return AppColors.warning.withOpacity(0.15); // Yellow shadow
+      case StudentFlag.needsAssistance:
+        return AppColors.error.withOpacity(0.15); // Red shadow
+      case StudentFlag.normal:
+        return Colors.black.withOpacity(0.04);
+    }
   }
 }

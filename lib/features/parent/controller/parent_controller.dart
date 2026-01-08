@@ -5,7 +5,9 @@ import 'package:edutech_app/features/parent/model/child_sessions.dart';
 import 'package:edutech_app/features/parent/model/parent_home.dart';
 import 'package:edutech_app/features/parent/model/student_model.dart';
 import 'package:edutech_app/features/parent/model/child_info_model.dart';
+import 'package:edutech_app/features/parent/model/child_insights_model.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 class ParentProvider extends ChangeNotifier {
   final DioConsumer api;
@@ -32,6 +34,11 @@ class ParentProvider extends ChangeNotifier {
   ChildSessions? _selectedChildSessions;
   String? _childSessionsError;
 
+  // State for Child Insights
+  bool _loadingInsights = false;
+  ChildInsights? _selectedChildInsights;
+  String? _insightsError;
+
   // Getters - Home Data
   bool get loadingHome => _loadingHome;
   Parent? get parentData => _parentData;
@@ -54,6 +61,11 @@ class ParentProvider extends ChangeNotifier {
   bool get loadingChildSessions => _loadingChildSessions;
   ChildSessions? get selectedChildSessions => _selectedChildSessions;
   String? get childSessionsError => _childSessionsError;
+
+  // Getters - Child Insights
+  bool get loadingInsights => _loadingInsights;
+  ChildInsights? get selectedChildInsights => _selectedChildInsights;
+  String? get insightsError => _insightsError;
 
   // 1. Fetch Parent Home Data (shows 2 children)
   Future<void> fetchParentHomeData() async {
@@ -163,6 +175,37 @@ class ParentProvider extends ChangeNotifier {
     }
   }
 
+  // 5. Fetch Child Insights by ID (using mock data)
+  Future<void> fetchChildInsights(int childId) async {
+    _loadingInsights = true;
+    _insightsError = null;
+    _selectedChildInsights = null;
+    notifyListeners();
+
+    try {
+      // Simulate API delay
+      await Future.delayed(const Duration(milliseconds: 800));
+
+      // Get child name from all children or use default
+      final child = getChildById(childId);
+      final childName = child?.fullName ?? 'Child $childId';
+
+      // Generate mock insights
+      _selectedChildInsights = MockInsightsGenerator.generateMockInsights(
+        childId,
+        childName,
+      );
+
+      print('Child insights loaded for: $childName');
+    } catch (e) {
+      _insightsError = "Unexpected error: $e";
+      print("Unexpected Error: $_insightsError");
+    } finally {
+      _loadingInsights = false;
+      notifyListeners();
+    }
+  }
+
   // Get specific child from all children by id
   Student? getChildById(int childId) {
     try {
@@ -188,10 +231,12 @@ class ParentProvider extends ChangeNotifier {
     _allChildren = [];
     _selectedChildInfo = null;
     _selectedChildSessions = null;
+    _selectedChildInsights = null;
     _homeError = null;
     _childrenError = null;
     _childInfoError = null;
     _childSessionsError = null;
+    _insightsError = null;
     notifyListeners();
   }
 
@@ -199,8 +244,10 @@ class ParentProvider extends ChangeNotifier {
   void clearSelectedChildData() {
     _selectedChildInfo = null;
     _selectedChildSessions = null;
+    _selectedChildInsights = null;
     _childInfoError = null;
     _childSessionsError = null;
+    _insightsError = null;
     notifyListeners();
   }
 }

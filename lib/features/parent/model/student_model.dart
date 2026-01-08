@@ -16,13 +16,25 @@ class Student {
   });
 
   factory Student.fromJson(Map<String, dynamic> json) {
+    // Handle profile image path - convert relative to absolute URL
+    String? profilePicture = json['profilePicture'];
+    if (profilePicture != null && profilePicture.isNotEmpty) {
+      // Convert relative path to absolute URL
+      if (profilePicture.startsWith('/') && !profilePicture.startsWith('//')) {
+        profilePicture = 'http://edutech.runasp.net$profilePicture';
+      }
+      // If it's already a full URL, keep it as is
+    } else {
+      profilePicture = ''; // Set to empty string if null
+    }
+
     return Student(
-      studentId: json['studentId'],
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-      fullName: json['fullName'],
-      grade: json['grade'],
-      profilePicture: json['profilePicture'],
+      studentId: json['studentId'] ?? 0,
+      firstName: json['firstName'] ?? '',
+      lastName: json['lastName'] ?? '',
+      fullName: json['fullName'] ?? '',
+      grade: json['grade'] ?? 0,
+      profilePicture: profilePicture,
     );
   }
 

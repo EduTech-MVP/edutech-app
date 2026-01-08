@@ -1,7 +1,9 @@
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
+import 'package:edutech_app/core/theme/app_typography.dart';
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
+import 'package:edutech_app/core/common/widgets/rounded_container.dart';
 import 'package:edutech_app/core/common/widgets/section_header.dart';
 import 'package:edutech_app/core/common/widgets/generic_loading_state.dart';
 import 'package:edutech_app/core/common/widgets/generic_error_state.dart';
@@ -143,8 +145,41 @@ class StudentProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 36),
 
-                    // Strengths & Focus On Section - Placeholder for now
-                    const StrengthsFocusSection(strengths: [], focusAreas: []),
+                    // AI Evaluation Summary Section
+                    if (controller.aiEvaluation != null) ...[
+                      SectionHeader(
+                        title: 'AI Evaluation',
+                        child: RoundedContainer(
+                          padding: const EdgeInsets.all(AppSpacing.md),
+                          color: Colors.white,
+                          boxShadow: const [AppColors.shadowMedium],
+                          bordercolor: AppColors.sky200,
+                          borderWidth: 1,
+                          child: Text(
+                            controller.aiEvaluation!.summary,
+                            style: AppTypography.paragrah.copyWith(
+                              color: AppColors.textPrimary,
+                              fontSize: 14,
+                              height: 1.6,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 36),
+                    ],
+
+                    // Strengths & Focus On Section - Populated from AI Evaluation
+                    if (controller.aiEvaluation != null)
+                      StrengthsFocusSection(
+                        strengths: controller.aiEvaluation!.strengths,
+                        focusAreas:
+                            controller.aiEvaluation!.areasForImprovement,
+                      )
+                    else
+                      const StrengthsFocusSection(
+                        strengths: [],
+                        focusAreas: [],
+                      ),
                   ],
                 ),
               ),

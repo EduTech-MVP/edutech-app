@@ -44,7 +44,10 @@ class StudentInfoCard extends StatelessWidget {
                   height: 64,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: profileImageUrl != null
+                    image: profileImageUrl != null &&
+                            profileImageUrl!.isNotEmpty &&
+                            (profileImageUrl!.startsWith('http://') ||
+                                profileImageUrl!.startsWith('https://'))
                         ? DecorationImage(
                             image: NetworkImage(profileImageUrl!),
                             fit: BoxFit.cover,

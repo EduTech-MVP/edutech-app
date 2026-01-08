@@ -140,12 +140,23 @@ class YourChildrenCard extends StatelessWidget {
         padding: const EdgeInsets.all(AppSpacing.xl),
         child: Column(
           children: [
-            const Icon(
-              Icons.person_add_outlined,
-              size: 60,
-              color: AppColors.neutral400,
+            Container(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              decoration: BoxDecoration(
+                color: AppColors.neutral50,
+                shape: BoxShape.circle,
+              ),
+              child: SvgPicture.asset(
+                'assets/icons/profile.svg',
+                width: 40,
+                height: 40,
+                colorFilter: const ColorFilter.mode(
+                  AppColors.neutral400,
+                  BlendMode.srcIn,
+                ),
+              ),
             ),
-            const SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.md),
             Text(
               'No children added yet',
               style: AppTypography.paragrah.copyWith(
@@ -159,8 +170,11 @@ class YourChildrenCard extends StatelessWidget {
   }
 
   Widget _buildChildrenList(List children) {
+    // Limit to maximum 2 children for preview
+    final limitedChildren = children.take(2).toList();
+    
     return Column(
-      children: children
+      children: limitedChildren
           .map((child) => _ChildSummaryCard(child: child))
           .toList(),
     );
@@ -201,7 +215,9 @@ class _ChildSummaryCard extends StatelessWidget {
   }
 
   Widget _buildAvatar() {
-    final hasImage = child.profileImageUrl.isNotEmpty;
+    final hasImage = child.profileImageUrl.isNotEmpty &&
+        (child.profileImageUrl.startsWith('http://') ||
+            child.profileImageUrl.startsWith('https://'));
     final initial = child.childName.isNotEmpty
         ? child.childName[0].toUpperCase()
         : 'C';

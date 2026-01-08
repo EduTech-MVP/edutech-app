@@ -14,14 +14,28 @@ class Parent {
   });
 
   factory Parent.fromJson(Map<String, dynamic> json) {
+    // Handle profile image path - convert relative to absolute URL
+    String? profileImage = json['profileImageUrl'];
+    if (profileImage != null && profileImage.isNotEmpty) {
+      // Convert relative path to absolute URL
+      if (profileImage.startsWith('/') && !profileImage.startsWith('//')) {
+        profileImage = 'http://edutech.runasp.net$profileImage';
+      }
+      // If it's already a full URL or empty, keep it as is
+    } else {
+      profileImage = null; // Set to null if empty
+    }
+
     return Parent(
-      fullName: json['fullName'],
-      profileImageUrl: json['profileImageUrl'],
-      numberOfChildren: json['numberOfChildren'],
-      numberOfClasses: json['numberOfClasses'],
-      children: (json['children'] as List<dynamic>)
-          .map((child) => Child.fromJson(child))
-          .toList(),
+      fullName: json['fullName'] ?? '',
+      profileImageUrl: profileImage ?? '',
+      numberOfChildren: json['numberOfChildren'] ?? 0,
+      numberOfClasses: json['numberOfClasses'] ?? 0,
+      children:
+          (json['children'] as List<dynamic>?)
+              ?.map((child) => Child.fromJson(child))
+              .toList() ??
+          [],
     );
   }
 
@@ -52,12 +66,24 @@ class Child {
   });
 
   factory Child.fromJson(Map<String, dynamic> json) {
+    // Handle profile image path - convert relative to absolute URL
+    String? profileImage = json['profileImageUrl'];
+    if (profileImage != null && profileImage.isNotEmpty) {
+      // Convert relative path to absolute URL
+      if (profileImage.startsWith('/') && !profileImage.startsWith('//')) {
+        profileImage = 'http://edutech.runasp.net$profileImage';
+      }
+      // If it's already a full URL, keep it as is
+    } else {
+      profileImage = null; // Set to null if empty
+    }
+
     return Child(
-      childId: json['childId'],
-      childName: json['childName'],
-      profileImageUrl: json['profileImageUrl'],
-      completedLessons: json['completedLessons'],
-      points: json['points'],
+      childId: json['childId'] ?? 0,
+      childName: json['childName'] ?? '',
+      profileImageUrl: profileImage ?? '',
+      completedLessons: json['completedLessons'] ?? 0,
+      points: json['points'] ?? 0,
     );
   }
 
