@@ -1,10 +1,12 @@
 import 'package:edutech_app/core/common/widgets/custom_appbar.dart';
 import 'package:edutech_app/core/common/widgets/gradient_background.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
+import 'package:edutech_app/features/parent/controller/parent_controller.dart';
 import 'package:edutech_app/features/parent/view/widgets/ai_assistant.dart';
 import 'package:edutech_app/features/parent/view/widgets/family_progress.dart';
 import 'package:edutech_app/features/parent/view/widgets/your_children_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ParentHome extends StatefulWidget {
   const ParentHome({super.key});
@@ -17,6 +19,9 @@ class _ParentHomeState extends State<ParentHome> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ParentProvider>().fetchParentHomeData();
+    });
   }
 
   @override

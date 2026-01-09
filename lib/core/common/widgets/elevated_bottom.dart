@@ -35,36 +35,32 @@ class CustomElevatedButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: AppSpacing.buttonHeight,
-        width: width,
+        //width: width,
         decoration: BoxDecoration(
           gradient: gradient,
-          borderRadius: BorderRadius.circular(AppSpacing.radiusXXL),
-          boxShadow: [
-            BoxShadow(
-              color: Color.fromRGBO(8, 14, 15, 0.08),
-              offset: Offset(0, 4),
-            ),
-          ],
+          borderRadius: BorderRadius.circular(AppSpacing.radiusXL),
+          boxShadow: [AppColors.shadowMedium],
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (leadingIcon != null) ...[
-              leadingIcon!,
-              const SizedBox(width: AppSpacing.spacing8),
-            ],
-            Text(
-              text,
-              style: AppTypography.paragrah.copyWith(
-                color: textColor,
-                fontWeight: FontWeight.w700,
+        child: Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (leadingIcon != null) ...[leadingIcon!],
+              SizedBox(width: 4),
+              Text(
+                text,
+                style: AppTypography.labelxl.copyWith(
+                  color: textColor,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-            if (trailingIcon != null) ...[
-              const SizedBox(width: AppSpacing.spacing8),
-              trailingIcon!,
+              if (trailingIcon != null) ...[
+                const SizedBox(width: AppSpacing.spacing8),
+                trailingIcon!,
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

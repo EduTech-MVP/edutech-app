@@ -172,7 +172,7 @@ class YourChildrenCard extends StatelessWidget {
   Widget _buildChildrenList(List children) {
     // Limit to maximum 2 children for preview
     final limitedChildren = children.take(2).toList();
-    
+
     return Column(
       children: limitedChildren
           .map((child) => _ChildSummaryCard(child: child))
@@ -215,7 +215,8 @@ class _ChildSummaryCard extends StatelessWidget {
   }
 
   Widget _buildAvatar() {
-    final hasImage = child.profileImageUrl.isNotEmpty &&
+    final hasImage =
+        child.profileImageUrl.isNotEmpty &&
         (child.profileImageUrl.startsWith('http://') ||
             child.profileImageUrl.startsWith('https://'));
     final initial = child.childName.isNotEmpty
@@ -276,7 +277,7 @@ class _ChildSummaryCard extends StatelessWidget {
             Flexible(
               child: Text(
                 'Completed ${child.completedLessons} lessons',
-                style: AppTypography.small.copyWith(
+                style: AppTypography.bodyxs.copyWith(
                   color: AppColors.neutral600,
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -300,7 +301,7 @@ class _ChildSummaryCard extends StatelessWidget {
       ),
       child: Text(
         '${child.points} pts',
-        style: AppTypography.small.copyWith(
+        style: AppTypography.bodymedium.copyWith(
           color: AppColors.sky700,
           fontWeight: FontWeight.w600,
         ),

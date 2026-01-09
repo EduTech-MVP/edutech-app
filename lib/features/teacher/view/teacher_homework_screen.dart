@@ -101,7 +101,7 @@ class _TeacherHomeworkViewState extends State<TeacherHomeworkView> {
                   const SizedBox(height: 8),
                   Text(
                     '${provider.currentQuestionIndex + 1}/${provider.totalQuestions}',
-                    style: AppTypography.small.copyWith(
+                    style: AppTypography.bodymedium.copyWith(
                       color: AppColors.neutral400,
                     ),
                   ),
@@ -142,7 +142,7 @@ class _TeacherHomeworkViewState extends State<TeacherHomeworkView> {
                         const SizedBox(height: 4),
                         Text(
                           'choose the correct answer',
-                          style: AppTypography.small.copyWith(
+                          style: AppTypography.bodysmall.copyWith(
                             color: AppColors.neutral400,
                           ),
                         ),

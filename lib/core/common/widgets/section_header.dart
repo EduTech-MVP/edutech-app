@@ -34,20 +34,12 @@ class SectionHeader extends StatelessWidget {
           children: [
             /// LEFT SIDE → icon + title
             Expanded(
-              child: Row(
-                children: [
-                  if (icon != null) ...[
-                    icon!,
-                    const SizedBox(width: AppSpacing.spacing4),
-                  ],
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: AppTypography.heading1.copyWith(fontSize: 24),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
+              child: Expanded(
+                child: Text(
+                  title,
+                  style: AppTypography.heading1.copyWith(fontSize: 22),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
 
@@ -57,7 +49,7 @@ class SectionHeader extends StatelessWidget {
                   ? CustomElevatedButton(
                       text: actionButtonText!,
                       onTap: onActionPressed ?? () {},
-                      width: 135,
+                      //  width: 135,
                       leadingIcon: Icon(Icons.add, color: AppColors.sky50),
                     )
                   : TextButton(

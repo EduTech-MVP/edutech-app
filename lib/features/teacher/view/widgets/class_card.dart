@@ -31,7 +31,6 @@ class ClassCard extends StatelessWidget {
               children: [
                 // Class name and class code
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       flex: 2,
@@ -44,9 +43,9 @@ class ClassCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    const SizedBox(width: 8),
                     // Class Code
-                    Expanded(
-                      flex: 1,
+                    Flexible(
                       child: GestureDetector(
                         onTap: () =>
                             _copyClassCode(context, classData.classCode),
@@ -67,14 +66,17 @@ class ClassCard extends StatelessWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(
-                                classData.classCode,
-                                style: AppTypography.labellarge.copyWith(
-                                  color: AppColors.sky500,
+                              Flexible(
+                                child: Text(
+                                  classData.classCode,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTypography.labellarge.copyWith(
+                                    color: AppColors.sky500,
+                                  ),
                                 ),
-                                textAlign: TextAlign.center,
                               ),
-                              const SizedBox(width: 3),
+                              const SizedBox(width: 4),
                               Icon(
                                 Icons.copy,
                                 size: 12,

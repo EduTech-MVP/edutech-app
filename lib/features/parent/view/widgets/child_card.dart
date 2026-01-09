@@ -1,3 +1,4 @@
+import 'package:edutech_app/core/routes/app_routes.dart';
 import 'package:edutech_app/core/theme/app_colors.dart';
 import 'package:edutech_app/core/theme/app_spacing.dart';
 import 'package:edutech_app/core/theme/app_typography.dart';
@@ -98,9 +99,9 @@ class ChildCard extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           '@$username',
-          style: AppTypography.small.copyWith(
+          style: AppTypography.bodyxs.copyWith(
             color: AppColors.neutral600,
-            fontSize: 18,
+            fontSize: 14,
           ),
           overflow: TextOverflow.ellipsis,
         ),
@@ -118,12 +119,11 @@ class ChildCard extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: AppColors.sky50,
-        borderRadius: BorderRadius.circular(AppSpacing.radiusXS),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusLG),
       ),
       child: Text(
         'Grade $grade',
-        style: AppTypography.small.copyWith(
-          fontSize: 18,
+        style: AppTypography.bodymedium.copyWith(
           color: AppColors.sky700,
           fontWeight: FontWeight.w600,
         ),
@@ -140,12 +140,7 @@ class ChildCard extends StatelessWidget {
   }
 
   void _handleTap(BuildContext context) {
-    // TODO: Navigate to child detail screen
-    // Navigator.pushNamed(
-    //   context,
-    //   AppRoutes.childDetailScreen,
-    //   arguments: studentId,
-    // );
+    Navigator.pushNamed(context, AppRoutes.childInsights, arguments: studentId);
     debugPrint('Tapped on child: $studentId');
   }
 }
